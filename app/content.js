@@ -3,7 +3,7 @@ export const profile = {
   role: "Software Engineer",
   location: "Notre Dame, IN",
   summary:
-    "AR- and AI-focused engineer building high-performance products and real-time systems.",
+    "Meta SWE intern turned full-stack builder shipping AR pipelines, AI tutors, and HFT engines. 3.91 GPA CS + Math double major at Notre Dame, n8n AI Hackathon 1st Place, 100+ students mentored.",
   email: "lli28@nd.edu",
   phone: "+1 (574) 327-1779",
   github: "https://github.com/easyrider11",
@@ -14,7 +14,7 @@ export const profile = {
 
 export const stats = [
   { label: "Cold-Start Pass Rate", value: "99.9%" },
-  { label: "Peak Connections", value: "10k+" },
+  { label: "Latency Reduction", value: "27%" },
   { label: "Students Mentored", value: "100+" }
 ];
 
@@ -22,195 +22,151 @@ export const focusAreas = [
   "AR & real-time graphics",
   "AI product engineering",
   "Performance & reliability",
-  "Applied ML/NLP"
+  "Applied ML/NLP",
+  "High-frequency trading"
+];
+
+export const experience = [
+  {
+    company: "Meta",
+    title: "Software Engineer Intern",
+    location: "Menlo Park, CA",
+    period: "May - Aug 2025",
+    bullets: [
+      "Rebuilt Instagram camera AR effect initialization in Swift/Obj-C++, lifting cold-start pass rate to 99.9% and reducing warm-up hitches by 50%",
+      "Refactored iOS AR SDK to modular interface-driven architecture, cutting effect-apply latency by 27% at 60 FPS",
+      "Co-designed AR effects coordinator unifying gesture, audio, and real-time image processing; adopted Optic stack in FOA infra",
+      "Shipped Metal/GLSL compute shaders for separable Gaussian and color transforms"
+    ]
+  },
+  {
+    company: "Radical AI",
+    title: "Full-Stack SWE & AI Lab Assistant",
+    location: "New York, NY",
+    period: "Jul - Sep 2024",
+    bullets: [
+      "Shipped AI tutor for technical onboarding using React.js and Node.js in a team of 10",
+      "Optimized backend REST paths and caching, reducing latency by 25%",
+      "Deployed AI models on Google Kubernetes Engine with Cloud SQL",
+      "Investigated SDC issues and protocoled a checksum method to detect tainted runs"
+    ]
+  },
+  {
+    company: "ZTE Corporation",
+    title: "Full-Stack Software Development Engineer",
+    location: "Remote",
+    period: "May - Jul 2024",
+    bullets: [
+      "Integrated CI/CD pipelines for STB unit tests with Jenkins and Robot Framework",
+      "Developed automated UI functional tests using Selenium for ZTE's STB management website",
+      "Enhanced STB backend in Java/MySQL; deployed multithreaded C/C++ ingestion boosting throughput by 20%"
+    ]
+  },
+  {
+    company: "ND NLP Lab, University of Notre Dame",
+    title: "Research Assistant",
+    location: "Notre Dame, IN",
+    period: "Sep 2024 - Present",
+    bullets: [
+      "Built LLM-powered real-time quiz interface from TED-Ed videos with TensorFlow for hard-of-hearing learners",
+      "Implemented async quiz generation in Python, reducing interface delays by 25%",
+      "Exposed REST APIs for transcript retrieval and OpenAI calls with rate limiting"
+    ]
+  },
+  {
+    company: "University of Notre Dame",
+    title: "Teaching Assistant",
+    location: "Notre Dame, IN",
+    period: "Jan 2023 - Present",
+    bullets: [
+      "Led lectures and office hours for 100+ students across Theory of Computing, Data Structures, Physics, Linear Algebra",
+      "Topics: Graph, Tree, PDA, Turing machine, P and NP complexity"
+    ]
+  }
 ];
 
 export const projects = [
   {
-    title: "Dead Code Detector",
-    tagline: "Finds unused legacy code.",
+    title: "AI-Assisted Interview Platform",
+    tagline: "Repo-level coding interviews with sandboxed AI copilot.",
     description:
-      "AI agent that correlates coverage and logs to surface dead paths.",
+      "AI-native SaaS platform with repo-level engineering tasks, sandboxed execution, controlled AI copilot, session replay, and multi-dimensional evaluation rubric.",
+    impact: [
+      "Sandboxed code execution environment",
+      "Multi-dimensional AI evaluation rubric",
+      "Session replay for candidate review"
+    ],
+    stack: ["TypeScript", "Node.js", "Docker", "LLM APIs"],
+    tags: ["AI", "SaaS", "Full-Stack"],
+    year: "2025"
+  },
+  {
+    title: "HFT Order Book Imbalance Engine",
+    tagline: "Real-time depth-of-book OBI signal modeling.",
+    description:
+      "Real-time depth-of-book reconstruction and OBI signal modeling with tick-level tracking, statistical backtesting, and live paper-trading on Kalshi markets.",
+    impact: [
+      "Tick-level order book reconstruction",
+      "Live paper-trading on Kalshi",
+      "Statistical backtesting pipeline"
+    ],
+    stack: ["C++", "WebSocket", "Python"],
+    tags: ["HFT", "Finance", "Systems"],
+    year: "2025"
+  },
+  {
+    title: "Dead Code Detector",
+    tagline: "AI agent that surfaces unused legacy code.",
+    description:
+      "AI agent analyzing runtime coverage and logs to identify and remove unused legacy code paths.",
     impact: [
       "Automated codebase audits",
-      "Surfaced dead paths with evidence"
+      "Evidence-backed dead path surfacing"
     ],
     stack: ["Python", "Clang", "SQLite"],
     tags: ["AI", "Platform"],
     year: "2025"
   },
   {
-    title: "NDFootball Channel",
-    tagline: "Async server for live events.",
-    description:
-      "Event-driven asyncio server built for bursty traffic.",
-    impact: [
-      "Handled 10k+ concurrent connections",
-      "Low-latency delivery under peak load"
-    ],
-    stack: ["Python", "asyncio"],
-    tags: ["Backend", "Realtime"],
-    year: "2024"
-  },
-  {
-    title: "Graph Analysis Bot",
-    tagline: "Browser extension for STEM data.",
-    description:
-      "Extension + FastAPI backend for dataset search.",
-    impact: [
-      "End-to-end query workflow",
-      "API-backed relational search"
-    ],
-    stack: ["Java", "FastAPI", "SQL"],
-    tags: ["Full-Stack", "Data"],
-    year: "2024"
-  },
-  {
     title: "FTS Scanner App",
-    tagline: "On-device fentanyl strip detection.",
+    tagline: "On-device fentanyl test strip detection.",
     description:
-      "Android CV app with on-device inference.",
+      "On-device Android app for fentanyl test strip detection using Android SDK and TensorFlow Lite.",
     impact: [
-      "Integrated TensorFlow Lite",
-      "Optimized mobile inference"
+      "On-device TensorFlow Lite inference",
+      "Optimized for low-resource mobile"
     ],
     stack: ["OpenCV", "Android SDK", "TensorFlow Lite"],
-    tags: ["Mobile", "ML"],
-    year: "2023"
+    tags: ["Mobile", "Healthcare", "AI"],
+    year: "2024"
+  },
+  {
+    title: "Legal Consultant RAG",
+    tagline: "AI legal assistant with schema-constrained reasoning.",
+    description:
+      "RAG assistant over law code with schema-constrained LLM reasoning and cited sources.",
+    impact: [
+      "Schema-constrained LLM reasoning",
+      "Source citations for legal queries"
+    ],
+    stack: ["Python", "PostgreSQL", "LLM"],
+    tags: ["AI", "RAG", "Legal"],
+    year: "2024"
   }
 ];
 
-export const experience = [
-  {
-    company: "Meta",
-    role: "Software Engineer",
-    timeframe: "May 2025 — Aug 2025",
-    location: "Menlo Park, CA",
-    highlights: [
-      "Rebuilt Instagram AR camera init in Swift/Obj-C++, lifting cold-start pass rate to 99.9% and cutting warm-up hitches 50%.",
-      "Modularized the iOS AR pipeline, cutting effect-apply latency 27% while sustaining 60 FPS.",
-      "Co-designed an effects coordinator and moved to the Optic stack for new AR filters."
-    ],
-    skills: ["Swift", "Objective-C++", "iOS", "Metal/GLSL"]
-  },
-  {
-    company: "Radical AI",
-    role: "Full-stack Software Engineer & AI Lab Assistant",
-    timeframe: "Jul 2024 — Sep 2024",
-    location: "New York, NY",
-    highlights: [
-      "Shipped an AI tutor for onboarding with React and Node in a 10-person team.",
-      "Optimized REST paths and caching, reducing latency by 25%.",
-      "Deployed models on GKE + Cloud SQL; investigated SDC with checksum detection."
-    ],
-    skills: ["React", "Node.js", "GKE", "Cloud SQL"]
-  },
-  {
-    company: "ZTE Corporation",
-    role: "Full-stack Software Development Engineer",
-    timeframe: "May 2024 — Jul 2024",
-    location: "Remote",
-    highlights: [
-      "Built CI/CD test pipelines with Jenkins and Robot Framework.",
-      "Automated STB UI tests with Selenium.",
-      "Improved backend ingestion with Java/MySQL and C/C++ multi-threading (+20% throughput)."
-    ],
-    skills: ["Java", "C/C++", "Jenkins", "Selenium"]
-  },
-  {
-    company: "University of Notre Dame",
-    role: "Research Assistant, NLP Lab",
-    timeframe: "Sep 2024 — Present",
-    location: "Notre Dame, IN",
-    highlights: [
-      "Built an LLM quiz interface from TED-Ed videos for deaf and hard-of-hearing learners.",
-      "Improved answers via chain-of-thought, self-checking, and embedding search.",
-      "Async quiz generation + REST APIs; 25% faster interface."
-    ],
-    skills: ["Python", "TensorFlow", "LLMs", "APIs"]
-  },
-  {
-    company: "University of Notre Dame",
-    role: "Teaching Assistant",
-    timeframe: "Jan 2023 — Present",
-    location: "Notre Dame, IN",
-    highlights: [
-      "Led tutorials and office hours for 100+ students across CS/math courses.",
-      "Covered core theory topics including graphs, automata, and P vs NP."
-    ],
-    skills: ["Teaching", "Algorithms", "Systems"]
-  }
-];
+export const skills = {
+  languages: ["Python", "C/C++", "Swift", "Java", "JavaScript", "HTML/CSS", "SQL", "Shell", "C#", "R", "MATLAB", "Kotlin"],
+  frameworks: ["FastAPI", "Flask", "React", "Node/Express", "PyTorch", "TensorFlow", "asyncio", "Robot Framework", "Selenium"],
+  tools: ["Git", "Linux", "Docker", "Kubernetes", "Cloud SQL", "AWS (EC2/S3)", "Android SDK", "Jenkins", "OpenCV", "Metal/GLSL"]
+};
 
-export const education = [
-  {
-    school: "University of Notre Dame, College of Engineering",
-    degree: "B.S. Double Major in Computer Science, Applied Mathematics and Statistics",
-    timeframe: "Aug 2022 — May 2026",
-    details: [
-      "GPA: 3.91/4.00"
-    ]
-  }
-];
-
-export const skills = [
-  {
-    label: "Languages",
-    items: [
-      "Python",
-      "C/C++",
-      "Swift",
-      "Java",
-      "JavaScript",
-      "HTML/CSS",
-      "SQL",
-      "Shell",
-      "C#",
-      "R",
-      "MATLAB",
-      "Kotlin"
-    ]
-  },
-  {
-    label: "Frameworks",
-    items: [
-      "FastAPI",
-      "Flask",
-      "React",
-      "Node/Express",
-      "PyTorch",
-      "TensorFlow",
-      "asyncio",
-      "Robot Framework",
-      "Selenium"
-    ]
-  },
-  {
-    label: "Tools & Platforms",
-    items: [
-      "Git",
-      "Linux",
-      "Docker",
-      "Kubernetes",
-      "Cloud SQL",
-      "AWS (EC2/S3)",
-      "Android SDK",
-      "Jenkins",
-      "OpenCV",
-      "Metal/GLSL"
-    ]
-  }
-];
-
-export const recognition = [
-  "Dean’s List",
-  "The Grand Challenge Scholarship",
-  "n8n AI Workflow Hackathon 1st Place"
-];
-
-export const activities = [
-  "CS for Good",
-  "Data Science Club",
-  "Quant Trading Club",
-  "Student International Business Council (SIBC)"
-];
+export const education = {
+  school: "University of Notre Dame",
+  degree: "B.S. Double Major - Computer Science & Applied Mathematics",
+  location: "Notre Dame, IN",
+  period: "Aug 2022 - May 2026",
+  gpa: "3.91/4.00",
+  honors: ["Dean's List", "Grand Challenge Scholarship", "n8n AI Hackathon 1st Place"],
+  activities: ["CS for Good", "Data Science Club", "Quant Trading Club", "SIBC"]
+};
