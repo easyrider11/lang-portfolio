@@ -15,7 +15,9 @@ import {
 
 export default function Page() {
   const [activeTag, setActiveTag] = useState("All");
-  const [focusedProject, setFocusedProject] = useState(projects[0]);
+  const [focusedProject, setFocusedProject] = useState(
+    projects.find((p) => p.featured) || projects[0]
+  );
   const [openExperience, setOpenExperience] = useState(0);
   const [toast, setToast] = useState("");
   const hasGithub = Boolean(profile.github);
@@ -23,7 +25,9 @@ export default function Page() {
 
   const tags = useMemo(() => {
     const collected = new Set();
-    projects.forEach((project) => project.tags.forEach((tag) => collected.add(tag)));
+    projects.forEach((project) =>
+      project.tags.forEach((tag) => collected.add(tag))
+    );
     return ["All", ...Array.from(collected)];
   }, []);
 
@@ -53,8 +57,8 @@ export default function Page() {
           </div>
         </div>
         <nav className="nav__links">
-          <a href="#experience">Experience</a>
           <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
           <a href="#skills">Skills</a>
           <a href="#education">Education</a>
           <a href="#contact" className="btn btn--outline">
@@ -64,11 +68,12 @@ export default function Page() {
       </header>
 
       <main>
+        {/* Hero */}
         <section className="hero">
           <div className="hero__content">
-            <p className="kicker">Software Engineer Portfolio</p>
+            <p className="kicker">AI Builder &middot; Software Engineer</p>
             <h1>
-              Shipping high-performance software for AR, AI, and real-time systems.
+              I build intelligent software that ships.
             </h1>
             <p className="hero__summary">{profile.summary}</p>
             <div className="hero__actions">
@@ -78,18 +83,7 @@ export default function Page() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Download Resume
-              </a>
-              <button className="btn btn--ghost" onClick={handleCopy}>
-                Copy Email
-              </button>
-              <a
-                className="btn btn--ghost"
-                href={profile.linkedin}
-                target="_blank"
-                rel="noreferrer"
-              >
-                LinkedIn
+                Resume
               </a>
               {hasGithub && (
                 <a
@@ -101,20 +95,17 @@ export default function Page() {
                   GitHub
                 </a>
               )}
-            </div>
-            <div className="hero__meta">
-              <div>
-                <p className="meta__label">Location</p>
-                <p className="meta__value">{profile.location}</p>
-              </div>
-              <div>
-                <p className="meta__label">Graduation</p>
-                <p className="meta__value">May 2026</p>
-              </div>
-              <div>
-                <p className="meta__label">Focus</p>
-                <p className="meta__value">AR & AI Systems</p>
-              </div>
+              <a
+                className="btn btn--ghost"
+                href={profile.linkedin}
+                target="_blank"
+                rel="noreferrer"
+              >
+                LinkedIn
+              </a>
+              <button className="btn btn--ghost" onClick={handleCopy}>
+                Copy Email
+              </button>
             </div>
           </div>
           <div className="hero__visual">
@@ -125,38 +116,115 @@ export default function Page() {
                   <p className="photo-card__title">{profile.name}</p>
                   <p className="photo-card__subtitle">{profile.role}</p>
                 </div>
-                <div className="photo-card__tags">
-                  <span>Full-Stack</span>
-                  <span>Systems</span>
-                  <span>Product</span>
-                </div>
               </div>
-            </div>
-            <div className="focus">
-              <p className="focus__title">Focus Areas</p>
-              <ul>
-                {focusAreas.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
             </div>
           </div>
         </section>
 
-        <section className="stats">
-          {stats.map((stat) => (
-            <div className="stat" key={stat.label}>
-              <p className="stat__value">{stat.value}</p>
-              <p className="stat__label">{stat.label}</p>
-            </div>
-          ))}
+        {/* Stats + Focus */}
+        <section className="metrics">
+          <div className="stats">
+            {stats.map((stat) => (
+              <div className="stat" key={stat.label}>
+                <p className="stat__value">{stat.value}</p>
+                <p className="stat__label">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="focus">
+            <p className="focus__title">What I Build</p>
+            <ul>
+              {focusAreas.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </section>
 
+        {/* Projects — featured first */}
+        <section className="work" id="projects">
+          <div className="section__head">
+            <div>
+              <p className="kicker">Projects</p>
+              <h2>AI-driven projects with real impact.</h2>
+            </div>
+            <div className="filter">
+              {tags.map((tag) => (
+                <button
+                  key={tag}
+                  className={`chip ${activeTag === tag ? "chip--active" : ""}`}
+                  onClick={() => setActiveTag(tag)}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="work__grid">
+            <div className="work__cards">
+              {visibleProjects.map((project) => (
+                <button
+                  key={project.title}
+                  className={`project-card ${
+                    focusedProject.title === project.title
+                      ? "project-card--active"
+                      : ""
+                  } ${project.featured ? "project-card--featured" : ""}`}
+                  onClick={() => setFocusedProject(project)}
+                >
+                  <div>
+                    <div className="project-card__top">
+                      <p className="project-card__kicker">{project.year}</p>
+                      {project.featured && (
+                        <span className="project-card__badge">Featured</span>
+                      )}
+                    </div>
+                    <h3>{project.title}</h3>
+                    <p>{project.tagline}</p>
+                  </div>
+                  <div className="project-card__tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <div className="work__spotlight">
+              <div>
+                <p className="kicker">Spotlight</p>
+                <h3>{focusedProject.title}</h3>
+                <p className="work__summary">{focusedProject.description}</p>
+              </div>
+              <div className="work__impact">
+                <p className="work__impact-title">Impact</p>
+                {focusedProject.impact.map((item) => (
+                  <div key={item}>
+                    <span className="dot" />
+                    <p>{item}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="work__stack">
+                <p className="kicker">Stack</p>
+                <div>
+                  {focusedProject.stack.map((item) => (
+                    <span key={item}>{item}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Experience */}
         <section className="experience" id="experience">
           <div className="section__head">
             <div>
               <p className="kicker">Experience</p>
-              <h2>Shipping fast with strong quality.</h2>
+              <h2>Where I've shipped.</h2>
             </div>
           </div>
 
@@ -200,79 +268,7 @@ export default function Page() {
           </div>
         </section>
 
-        
-
-        <section className="work" id="projects">
-          <div className="section__head">
-            <div>
-              <p className="kicker">Selected Projects</p>
-              <h2>Projects with clear impact.</h2>
-            </div>
-            <div className="filter">
-              {tags.map((tag) => (
-                <button
-                  key={tag}
-                  className={`chip ${activeTag === tag ? "chip--active" : ""}`}
-                  onClick={() => setActiveTag(tag)}
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="work__grid">
-            <div className="work__cards">
-              {visibleProjects.map((project) => (
-                <button
-                  key={project.title}
-                  className={`project-card ${
-                    focusedProject.title === project.title
-                      ? "project-card--active"
-                      : ""
-                  }`}
-                  onClick={() => setFocusedProject(project)}
-                >
-                  <div>
-                    <p className="project-card__kicker">{project.year}</p>
-                    <h3>{project.title}</h3>
-                    <p>{project.tagline}</p>
-                  </div>
-                  <div className="project-card__tags">
-                    {project.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            <div className="work__spotlight">
-              <div>
-                <p className="kicker">Spotlight</p>
-                <h3>{focusedProject.title}</h3>
-                <p className="work__summary">{focusedProject.description}</p>
-              </div>
-              <div className="work__impact">
-                {focusedProject.impact.map((item) => (
-                  <div key={item}>
-                    <span className="dot" />
-                    <p>{item}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="work__stack">
-                <p className="kicker">Stack</p>
-                <div>
-                  {focusedProject.stack.map((item) => (
-                    <span key={item}>{item}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
+        {/* Skills */}
         <section className="skills" id="skills">
           <div className="section__head">
             <div>
@@ -294,6 +290,7 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Education */}
         <section className="education" id="education">
           <div className="section__head">
             <div>
@@ -332,12 +329,13 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Contact */}
         <section className="contact" id="contact">
           <div>
-            <p className="kicker">Let’s Build</p>
-            <h2>Looking for a builder?</h2>
+            <p className="kicker">Let's Build Together</p>
+            <h2>Looking for an AI builder?</h2>
             <p>
-              Open to ambitious problems and thoughtful teams.
+              Open to ambitious AI problems and thoughtful engineering teams.
             </p>
           </div>
           <div className="contact__card">
@@ -385,7 +383,7 @@ export default function Page() {
       </main>
 
       <footer className="footer">
-        <p>© 2026 {profile.name}. Built with Next.js.</p>
+        <p>&copy; 2026 {profile.name}. Built with Next.js.</p>
       </footer>
 
       {toast && <div className="toast">{toast}</div>}

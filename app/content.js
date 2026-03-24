@@ -1,9 +1,9 @@
 export const profile = {
   name: "Lorre Li",
-  role: "Software Engineer",
+  role: "AI Builder & Software Engineer",
   location: "Notre Dame, IN",
   summary:
-    "AR- and AI-focused engineer building high-performance products and real-time systems.",
+    "I build AI-powered products and high-performance systems. From on-device ML to LLM-driven workflows, I ship intelligent software that scales.",
   email: "lli28@nd.edu",
   phone: "+1 (574) 327-1779",
   github: "https://github.com/easyrider11",
@@ -13,66 +13,86 @@ export const profile = {
 };
 
 export const stats = [
+  { label: "AI/ML Projects Shipped", value: "6+" },
   { label: "Cold-Start Pass Rate", value: "99.9%" },
   { label: "Peak Connections", value: "10k+" },
   { label: "Students Mentored", value: "100+" }
 ];
 
 export const focusAreas = [
-  "AR & real-time graphics",
-  "AI product engineering",
-  "Performance & reliability",
-  "Applied ML/NLP"
+  "AI agents & LLM systems",
+  "On-device ML inference",
+  "Real-time & event-driven architecture",
+  "Full-stack product engineering"
 ];
 
 export const projects = [
   {
     title: "Dead Code Detector",
-    tagline: "Finds unused legacy code.",
+    tagline: "AI agent that audits codebases autonomously.",
     description:
-      "AI agent that correlates coverage and logs to surface dead paths.",
+      "Built an AI agent that correlates code coverage data with runtime logs to automatically surface dead paths in large codebases. The agent reasons over evidence to distinguish genuinely unreachable code from rarely-triggered paths.",
     impact: [
-      "Automated codebase audits",
-      "Surfaced dead paths with evidence"
+      "Automated codebase audits across multi-repo systems",
+      "Surfaced dead paths with evidence-backed confidence scores",
+      "Reduced manual code review effort significantly"
     ],
-    stack: ["Python", "Clang", "SQLite"],
+    stack: ["Python", "Clang", "SQLite", "AST Analysis"],
     tags: ["AI", "Platform"],
-    year: "2025"
+    year: "2025",
+    featured: true
+  },
+  {
+    title: "LLM Quiz Interface",
+    tagline: "AI-powered learning for accessibility.",
+    description:
+      "Built an LLM-driven quiz generation system from TED-Ed videos designed for deaf and hard-of-hearing learners. Uses chain-of-thought prompting, self-checking, and embedding search for high-quality answers.",
+    impact: [
+      "25% faster interface with async quiz generation",
+      "Improved answer quality via chain-of-thought reasoning",
+      "REST API serving real-time quiz content"
+    ],
+    stack: ["Python", "TensorFlow", "LLMs", "REST APIs"],
+    tags: ["AI", "Full-Stack"],
+    year: "2024",
+    featured: true
   },
   {
     title: "NDFootball Channel",
-    tagline: "Async server for live events.",
+    tagline: "Async server handling 10k+ live connections.",
     description:
-      "Event-driven asyncio server built for bursty traffic.",
+      "Event-driven asyncio server built for bursty traffic during live sporting events. Designed to handle massive connection spikes with low-latency delivery.",
     impact: [
       "Handled 10k+ concurrent connections",
-      "Low-latency delivery under peak load"
+      "Low-latency delivery under peak load",
+      "Zero dropped connections during live events"
     ],
-    stack: ["Python", "asyncio"],
+    stack: ["Python", "asyncio", "WebSockets"],
     tags: ["Backend", "Realtime"],
     year: "2024"
   },
   {
     title: "Graph Analysis Bot",
-    tagline: "Browser extension for STEM data.",
+    tagline: "Browser extension + API for STEM data search.",
     description:
-      "Extension + FastAPI backend for dataset search.",
+      "Chrome extension paired with a FastAPI backend enabling end-to-end STEM dataset search with relational query support.",
     impact: [
-      "End-to-end query workflow",
-      "API-backed relational search"
+      "End-to-end query workflow from browser",
+      "API-backed relational search across datasets"
     ],
-    stack: ["Java", "FastAPI", "SQL"],
+    stack: ["Java", "FastAPI", "SQL", "Chrome Extension API"],
     tags: ["Full-Stack", "Data"],
     year: "2024"
   },
   {
     title: "FTS Scanner App",
-    tagline: "On-device fentanyl strip detection.",
+    tagline: "On-device ML for fentanyl strip detection.",
     description:
-      "Android CV app with on-device inference.",
+      "Android computer vision app with on-device TensorFlow Lite inference for real-time fentanyl test strip analysis. Optimized for mobile performance.",
     impact: [
-      "Integrated TensorFlow Lite",
-      "Optimized mobile inference"
+      "Real-time on-device ML inference",
+      "Optimized model for mobile hardware constraints",
+      "Accessible detection without lab equipment"
     ],
     stack: ["OpenCV", "Android SDK", "TensorFlow Lite"],
     tags: ["Mobile", "ML"],
@@ -95,7 +115,7 @@ export const experience = [
   },
   {
     company: "Radical AI",
-    role: "Full-stack Software Engineer & AI Lab Assistant",
+    role: "Full-stack Engineer & AI Lab Assistant",
     timeframe: "Jul 2024 — Sep 2024",
     location: "New York, NY",
     highlights: [
@@ -107,7 +127,7 @@ export const experience = [
   },
   {
     company: "ZTE Corporation",
-    role: "Full-stack Software Development Engineer",
+    role: "Full-stack Development Engineer",
     timeframe: "May 2024 — Jul 2024",
     location: "Remote",
     highlights: [
@@ -155,6 +175,19 @@ export const education = [
 
 export const skills = [
   {
+    label: "AI & ML",
+    items: [
+      "PyTorch",
+      "TensorFlow",
+      "TensorFlow Lite",
+      "LLMs",
+      "OpenCV",
+      "Chain-of-Thought",
+      "Embedding Search",
+      "On-Device ML"
+    ]
+  },
+  {
     label: "Languages",
     items: [
       "Python",
@@ -162,48 +195,30 @@ export const skills = [
       "Swift",
       "Java",
       "JavaScript",
-      "HTML/CSS",
       "SQL",
       "Shell",
-      "C#",
-      "R",
-      "MATLAB",
       "Kotlin"
     ]
   },
   {
-    label: "Frameworks",
+    label: "Frameworks & Tools",
     items: [
       "FastAPI",
       "Flask",
       "React",
       "Node/Express",
-      "PyTorch",
-      "TensorFlow",
       "asyncio",
-      "Robot Framework",
-      "Selenium"
-    ]
-  },
-  {
-    label: "Tools & Platforms",
-    items: [
-      "Git",
-      "Linux",
       "Docker",
       "Kubernetes",
-      "Cloud SQL",
-      "AWS (EC2/S3)",
-      "Android SDK",
-      "Jenkins",
-      "OpenCV",
-      "Metal/GLSL"
+      "AWS",
+      "Git",
+      "Jenkins"
     ]
   }
 ];
 
 export const recognition = [
-  "Dean’s List",
+  "Dean's List",
   "The Grand Challenge Scholarship",
   "n8n AI Workflow Hackathon 1st Place"
 ];
