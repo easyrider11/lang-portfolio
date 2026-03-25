@@ -66,9 +66,9 @@ export default function Page() {
       <main>
         <section className="hero">
           <div className="hero__content">
-            <p className="kicker">Software Engineer Portfolio</p>
+            <p className="kicker">AI Builder Portfolio</p>
             <h1>
-              Shipping high-performance software for AR, AI, and real-time systems.
+              Building production AI systems that reason, act, and automate real workflows.
             </h1>
             <p className="hero__summary">{profile.summary}</p>
             <div className="hero__actions">
@@ -113,7 +113,7 @@ export default function Page() {
               </div>
               <div>
                 <p className="meta__label">Focus</p>
-                <p className="meta__value">AR & AI Systems</p>
+                <p className="meta__value">Agentic AI Systems</p>
               </div>
             </div>
           </div>
@@ -126,9 +126,9 @@ export default function Page() {
                   <p className="photo-card__subtitle">{profile.role}</p>
                 </div>
                 <div className="photo-card__tags">
-                  <span>Full-Stack</span>
-                  <span>Systems</span>
-                  <span>Product</span>
+                  <span>Agent Systems</span>
+                  <span>AI Infrastructure</span>
+                  <span>Evaluation</span>
                 </div>
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function Page() {
           <div className="section__head">
             <div>
               <p className="kicker">Experience</p>
-              <h2>Shipping fast with strong quality.</h2>
+              <h2>Building AI systems that ship and scale.</h2>
             </div>
           </div>
 

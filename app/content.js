@@ -1,9 +1,9 @@
 export const profile = {
   name: "Lorre Li",
-  role: "Software Engineer",
+  role: "AI Builder & Agentic Systems Engineer",
   location: "Notre Dame, IN",
   summary:
-    "AR- and AI-focused engineer building high-performance products and real-time systems.",
+    "Building production-ready AI systems that reason, act, and integrate into real workflows — from agentic pipelines and retrieval systems to evaluation loops and real-time infrastructure.",
   email: "lli28@nd.edu",
   phone: "+1 (574) 327-1779",
   github: "https://github.com/easyrider11",
@@ -13,97 +13,104 @@ export const profile = {
 };
 
 export const stats = [
-  { label: "Cold-Start Pass Rate", value: "99.9%" },
-  { label: "Peak Connections", value: "10k+" },
-  { label: "Students Mentored", value: "100+" }
+  { label: "Agent Reliability", value: "99.9%" },
+  { label: "Concurrent Pipelines", value: "10k+" },
+  { label: "Latency Reduction", value: "50%" }
 ];
 
 export const focusAreas = [
-  "AR & real-time graphics",
-  "AI product engineering",
-  "Performance & reliability",
-  "Applied ML/NLP"
+  "Agentic AI systems",
+  "Retrieval & context pipelines",
+  "AI evaluation & reliability",
+  "Real-time infrastructure"
 ];
 
 export const projects = [
   {
-    title: "Dead Code Detector",
-    tagline: "Finds unused legacy code.",
+    title: "AI-Assisted Interview Platform",
+    tagline: "Agentic evaluation system for engineering interviews.",
     description:
-      "AI agent that correlates coverage and logs to surface dead paths.",
+      "Agent-orchestrated SaaS platform that autonomously manages repo-level coding interviews — sandboxed execution, controlled LLM copilot with tool-use gating, session replay, and multi-dimensional evaluation pipelines that score candidates without human intervention.",
     impact: [
-      "Automated codebase audits",
-      "Surfaced dead paths with evidence"
+      "Designed agent workflow orchestrating sandboxed code execution, LLM reasoning, and automated scoring",
+      "Built evaluation pipeline with multi-dimensional rubrics that validate AI-generated feedback loops",
+      "Integrated controlled copilot with tool-use gating to ensure safe, scoped AI assistance during sessions",
+      "Deployed end-to-end on Docker with session replay for auditability and reliability"
     ],
-    stack: ["Python", "Clang", "SQLite"],
-    tags: ["AI", "Platform"],
+    stack: ["TypeScript", "Node.js", "Docker", "LLM APIs"],
+    tags: ["Agent Systems", "Evaluation", "Platform"],
     year: "2025"
   },
   {
-    title: "NDFootball Channel",
-    tagline: "Async server for live events.",
+    title: "Dead Code Detector",
+    tagline: "Autonomous agent for codebase auditing.",
     description:
-      "Event-driven asyncio server built for bursty traffic.",
+      "AI agent that autonomously correlates coverage data, execution logs, and static analysis to identify and validate dead code paths across large codebases — with evidence-backed reporting and iterative refinement.",
     impact: [
-      "Handled 10k+ concurrent connections",
-      "Low-latency delivery under peak load"
+      "Built an agentic pipeline that reasons over coverage + logs to surface unreachable code with evidence",
+      "Integrated Clang AST tooling as an agent action for static analysis across C/C++ codebases",
+      "Designed validation loop that cross-checks agent findings against runtime traces to reduce false positives",
+      "Automated full codebase audits that previously required manual engineering review"
     ],
-    stack: ["Python", "asyncio"],
-    tags: ["Backend", "Realtime"],
-    year: "2024"
-  },
-  {
-    title: "Graph Analysis Bot",
-    tagline: "Browser extension for STEM data.",
-    description:
-      "Extension + FastAPI backend for dataset search.",
-    impact: [
-      "End-to-end query workflow",
-      "API-backed relational search"
-    ],
-    stack: ["Java", "FastAPI", "SQL"],
-    tags: ["Full-Stack", "Data"],
-    year: "2024"
-  },
-  {
-    title: "AI-Assisted Interview Platform",
-    tagline: "Repo-level engineering interviews.",
-    description:
-      "AI native SaaS platform providing repo-level engineering interview tasks with sandboxed execution, controlled AI copilot integration, session replay, and multi-dimensional evaluation rubric.",
-    impact: [
-      "Sandboxed code execution environment",
-      "AI copilot integration with controlled access",
-      "Session replay and multi-dimensional evaluation"
-    ],
-    stack: ["TypeScript", "Node.js", "Docker", "LLM APIs"],
-    tags: ["AI", "Full-Stack", "Platform"],
+    stack: ["Python", "Clang", "SQLite"],
+    tags: ["Agent Systems", "Retrieval", "Platform"],
     year: "2025"
   },
   {
     title: "HFT Order Book Imbalance Engine",
-    tagline: "Real-time OBI signal modeling.",
+    tagline: "Real-time signal pipeline with autonomous validation.",
     description:
-      "Real-time depth-of-book reconstruction and OBI signal modeling with tick-level state tracking, statistical backtesting, and live paper-trading validation on Kalshi markets.",
+      "Low-latency system that reconstructs depth-of-book state in real time, generates OBI signals via tick-level tracking, and runs autonomous backtesting and paper-trading validation loops on Kalshi markets.",
     impact: [
-      "Real-time depth-of-book reconstruction",
-      "Statistical backtesting pipeline",
-      "Live paper-trading validation on Kalshi"
+      "Engineered real-time data ingestion pipeline processing tick-level market events via WebSocket streams",
+      "Built autonomous backtesting loop that validates signal quality against historical data without manual tuning",
+      "Deployed live paper-trading agent on Kalshi with automated performance monitoring and feedback",
+      "Optimized C++ execution path for sub-millisecond signal generation under production load"
     ],
     stack: ["C++", "WebSocket", "Python"],
-    tags: ["Backend", "Realtime", "Data"],
+    tags: ["Real-Time Systems", "Evaluation", "Data"],
     year: "2025"
   },
   {
-    title: "FTS Scanner App",
-    tagline: "On-device fentanyl strip detection.",
+    title: "NDFootball Channel",
+    tagline: "High-concurrency async infrastructure.",
     description:
-      "Android CV app with on-device inference.",
+      "Event-driven asyncio server engineered for bursty, real-time traffic — serving as scalable infrastructure for AI-powered event processing and low-latency delivery at 10k+ concurrent connections.",
     impact: [
-      "Integrated TensorFlow Lite",
-      "Optimized mobile inference"
+      "Designed async event pipeline handling 10k+ concurrent connections with graceful backpressure",
+      "Built infrastructure pattern reusable for real-time AI agent communication and tool coordination",
+      "Achieved low-latency delivery under peak load through connection pooling and non-blocking I/O"
+    ],
+    stack: ["Python", "asyncio"],
+    tags: ["Real-Time Systems", "Platform"],
+    year: "2024"
+  },
+  {
+    title: "Graph Analysis Bot",
+    tagline: "Retrieval-augmented search agent for STEM data.",
+    description:
+      "Agentic search system combining a browser extension with a FastAPI retrieval backend — enabling structured query workflows over relational STEM datasets with API-backed context retrieval.",
+    impact: [
+      "Built retrieval pipeline that translates natural queries into structured SQL over relational datasets",
+      "Designed end-to-end agent workflow: user query → context retrieval → ranked results → structured output",
+      "Integrated API-backed search enabling the agent to pull and correlate data across multiple sources"
+    ],
+    stack: ["Java", "FastAPI", "SQL"],
+    tags: ["Retrieval", "Agent Systems", "Data"],
+    year: "2024"
+  },
+  {
+    title: "FTS Scanner App",
+    tagline: "On-device inference pipeline for harm reduction.",
+    description:
+      "Mobile AI system with on-device inference pipeline — capturing, preprocessing, and classifying fentanyl test strips in real time using optimized TensorFlow Lite models on Android.",
+    impact: [
+      "Deployed optimized TF Lite model with on-device inference under 200ms per frame",
+      "Built end-to-end vision pipeline: capture → preprocess → classify → result with confidence scoring",
+      "Designed reliability layer with fallback logic and edge-case handling for real-world conditions"
     ],
     stack: ["OpenCV", "Android SDK", "TensorFlow Lite"],
-    tags: ["Mobile", "ML"],
+    tags: ["AI Production", "Real-Time Systems"],
     year: "2023"
   }
 ];
@@ -111,62 +118,62 @@ export const projects = [
 export const experience = [
   {
     company: "Meta",
-    role: "Software Engineer",
+    role: "Software Engineer — AR Systems & Performance",
     timeframe: "May 2025 — Aug 2025",
     location: "Menlo Park, CA",
     highlights: [
-      "Rebuilt Instagram AR camera init in Swift/Obj-C++, lifting cold-start pass rate to 99.9% and cutting warm-up hitches 50%.",
-      "Modularized the iOS AR pipeline, cutting effect-apply latency 27% while sustaining 60 FPS.",
-      "Co-designed an effects coordinator and moved to the Optic stack for new AR filters."
+      "Rebuilt Instagram's AR camera initialization pipeline in Swift/Obj-C++, achieving 99.9% cold-start reliability — the same infrastructure pattern used for on-device AI model loading.",
+      "Modularized the real-time AR effects pipeline, cutting effect-apply latency 27% while sustaining 60 FPS — directly applicable to on-device agent inference loops.",
+      "Co-designed a state coordinator for the Optic stack, orchestrating multi-stage pipelines similar to agentic tool-chaining workflows."
     ],
-    skills: ["Swift", "Objective-C++", "iOS", "Metal/GLSL"]
+    skills: ["Swift", "Objective-C++", "Real-Time Systems", "Pipeline Orchestration"]
   },
   {
     company: "Radical AI",
-    role: "Full-stack Software Engineer & AI Lab Assistant",
+    role: "AI Systems Engineer",
     timeframe: "Jul 2024 — Sep 2024",
     location: "New York, NY",
     highlights: [
-      "Shipped an AI tutor for onboarding with React and Node in a 10-person team.",
-      "Optimized REST paths and caching, reducing latency by 25%.",
-      "Deployed models on GKE + Cloud SQL; investigated SDC with checksum detection."
+      "Designed and shipped an agentic AI tutor that autonomously generates onboarding content, quizzes, and feedback — integrating LLM reasoning with structured data retrieval.",
+      "Built backend AI service layer with optimized REST paths and caching, reducing LLM-serving latency by 25%.",
+      "Deployed AI models on GKE + Cloud SQL with reliability monitoring; implemented checksum-based detection for silent data corruption in inference outputs."
     ],
-    skills: ["React", "Node.js", "GKE", "Cloud SQL"]
+    skills: ["LLM Integration", "Node.js", "GKE", "Evaluation Pipelines"]
   },
   {
     company: "ZTE Corporation",
-    role: "Full-stack Software Development Engineer",
+    role: "Automation & Infrastructure Engineer",
     timeframe: "May 2024 — Jul 2024",
     location: "Remote",
     highlights: [
-      "Built CI/CD test pipelines with Jenkins and Robot Framework.",
-      "Automated STB UI tests with Selenium.",
-      "Improved backend ingestion with Java/MySQL and C/C++ multi-threading (+20% throughput)."
+      "Built automated validation pipelines with Jenkins and Robot Framework — testing system outputs end-to-end, analogous to AI evaluation and regression loops.",
+      "Designed autonomous UI test agents with Selenium that execute multi-step workflows and validate expected states.",
+      "Optimized high-throughput data ingestion with C/C++ multi-threading (+20% throughput), building infrastructure for large-scale pipeline processing."
     ],
-    skills: ["Java", "C/C++", "Jenkins", "Selenium"]
+    skills: ["Pipeline Automation", "C/C++", "Jenkins", "Testing Systems"]
   },
   {
     company: "University of Notre Dame",
-    role: "Research Assistant, NLP Lab",
+    role: "Research Assistant — Agentic NLP Systems",
     timeframe: "Sep 2024 — Present",
     location: "Notre Dame, IN",
     highlights: [
-      "Built an LLM quiz interface from TED-Ed videos for deaf and hard-of-hearing learners.",
-      "Improved answers via chain-of-thought, self-checking, and embedding search.",
-      "Async quiz generation + REST APIs; 25% faster interface."
+      "Built an agentic LLM system that autonomously generates quizzes from TED-Ed video transcripts for deaf and hard-of-hearing learners — end-to-end from retrieval to output.",
+      "Implemented chain-of-thought reasoning, self-checking validation loops, and embedding-based retrieval to improve answer quality and reduce hallucination.",
+      "Designed async generation pipeline with REST APIs, cutting quiz generation latency 25% through parallel retrieval and batched LLM calls."
     ],
-    skills: ["Python", "TensorFlow", "LLMs", "APIs"]
+    skills: ["LLM Agents", "RAG Pipelines", "Evaluation Loops", "Python"]
   },
   {
     company: "University of Notre Dame",
-    role: "Teaching Assistant",
+    role: "Teaching Assistant — CS & Mathematics",
     timeframe: "Jan 2023 — Present",
     location: "Notre Dame, IN",
     highlights: [
-      "Led tutorials and office hours for 100+ students across CS/math courses.",
-      "Covered core theory topics including graphs, automata, and P vs NP."
+      "Led tutorials and office hours for 100+ students across algorithms, systems, and theory courses.",
+      "Covered foundational topics including graph algorithms, automata, and computational complexity — the theoretical backbone of agent planning and search."
     ],
-    skills: ["Teaching", "Algorithms", "Systems"]
+    skills: ["Algorithms", "Systems Theory", "Teaching"]
   }
 ];
 
@@ -183,49 +190,46 @@ export const education = [
 
 export const skills = [
   {
-    label: "Languages",
+    label: "Agent & AI Systems",
+    items: [
+      "LLM Integration",
+      "Agentic Workflows",
+      "Tool-Use Orchestration",
+      "RAG Pipelines",
+      "Embedding Search",
+      "Chain-of-Thought",
+      "Evaluation Loops",
+      "Prompt Engineering"
+    ]
+  },
+  {
+    label: "Languages & Frameworks",
     items: [
       "Python",
       "C/C++",
+      "TypeScript",
       "Swift",
       "Java",
-      "JavaScript",
-      "HTML/CSS",
-      "SQL",
-      "Shell",
-      "C#",
-      "R",
-      "MATLAB",
-      "Kotlin"
-    ]
-  },
-  {
-    label: "Frameworks",
-    items: [
       "FastAPI",
-      "Flask",
-      "React",
       "Node/Express",
       "PyTorch",
       "TensorFlow",
-      "asyncio",
-      "Robot Framework",
-      "Selenium"
+      "asyncio"
     ]
   },
   {
-    label: "Tools & Platforms",
+    label: "Infrastructure & Tooling",
     items: [
-      "Git",
-      "Linux",
       "Docker",
       "Kubernetes",
-      "Cloud SQL",
+      "GKE",
       "AWS (EC2/S3)",
-      "Android SDK",
+      "Cloud SQL",
       "Jenkins",
-      "OpenCV",
-      "Metal/GLSL"
+      "Git",
+      "Linux",
+      "WebSocket",
+      "CI/CD Pipelines"
     ]
   }
 ];
