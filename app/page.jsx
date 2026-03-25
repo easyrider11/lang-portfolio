@@ -22,7 +22,7 @@ const navItems = [
 
 export default function Page() {
   const [activeTag, setActiveTag] = useState("All");
-  const [focusedProject, setFocusedProject] = useState(projects[0]);
+  const [openProject, setOpenProject] = useState("");
   const [openExperience, setOpenExperience] = useState(0);
   const [toast, setToast] = useState("");
   const [activeSection, setActiveSection] = useState("experience");
@@ -41,26 +41,17 @@ export default function Page() {
     return projects.filter((project) => project.tags.includes(activeTag));
   }, [activeTag]);
 
-  const focusedProjectIndex = useMemo(
-    () =>
-      Math.max(
-        visibleProjects.findIndex((project) => project.title === focusedProject.title),
-        0
-      ),
-    [focusedProject.title, visibleProjects]
-  );
-
   useEffect(() => {
-    if (!visibleProjects.length) return;
+    if (!openProject) return;
 
-    const hasVisibleFocus = visibleProjects.some(
-      (project) => project.title === focusedProject.title
+    const hasVisibleProject = visibleProjects.some(
+      (project) => project.title === openProject
     );
 
-    if (!hasVisibleFocus) {
-      setFocusedProject(visibleProjects[0]);
+    if (!hasVisibleProject) {
+      setOpenProject("");
     }
-  }, [focusedProject.title, visibleProjects]);
+  }, [openProject, visibleProjects]);
 
   useEffect(() => {
     const sections = ["experience", "projects", "skills", "education", "contact"]
@@ -119,16 +110,6 @@ export default function Page() {
     }
 
     window.setTimeout(() => setToast(""), 2000);
-  };
-
-  const handleProjectStep = (direction) => {
-    if (!visibleProjects.length) return;
-
-    const nextIndex =
-      (focusedProjectIndex + direction + visibleProjects.length) %
-      visibleProjects.length;
-
-    setFocusedProject(visibleProjects[nextIndex]);
   };
 
   const handlePointerMove = (event) => {
@@ -372,100 +353,63 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="work__grid">
-            <div className="work__cards">
-              {visibleProjects.map((project) => {
-                const isActive = focusedProject.title === project.title;
+          <div className="work__cards">
+            {visibleProjects.map((project) => {
+              const isOpen = openProject === project.title;
 
-                return (
+              return (
+                <div
+                  key={project.title}
+                  className={`project-card ${isOpen ? "project-card--open" : ""}`}
+                >
                   <button
-                    key={project.title}
-                    className={`project-card ${
-                      isActive ? "project-card--active" : ""
-                    }`}
-                    onClick={() => setFocusedProject(project)}
-                    aria-pressed={isActive}
+                    className="project-card__header"
+                    onClick={() => setOpenProject(isOpen ? "" : project.title)}
+                    aria-expanded={isOpen}
                   >
                     <div>
                       <p className="project-card__kicker">{project.year}</p>
                       <h3>{project.title}</h3>
                       <p>{project.tagline}</p>
                     </div>
-                    <div className="project-card__footer">
+                    <div className="project-card__aside">
                       <div className="project-card__tags">
                         {project.tags.map((tag) => (
                           <span key={tag}>{tag}</span>
                         ))}
                       </div>
-                      <span className="project-card__action">
-                        {isActive ? "Selected" : "Inspect"}
+                      <span
+                        className={`project-card__icon ${
+                          isOpen ? "project-card__icon--open" : ""
+                        }`}
+                        aria-hidden="true"
+                      >
+                        +
                       </span>
                     </div>
                   </button>
-                );
-              })}
-            </div>
-
-            <div className="work__spotlight">
-              <div className="spotlight__top">
-                <div>
-                  <p className="kicker">Spotlight</p>
-                  <h3>{focusedProject.title}</h3>
-                  <p className="work__summary">{focusedProject.description}</p>
-                </div>
-                <div className="spotlight__controls">
-                  <button
-                    className="spotlight__button"
-                    onClick={() => handleProjectStep(-1)}
-                    aria-label="Previous project"
-                  >
-                    {"<"}
-                  </button>
-                  <button
-                    className="spotlight__button"
-                    onClick={() => handleProjectStep(1)}
-                    aria-label="Next project"
-                  >
-                    {">"}
-                  </button>
-                </div>
-              </div>
-              <div className="work__impact">
-                {focusedProject.impact.map((item) => (
-                  <div key={item}>
-                    <span className="dot" />
-                    <p>{item}</p>
+                  <div className="project-card__content">
+                    <p className="work__summary">{project.description}</p>
+                    <div className="work__impact">
+                      {project.impact.map((item) => (
+                        <div key={item}>
+                          <span className="dot" />
+                          <p>{item}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="work__stack">
+                      <p className="kicker">Stack</p>
+                      <div>
+                        {project.stack.map((item) => (
+                          <span key={item}>{item}</span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                ))}
-              </div>
-              <div className="work__stack">
-                <p className="kicker">Stack</p>
-                <div>
-                  {focusedProject.stack.map((item) => (
-                    <span key={item}>{item}</span>
-                  ))}
                 </div>
-              </div>
-              <div className="spotlight__footer">
-                <div className="spotlight__progress" aria-hidden="true">
-                  {visibleProjects.map((project) => (
-                    <span
-                      key={project.title}
-                      className={`spotlight__step ${
-                        project.title === focusedProject.title
-                          ? "spotlight__step--active"
-                          : ""
-                      }`}
-                    />
-                  ))}
-                </div>
-                <p className="spotlight__caption">
-                  {String(focusedProjectIndex + 1).padStart(2, "0")} of{" "}
-                  {String(visibleProjects.length).padStart(2, "0")} in the current
-                  view
-                </p>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </section>
 

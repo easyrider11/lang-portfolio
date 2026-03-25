@@ -576,12 +576,6 @@ section[id] {
   margin-left: 6px;
 }
 
-.work__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: 24px;
-}
-
 .work__cards {
   display: grid;
   gap: 16px;
@@ -590,13 +584,10 @@ section[id] {
 .project-card {
   position: relative;
   overflow: hidden;
-  text-align: left;
-  padding: 20px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: rgba(255, 252, 247, 0.84);
   display: grid;
-  gap: 18px;
   box-shadow: 0 14px 30px rgba(88, 70, 45, 0.05);
 }
 
@@ -609,15 +600,25 @@ section[id] {
 }
 
 .project-card:hover,
-.project-card--active {
+.project-card--open {
   transform: translateY(-3px);
   border-color: rgba(200, 109, 62, 0.22);
   box-shadow: 0 22px 42px rgba(88, 70, 45, 0.08);
 }
 
 .project-card:hover::before,
-.project-card--active::before {
+.project-card--open::before {
   opacity: 1;
+}
+
+.project-card__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  text-align: left;
 }
 
 .project-card h3 {
@@ -633,11 +634,11 @@ section[id] {
   margin-bottom: 6px;
 }
 
-.project-card__footer {
+.project-card__aside {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
 }
 
@@ -656,11 +657,40 @@ section[id] {
   background: rgba(255, 255, 255, 0.55);
 }
 
-.project-card__action {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
+.project-card__icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.2rem;
   color: var(--accent-strong);
+  flex-shrink: 0;
+}
+
+.project-card__icon--open {
+  transform: rotate(45deg);
+  background: rgba(200, 109, 62, 0.1);
+}
+
+.project-card__content {
+  padding: 0 20px 0;
+  display: grid;
+  gap: 16px;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.25s ease,
+    padding-bottom 0.25s ease;
+}
+
+.project-card--open .project-card__content {
+  max-height: 1000px;
+  opacity: 1;
+  padding-bottom: 20px;
 }
 
 .work__spotlight {
@@ -1121,6 +1151,15 @@ section[id] {
 
   .timeline__meta {
     text-align: left;
+  }
+
+  .project-card__header {
+    flex-direction: column;
+  }
+
+  .project-card__aside {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .toast {
