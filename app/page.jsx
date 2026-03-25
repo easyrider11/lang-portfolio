@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   profile,
   stats,
@@ -13,6 +13,121 @@ import {
   activities
 } from "./content";
 
+/* ── Scroll-triggered animation hook ── */
+function useScrollReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+    const children = el.querySelectorAll(".animate-on-scroll");
+    children.forEach((child) => observer.observe(child));
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
+
+/* ── Animated counter ── */
+function AnimatedStat({ value, label }) {
+  const [display, setDisplay] = useState("0");
+  const ref = useRef(null);
+  const animated = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !animated.current) {
+          animated.current = true;
+          const match = value.match(/^([\d.]+)(.*)$/);
+          if (!match) {
+            setDisplay(value);
+            return;
+          }
+          const target = parseFloat(match[1]);
+          const suffix = match[2];
+          const duration = 1200;
+          const start = performance.now();
+          const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = target * eased;
+            setDisplay(
+              (target % 1 === 0 ? Math.round(current) : current.toFixed(1)) +
+                suffix
+            );
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [value]);
+
+  return (
+    <div className="stat" ref={ref}>
+      <p className="stat__value">{display}</p>
+      <p className="stat__label">{label}</p>
+    </div>
+  );
+}
+
+/* ── Typewriter effect ── */
+function Typewriter({ text }) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) {
+        clearInterval(interval);
+        setDone(true);
+      }
+    }, 32);
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return (
+    <>
+      {displayed}
+      {!done && <span className="typewriter-cursor" />}
+    </>
+  );
+}
+
+/* ── Chevron icon ── */
+function ChevronDown({ className }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="5 8 10 13 15 8" />
+    </svg>
+  );
+}
+
 export default function Page() {
   const [activeTag, setActiveTag] = useState("All");
   const [focusedProject, setFocusedProject] = useState(
@@ -22,6 +137,8 @@ export default function Page() {
   const [toast, setToast] = useState("");
   const hasGithub = Boolean(profile.github);
   const hasWebsite = Boolean(profile.website);
+
+  const scrollRef = useScrollReveal();
 
   const tags = useMemo(() => {
     const collected = new Set();
@@ -36,18 +153,18 @@ export default function Page() {
     return projects.filter((project) => project.tags.includes(activeTag));
   }, [activeTag]);
 
-  const handleCopy = async () => {
+  const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(profile.email);
-      setToast("Email copied.");
+      setToast("Email copied!");
     } catch (error) {
       setToast("Copy failed. Please email directly.");
     }
     window.setTimeout(() => setToast(""), 2000);
-  };
+  }, []);
 
   return (
-    <div className="page">
+    <div className="page" ref={scrollRef}>
       <header className="nav">
         <div className="nav__brand">
           <span className="nav__dot" />
@@ -73,7 +190,7 @@ export default function Page() {
           <div className="hero__content">
             <p className="kicker">AI Builder &middot; Software Engineer</p>
             <h1>
-              I build intelligent software that ships.
+              <Typewriter text="I build intelligent software that ships." />
             </h1>
             <p className="hero__summary">{profile.summary}</p>
             <div className="hero__actions">
@@ -125,13 +242,14 @@ export default function Page() {
         <section className="metrics">
           <div className="stats">
             {stats.map((stat) => (
-              <div className="stat" key={stat.label}>
-                <p className="stat__value">{stat.value}</p>
-                <p className="stat__label">{stat.label}</p>
-              </div>
+              <AnimatedStat
+                key={stat.label}
+                value={stat.value}
+                label={stat.label}
+              />
             ))}
           </div>
-          <div className="focus">
+          <div className="focus animate-on-scroll">
             <p className="focus__title">What I Build</p>
             <ul>
               {focusAreas.map((item) => (
@@ -141,9 +259,9 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Projects — featured first */}
+        {/* Projects */}
         <section className="work" id="projects">
-          <div className="section__head">
+          <div className="section__head animate-on-scroll">
             <div>
               <p className="kicker">Projects</p>
               <h2>AI-driven projects with real impact.</h2>
@@ -163,10 +281,10 @@ export default function Page() {
 
           <div className="work__grid">
             <div className="work__cards">
-              {visibleProjects.map((project) => (
+              {visibleProjects.map((project, i) => (
                 <button
                   key={project.title}
-                  className={`project-card ${
+                  className={`project-card animate-on-scroll delay-${Math.min(i + 1, 4)} ${
                     focusedProject.title === project.title
                       ? "project-card--active"
                       : ""
@@ -221,7 +339,7 @@ export default function Page() {
 
         {/* Experience */}
         <section className="experience" id="experience">
-          <div className="section__head">
+          <div className="section__head animate-on-scroll">
             <div>
               <p className="kicker">Experience</p>
               <h2>Where I've shipped.</h2>
@@ -231,7 +349,7 @@ export default function Page() {
           <div className="timeline">
             {experience.map((item, index) => (
               <div
-                className={`timeline__item ${
+                className={`timeline__item animate-on-scroll delay-${Math.min(index + 1, 4)} ${
                   openExperience === index ? "timeline__item--open" : ""
                 }`}
                 key={`${item.company}-${item.role}`}
@@ -249,6 +367,7 @@ export default function Page() {
                   <div className="timeline__meta">
                     <p>{item.timeframe}</p>
                     <p>{item.location}</p>
+                    <ChevronDown className="timeline__chevron" />
                   </div>
                 </button>
                 <div className="timeline__content">
@@ -270,15 +389,18 @@ export default function Page() {
 
         {/* Skills */}
         <section className="skills" id="skills">
-          <div className="section__head">
+          <div className="section__head animate-on-scroll">
             <div>
               <p className="kicker">Skills</p>
               <h2>Tools I ship with.</h2>
             </div>
           </div>
           <div className="skills__grid">
-            {skills.map((group) => (
-              <div className="skill-card" key={group.label}>
+            {skills.map((group, i) => (
+              <div
+                className={`skill-card animate-on-scroll delay-${Math.min(i + 1, 3)}`}
+                key={group.label}
+              >
                 <h3>{group.label}</h3>
                 <div>
                   {group.items.map((item) => (
@@ -292,7 +414,7 @@ export default function Page() {
 
         {/* Education */}
         <section className="education" id="education">
-          <div className="section__head">
+          <div className="section__head animate-on-scroll">
             <div>
               <p className="kicker">Education</p>
               <h2>Academic foundation.</h2>
@@ -300,7 +422,7 @@ export default function Page() {
           </div>
           <div className="education__grid">
             {education.map((item) => (
-              <div className="edu-card" key={item.school}>
+              <div className="edu-card animate-on-scroll" key={item.school}>
                 <h3>{item.school}</h3>
                 <p className="edu-card__degree">{item.degree}</p>
                 <p className="edu-card__time">{item.timeframe}</p>
@@ -311,7 +433,7 @@ export default function Page() {
                 </ul>
               </div>
             ))}
-            <div className="edu-card edu-card--highlight">
+            <div className="edu-card edu-card--highlight animate-on-scroll delay-1">
               <h3>Recognition & Activities</h3>
               <p className="edu-card__subhead">Recognition</p>
               <ul>
@@ -330,7 +452,7 @@ export default function Page() {
         </section>
 
         {/* Contact */}
-        <section className="contact" id="contact">
+        <section className="contact animate-on-scroll" id="contact">
           <div>
             <p className="kicker">Let's Build Together</p>
             <h2>Looking for an AI builder?</h2>
