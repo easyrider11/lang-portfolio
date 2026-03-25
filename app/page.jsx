@@ -248,10 +248,36 @@ export default function Page() {
             </div>
 
             <div className="work__spotlight">
-              <div>
-                <p className="kicker">Spotlight</p>
-                <h3>{focusedProject.title}</h3>
-                <p className="work__summary">{focusedProject.description}</p>
+              <div className="spotlight__top">
+                <div>
+                  <p className="kicker">Spotlight</p>
+                  <h3>{focusedProject.title}</h3>
+                  <p className="work__summary">{focusedProject.description}</p>
+                </div>
+                <div className="spotlight__nav">
+                  <button
+                    className="spotlight__btn"
+                    onClick={() => {
+                      const idx = visibleProjects.indexOf(focusedProject);
+                      const prev = idx <= 0 ? visibleProjects.length - 1 : idx - 1;
+                      setFocusedProject(visibleProjects[prev]);
+                    }}
+                    aria-label="Previous project"
+                  >
+                    &lt;
+                  </button>
+                  <button
+                    className="spotlight__btn"
+                    onClick={() => {
+                      const idx = visibleProjects.indexOf(focusedProject);
+                      const next = idx >= visibleProjects.length - 1 ? 0 : idx + 1;
+                      setFocusedProject(visibleProjects[next]);
+                    }}
+                    aria-label="Next project"
+                  >
+                    &gt;
+                  </button>
+                </div>
               </div>
               <div className="work__impact">
                 {focusedProject.impact.map((item) => (
@@ -268,6 +294,24 @@ export default function Page() {
                     <span key={item}>{item}</span>
                   ))}
                 </div>
+              </div>
+              <div className="spotlight__progress">
+                <div className="spotlight__bar">
+                  {visibleProjects.map((p, i) => (
+                    <span
+                      key={p.title}
+                      className={`spotlight__segment ${
+                        visibleProjects.indexOf(focusedProject) === i
+                          ? "spotlight__segment--active"
+                          : ""
+                      }`}
+                    />
+                  ))}
+                </div>
+                <p className="spotlight__count">
+                  {String(visibleProjects.indexOf(focusedProject) + 1).padStart(2, "0")} of{" "}
+                  {String(visibleProjects.length).padStart(2, "0")} in the current view
+                </p>
               </div>
             </div>
           </div>

@@ -66,6 +66,34 @@ export const projects = [
     year: "2024"
   },
   {
+    title: "AI-Assisted Interview Platform",
+    tagline: "Repo-level engineering interviews.",
+    description:
+      "AI native SaaS platform providing repo-level engineering interview tasks with sandboxed execution, controlled AI copilot integration, session replay, and multi-dimensional evaluation rubric.",
+    impact: [
+      "Sandboxed code execution environment",
+      "AI copilot integration with controlled access",
+      "Session replay and multi-dimensional evaluation"
+    ],
+    stack: ["TypeScript", "Node.js", "Docker", "LLM APIs"],
+    tags: ["AI", "Full-Stack", "Platform"],
+    year: "2025"
+  },
+  {
+    title: "HFT Order Book Imbalance Engine",
+    tagline: "Real-time OBI signal modeling.",
+    description:
+      "Real-time depth-of-book reconstruction and OBI signal modeling with tick-level state tracking, statistical backtesting, and live paper-trading validation on Kalshi markets.",
+    impact: [
+      "Real-time depth-of-book reconstruction",
+      "Statistical backtesting pipeline",
+      "Live paper-trading validation on Kalshi"
+    ],
+    stack: ["C++", "WebSocket", "Python"],
+    tags: ["Backend", "Realtime", "Data"],
+    year: "2025"
+  },
+  {
     title: "FTS Scanner App",
     tagline: "On-device fentanyl strip detection.",
     description:

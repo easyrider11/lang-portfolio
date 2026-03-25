@@ -449,6 +449,67 @@ button {
   border-radius: 999px;
 }
 
+.spotlight__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.spotlight__nav {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.spotlight__btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.spotlight__btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.spotlight__progress {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.spotlight__bar {
+  display: flex;
+  gap: 6px;
+}
+
+.spotlight__segment {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background 0.3s;
+}
+
+.spotlight__segment--active {
+  background: var(--accent);
+}
+
+.spotlight__count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
 .work__stack div {
   display: flex;
   flex-wrap: wrap;
