@@ -23,10 +23,40 @@ export const focusAreas = [
   "AI agents & LLM systems",
   "On-device ML inference",
   "Real-time & event-driven architecture",
+  "High-frequency trading systems",
   "Full-stack product engineering"
 ];
 
 export const projects = [
+  {
+    title: "AI-Assisted Interview Platform",
+    tagline: "Repo-level coding interviews with sandboxed AI copilot.",
+    description:
+      "AI-native SaaS platform with repo-level engineering tasks, sandboxed execution, controlled AI copilot, session replay, and multi-dimensional evaluation rubric.",
+    impact: [
+      "Sandboxed code execution environment",
+      "Multi-dimensional AI evaluation rubric",
+      "Session replay for candidate review"
+    ],
+    stack: ["TypeScript", "Node.js", "Docker", "LLM APIs"],
+    tags: ["AI", "SaaS", "Full-Stack"],
+    year: "2025",
+    featured: true
+  },
+  {
+    title: "HFT Order Book Imbalance Engine",
+    tagline: "Real-time depth-of-book OBI signal modeling.",
+    description:
+      "Real-time depth-of-book reconstruction and OBI signal modeling with tick-level tracking, statistical backtesting, and live paper-trading on Kalshi markets.",
+    impact: [
+      "Tick-level order book reconstruction",
+      "Live paper-trading on Kalshi",
+      "Statistical backtesting pipeline"
+    ],
+    stack: ["C++", "WebSocket", "Python"],
+    tags: ["HFT", "Finance", "Systems"],
+    year: "2025"
+  },
   {
     title: "Dead Code Detector",
     tagline: "AI agent that audits codebases autonomously.",
@@ -39,8 +69,7 @@ export const projects = [
     ],
     stack: ["Python", "Clang", "SQLite", "AST Analysis"],
     tags: ["AI", "Platform"],
-    year: "2025",
-    featured: true
+    year: "2025"
   },
   {
     title: "LLM Quiz Interface",
@@ -95,8 +124,21 @@ export const projects = [
       "Accessible detection without lab equipment"
     ],
     stack: ["OpenCV", "Android SDK", "TensorFlow Lite"],
-    tags: ["Mobile", "ML"],
-    year: "2023"
+    tags: ["Mobile", "Healthcare", "AI"],
+    year: "2024"
+  },
+  {
+    title: "Legal Consultant RAG",
+    tagline: "AI legal assistant with schema-constrained reasoning.",
+    description:
+      "RAG assistant over law code with schema-constrained LLM reasoning and cited sources.",
+    impact: [
+      "Schema-constrained LLM reasoning",
+      "Source citations for legal queries"
+    ],
+    stack: ["Python", "PostgreSQL", "LLM"],
+    tags: ["AI", "RAG", "Legal"],
+    year: "2024"
   }
 ];
 
@@ -109,7 +151,8 @@ export const experience = [
     highlights: [
       "Rebuilt Instagram AR camera init in Swift/Obj-C++, lifting cold-start pass rate to 99.9% and cutting warm-up hitches 50%.",
       "Modularized the iOS AR pipeline, cutting effect-apply latency 27% while sustaining 60 FPS.",
-      "Co-designed an effects coordinator and moved to the Optic stack for new AR filters."
+      "Co-designed an effects coordinator and moved to the Optic stack for new AR filters.",
+      "Shipped Metal/GLSL compute shaders for separable Gaussian and color transforms."
     ],
     skills: ["Swift", "Objective-C++", "iOS", "Metal/GLSL"]
   },
@@ -197,7 +240,10 @@ export const skills = [
       "JavaScript",
       "SQL",
       "Shell",
-      "Kotlin"
+      "Kotlin",
+      "C#",
+      "R",
+      "MATLAB"
     ]
   },
   {
@@ -212,7 +258,8 @@ export const skills = [
       "Kubernetes",
       "AWS",
       "Git",
-      "Jenkins"
+      "Jenkins",
+      "Metal/GLSL"
     ]
   }
 ];
