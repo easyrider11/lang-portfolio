@@ -271,6 +271,12 @@ export default function Page() {
           ))}
         </section>
 
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider__line" />
+          <span className="section-divider__dot" />
+          <span className="section-divider__line" />
+        </div>
+
         <section className="experience" id="experience">
           <div className="section__head">
             <div>
@@ -332,6 +338,12 @@ export default function Page() {
             })}
           </div>
         </section>
+
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider__line" />
+          <span className="section-divider__dot" />
+          <span className="section-divider__line" />
+        </div>
 
         <section className="work" id="projects">
           <div className="section__head">
@@ -413,6 +425,12 @@ export default function Page() {
           </div>
         </section>
 
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider__line" />
+          <span className="section-divider__dot" />
+          <span className="section-divider__line" />
+        </div>
+
         <section className="skills" id="skills">
           <div className="section__head">
             <div>
@@ -433,6 +451,12 @@ export default function Page() {
             ))}
           </div>
         </section>
+
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider__line" />
+          <span className="section-divider__dot" />
+          <span className="section-divider__line" />
+        </div>
 
         <section className="education" id="education">
           <div className="section__head">
@@ -471,6 +495,12 @@ export default function Page() {
             </div>
           </div>
         </section>
+
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider__line" />
+          <span className="section-divider__dot" />
+          <span className="section-divider__line" />
+        </div>
 
         <section className="contact" id="contact">
           <div>
