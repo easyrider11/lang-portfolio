@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   profile,
   stats,
+  intro,
   focusAreas,
   projects,
   experience,
@@ -269,6 +270,27 @@ export default function Page() {
               <p className="stat__label">{stat.label}</p>
             </div>
           ))}
+        </section>
+
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider__line" />
+          <span className="section-divider__dot" />
+          <span className="section-divider__line" />
+        </div>
+
+        <section className="intro" id="intro">
+          <div className="section__head">
+            <div>
+              <p className="kicker">About Me</p>
+              <h2>{intro.heading}</h2>
+            </div>
+          </div>
+          <div className="intro__body">
+            {intro.paragraphs.map((p) => (
+              <p key={p.slice(0, 40)}>{p}</p>
+            ))}
+            <p className="intro__cta">{intro.cta}</p>
+          </div>
         </section>
 
         <div className="section-divider" aria-hidden="true">

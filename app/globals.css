@@ -699,11 +699,32 @@ section[id] {
   letter-spacing: -0.02em;
 }
 
+.intro,
 .experience,
 .work,
 .skills,
 .education {
   margin-bottom: 80px;
+}
+
+.intro__body {
+  max-width: 640px;
+  display: grid;
+  gap: 18px;
+}
+
+.intro__body p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.intro__cta {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  color: var(--text-strong) !important;
+  font-size: 1.05rem !important;
+  margin-top: 4px;
 }
 
 /* ── Filter ── */

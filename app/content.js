@@ -19,6 +19,15 @@ export const stats = [
   { label: "Students Mentored", value: "100+" }
 ];
 
+export const intro = {
+  heading: "I care about building things that work — and work well.",
+  paragraphs: [
+    "I'm a computer science and applied math student at Notre Dame who's spent the last few years shipping real software — from AR camera systems at Meta to AI-powered platforms and low-latency trading engines. I like working across the stack, from Metal shaders to React frontends, because the best products come from understanding the full picture.",
+    "What drives me is the craft: tight feedback loops, clean abstractions, and systems that hold up under real load. I've rebuilt cold-start paths to hit 99.9% pass rates, designed event-driven servers for 10k+ connections, and built AI agents that reason over evidence instead of guessing."
+  ],
+  cta: "I'm looking for teams that ship fast, care about quality, and tackle hard problems."
+};
+
 export const focusAreas = [
   "AI agents & LLM systems",
   "On-device ML inference",
