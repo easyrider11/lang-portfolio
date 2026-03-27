@@ -862,19 +862,20 @@ section[id] {
 .project-card__content {
   padding: 0 22px 0;
   display: grid;
-  gap: 16px;
+  gap: 18px;
   max-height: 0;
   opacity: 0;
+  overflow: hidden;
   transition:
-    max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.3s ease,
     padding-bottom 0.3s ease;
 }
 
 .project-card--open .project-card__content {
-  max-height: 1000px;
+  max-height: 2000px;
   opacity: 1;
-  padding-bottom: 22px;
+  padding-bottom: 24px;
 }
 
 .work__spotlight {
@@ -929,10 +930,46 @@ section[id] {
 }
 
 .work__summary {
-  color: var(--text-muted);
+  color: var(--text);
   margin-top: 8px;
-  max-width: 42ch;
-  line-height: 1.6;
+  max-width: 64ch;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.work__highlights {
+  margin-top: 20px;
+}
+
+.work__highlights .kicker {
+  margin-bottom: 10px;
+  color: var(--accent-strong);
+}
+
+.work__highlights ul {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.work__highlights li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.work__highlights li::before {
+  content: "";
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--accent);
 }
 
 .work__impact {
@@ -954,6 +991,10 @@ section[id] {
   flex-shrink: 0;
 }
 
+.work__stack {
+  margin-top: 20px;
+}
+
 .work__stack div {
   display: flex;
   flex-wrap: wrap;
@@ -968,6 +1009,26 @@ section[id] {
   font-size: 0.8rem;
   font-family: "Space Grotesk", sans-serif;
   background: rgba(255, 255, 255, 0.5);
+}
+
+.work__links {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.work__repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text-strong);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.work__repo-link:hover {
+  color: var(--accent-strong);
+  border-color: var(--accent-strong);
 }
 
 .spotlight__footer {
