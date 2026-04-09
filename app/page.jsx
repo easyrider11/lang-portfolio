@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import {
   profile,
@@ -31,6 +32,22 @@ export default function Page() {
     if (activeTag === "All") return projects;
     return projects.filter((project) => project.tags.includes(activeTag));
   }, [activeTag]);
+
+  const handleTagSelect = (tag) => {
+    const nextVisibleProjects =
+      tag === "All"
+        ? projects
+        : projects.filter((project) => project.tags.includes(tag));
+
+    setActiveTag(tag);
+    setFocusedProject((currentProject) => {
+      return (
+        nextVisibleProjects.find(
+          (project) => project.title === currentProject.title
+        ) ?? nextVisibleProjects[0]
+      );
+    });
+  };
 
   const handleCopy = async () => {
     try {
@@ -119,7 +136,14 @@ export default function Page() {
           </div>
           <div className="hero__visual">
             <div className="photo-card">
-              <img src="/profile.jpg" alt={`${profile.name} profile`} />
+              <Image
+                src="/profile.jpg"
+                alt={`${profile.name} profile`}
+                width={640}
+                height={800}
+                priority
+                sizes="(max-width: 960px) 100vw, 40vw"
+              />
               <div className="photo-card__overlay">
                 <div>
                   <p className="photo-card__title">{profile.name}</p>
@@ -213,7 +237,9 @@ export default function Page() {
                 <button
                   key={tag}
                   className={`chip ${activeTag === tag ? "chip--active" : ""}`}
-                  onClick={() => setActiveTag(tag)}
+                  type="button"
+                  aria-pressed={activeTag === tag}
+                  onClick={() => handleTagSelect(tag)}
                 >
                   {tag}
                 </button>
@@ -388,7 +414,16 @@ export default function Page() {
         <p>© 2026 {profile.name}. Built with Next.js.</p>
       </footer>
 
-      {toast && <div className="toast">{toast}</div>}
+      {toast && (
+        <div
+          className="toast"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {toast}
+        </div>
+      )}
     </div>
   );
 }

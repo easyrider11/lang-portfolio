@@ -28,6 +28,10 @@ body {
   min-height: 100vh;
 }
 
+section[id] {
+  scroll-margin-top: 132px;
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -66,6 +70,12 @@ button {
   background: none;
   color: inherit;
   cursor: pointer;
+}
+
+:where(a, button):focus-visible {
+  outline: 3px solid rgba(27, 122, 116, 0.7);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px rgba(27, 122, 116, 0.12);
 }
 
 .page {
@@ -129,7 +139,12 @@ button {
   font-family: "Space Grotesk", sans-serif;
   font-weight: 600;
   border: 1px solid transparent;
-  transition: all 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .btn--primary {
@@ -350,7 +365,10 @@ button {
   border: 1px solid var(--border);
   font-size: 0.85rem;
   color: var(--text-muted);
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .chip--active {
@@ -380,7 +398,10 @@ button {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .project-card h3 {
@@ -503,7 +524,9 @@ button {
   gap: 14px;
   max-height: 0;
   opacity: 0;
-  transition: all 0.3s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .timeline__item--open .timeline__content {

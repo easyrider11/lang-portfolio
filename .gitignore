@@ -8,6 +8,10 @@ out/
 # misc
 .DS_Store
 .env*
+.claude/
+.vercel/
+playwright-report/
+test-results/
 
 # logs
 npm-debug.log*
