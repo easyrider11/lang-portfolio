@@ -3,553 +3,487 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   profile,
-  stats,
-  focusAreas,
   projects,
-  experience,
-  education,
-  skills,
-  recognition,
-  activities
+  experience
 } from "./content";
 
-/* ── Scroll reveal ── */
-function useScrollReveal() {
+/* ──────────────────────────────────────────────
+   Icon components
+   ────────────────────────────────────────────── */
+function IconGithub() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+    </svg>
+  );
+}
+
+function IconLinkedin() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
+function IconMail() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+      <polyline points="22,6 12,13 2,6" />
+    </svg>
+  );
+}
+
+function IconExternal() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  );
+}
+
+function IconFolder() {
+  return (
+    <svg className="other-card__folder" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="1.5"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
+/* ──────────────────────────────────────────────
+   Hooks
+   ────────────────────────────────────────────── */
+function useReveal() {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("visible");
+      }),
+      { threshold: 0.08, rootMargin: "0px 0px -60px 0px" }
     );
-    const children = el.querySelectorAll(".animate-on-scroll");
-    children.forEach((child) => observer.observe(child));
-    return () => observer.disconnect();
+    el.querySelectorAll(".reveal").forEach((c) => obs.observe(c));
+    return () => obs.disconnect();
   }, []);
   return ref;
 }
 
-/* ── Animated counter ── */
-function AnimatedStat({ value, label }) {
-  const [display, setDisplay] = useState("0");
-  const ref = useRef(null);
-  const animated = useRef(false);
-
+function useActiveSection(ids) {
+  const [active, setActive] = useState(ids[0]);
   useEffect(() => {
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!els.length) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]?.target?.id) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: [0.1, 0.5, 0.9] }
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, [ids.join(",")]);
+  return active;
+}
+
+function CursorGlow() {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia && window.matchMedia("(hover: none)").matches) return;
     const el = ref.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !animated.current) {
-          animated.current = true;
-          const match = value.match(/^([\d.]+)(.*)$/);
-          if (!match) {
-            setDisplay(value);
-            return;
-          }
-          const target = parseFloat(match[1]);
-          const suffix = match[2];
-          const duration = 1200;
-          const start = performance.now();
-          const step = (now) => {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = target * eased;
-            setDisplay(
-              (target % 1 === 0 ? Math.round(current) : current.toFixed(1)) +
-                suffix
-            );
-            if (progress < 1) requestAnimationFrame(step);
-          };
-          requestAnimationFrame(step);
-        }
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [value]);
+    const move = (e) => {
+      el.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+      el.classList.add("active");
+    };
+    const leave = () => el.classList.remove("active");
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseleave", leave);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseleave", leave);
+    };
+  }, []);
+  return <div className="cursor-glow" ref={ref} aria-hidden />;
+}
 
+function FeaturedVisual({ emoji }) {
   return (
-    <div className="stat" ref={ref}>
-      <p className="stat__value">{display}</p>
-      <p className="stat__label">{label}</p>
+    <div className="feat__visual">
+      <div className="feat__visual-inner">
+        <div className="feat__visual-pattern" aria-hidden />
+        <span className="feat__visual-emoji" aria-hidden>{emoji}</span>
+      </div>
     </div>
   );
 }
 
-/* ── Typewriter effect ── */
-function Typewriter({ text }) {
-  const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
+/* ──────────────────────────────────────────────
+   MAIN
+   ────────────────────────────────────────────── */
+export default function Page() {
+  // Treat first 3 (or all featured) as main featured, rest as other
+  const featuredProjects = useMemo(() => {
+    const fp = projects.filter((p) => p.featured);
+    if (fp.length >= 2) return fp.slice(0, 4);
+    return projects.slice(0, 3);
+  }, []);
+  const featuredTitles = new Set(featuredProjects.map((p) => p.title));
+  const otherProjects = useMemo(
+    () => projects.filter((p) => !featuredTitles.has(p.title)),
+    [featuredTitles]
+  );
 
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setDisplayed(text.slice(0, i));
-      if (i >= text.length) {
-        clearInterval(interval);
-        setDone(true);
-      }
-    }, 28);
-    return () => clearInterval(interval);
-  }, [text]);
+  const [activeTab, setActiveTab] = useState(0);
+  const [toast, setToast] = useState("");
+
+  const sectionIds = useMemo(() => ["about", "experience", "work", "contact"], []);
+  const active = useActiveSection(sectionIds);
+  const rightRef = useReveal();
+
+  const onCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setToast("email copied");
+    } catch {
+      setToast("copy failed");
+    }
+    window.setTimeout(() => setToast(""), 1800);
+  }, []);
+
+  const scrollTo = useCallback((id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  const current = experience[activeTab] || experience[0];
+
+  // Emoji per project (visual identity)
+  const emojis = {
+    "AI-Assisted Interview Platform": "🧪",
+    "LLM Quiz Interface": "📚",
+    "Dead Code Detector": "🔍",
+    "HFT Order Book Imbalance Engine": "📈",
+    "Legal Consultant RAG": "⚖️",
+    "FTS Scanner App": "📱",
+    "NDFootball Channel": "🎯",
+    "Graph Analysis Bot": "🕸️"
+  };
 
   return (
     <>
-      {displayed}
-      {!done && <span className="typewriter-cursor" />}
-    </>
-  );
-}
+      <CursorGlow />
 
-/* ── Icons ── */
-function ArrowIcon({ dir = "right" }) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8"
-      strokeLinecap="round" strokeLinejoin="round"
-      style={{ transform: dir === "left" ? "rotate(180deg)" : "none" }}>
-      <path d="M4 10h12M11 5l5 5-5 5" />
-    </svg>
-  );
-}
-
-function ChevronDown() {
-  return (
-    <svg className="timeline__chevron" viewBox="0 0 20 20" fill="none"
-      stroke="currentColor" strokeWidth="1.8"
-      strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="5 8 10 13 15 8" />
-    </svg>
-  );
-}
-
-export default function Page() {
-  const [activeTag, setActiveTag] = useState("All");
-  const [focusedProject, setFocusedProject] = useState(
-    projects.find((p) => p.featured) || projects[0]
-  );
-  const [openExperience, setOpenExperience] = useState(0);
-  const [toast, setToast] = useState("");
-
-  const scrollRef = useScrollReveal();
-
-  const tags = useMemo(() => {
-    const collected = new Set();
-    projects.forEach((p) => p.tags.forEach((t) => collected.add(t)));
-    return ["All", ...Array.from(collected)];
-  }, []);
-
-  const visibleProjects = useMemo(() => {
-    if (activeTag === "All") return projects;
-    return projects.filter((p) => p.tags.includes(activeTag));
-  }, [activeTag]);
-
-  // Keep spotlight valid when filter changes
-  useEffect(() => {
-    if (!visibleProjects.find((p) => p.title === focusedProject.title)) {
-      setFocusedProject(visibleProjects[0] || projects[0]);
-    }
-  }, [visibleProjects, focusedProject.title]);
-
-  const spotlightIdx = visibleProjects.indexOf(focusedProject);
-
-  const handleCopy = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(profile.email);
-      setToast("Email copied to clipboard");
-    } catch {
-      setToast("Copy failed — please email directly");
-    }
-    window.setTimeout(() => setToast(""), 2200);
-  }, []);
-
-  const goPrev = () => {
-    const i = spotlightIdx <= 0 ? visibleProjects.length - 1 : spotlightIdx - 1;
-    setFocusedProject(visibleProjects[i]);
-  };
-  const goNext = () => {
-    const i = spotlightIdx >= visibleProjects.length - 1 ? 0 : spotlightIdx + 1;
-    setFocusedProject(visibleProjects[i]);
-  };
-
-  return (
-    <div className="page" ref={scrollRef}>
-      {/* ── Navigation ── */}
-      <header className="nav">
-        <div className="nav__brand">
-          <span className="nav__mark" aria-hidden />
-          <div>
-            <p className="nav__name">{profile.name}</p>
-            <p className="nav__role">{profile.role}</p>
-          </div>
-        </div>
-        <nav className="nav__links">
-          <a href="#work">Work</a>
+      {/* Mobile top bar */}
+      <header className="mobile-bar">
+        <span className="mobile-bar__name">{profile.name.toLowerCase()}</span>
+        <div className="mobile-bar__links">
+          <a href="#about">About</a>
           <a href="#experience">Experience</a>
-          <a href="#skills">Skills</a>
-          <a href="#education">Education</a>
-          <a href="#contact" className="nav__cta">Get in touch</a>
-        </nav>
+          <a href="#work">Work</a>
+          <a className="mobile-bar__cta" href={profile.resume}
+            target="_blank" rel="noreferrer" style={{ color: "var(--accent)" }}>
+            Résumé ↗
+          </a>
+        </div>
       </header>
 
-      <main>
-        {/* ── Hero ── */}
-        <section className="hero">
-          <div className="hero__content">
-            <div className="hero__eyebrow">AI Builder · Agentic Systems</div>
-            <h1>
-              <Typewriter text="Building production AI systems " />
-              <em>that reason, act, and ship.</em>
-            </h1>
-            <p className="hero__summary">{profile.summary}</p>
-            <div className="hero__actions">
-              <a className="btn btn--primary" href={profile.resume}
-                target="_blank" rel="noreferrer">
-                View Résumé <ArrowIcon />
-              </a>
-              <a className="btn btn--outline" href="#work">See projects</a>
-              <button className="btn btn--text" onClick={handleCopy}>
-                Copy email
-              </button>
-            </div>
-            <div className="hero__meta">
-              <div>
-                <p className="hero__meta-label">Based in</p>
-                <p className="hero__meta-value">{profile.location}</p>
-              </div>
-              <div>
-                <p className="hero__meta-label">Graduating</p>
-                <p className="hero__meta-value">May 2026</p>
-              </div>
-              <div>
-                <p className="hero__meta-label">Status</p>
-                <p className="hero__meta-value">Open to roles</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="hero__visual">
-            <div className="portrait">
-              <img src="/profile.jpg" alt={`${profile.name} portrait`} />
-              <div className="portrait__badge">
-                <div className="portrait__badge-status">
-                  <span className="portrait__badge-dot" />
-                  Available for work
-                </div>
-                <span className="portrait__badge-year">2026</span>
-              </div>
-            </div>
-            <div className="portrait__sticker">Ship AI · Real Systems</div>
-          </div>
-        </section>
-
-        {/* ── Metrics + Focus ── */}
-        <section className="metrics-section">
-          <div className="metrics">
-            <div className="stats">
-              {stats.map((stat) => (
-                <AnimatedStat key={stat.label}
-                  value={stat.value} label={stat.label} />
-              ))}
-            </div>
-            <aside className="focus animate-on-scroll">
-              <p className="focus__title">What I build</p>
-              <ul>
-                {focusAreas.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-            </aside>
-          </div>
-        </section>
-
-        {/* ── Projects ── */}
-        <section id="work">
-          <div className="section__head animate-on-scroll">
+      <div className="shell">
+        <div className="main-grid">
+          {/* ═══ LEFT PANE (sticky) ═══ */}
+          <aside className="pane-left">
             <div>
-              <p className="kicker">Selected Work</p>
-              <h2 className="section__title">
-                Agentic pipelines, retrieval systems, and <em>production AI</em>.
-              </h2>
-            </div>
-            <p className="section__lead">
-              A cross-section of systems I've designed end-to-end — agents that
-              reason, validate, and act on real data.
-            </p>
-          </div>
+              <div className="identity">
+                <h1>{profile.name}</h1>
+                <h2>{profile.role}</h2>
+                <p>{profile.summary}</p>
+              </div>
 
-          <div className="filter" style={{ marginBottom: 32 }}>
-            {tags.map((tag) => (
-              <button key={tag}
-                className={`chip ${activeTag === tag ? "chip--active" : ""}`}
-                onClick={() => setActiveTag(tag)}>
-                {tag}
-              </button>
-            ))}
-          </div>
-
-          <div className="work__grid">
-            <div className="work__cards">
-              {visibleProjects.map((project, i) => (
-                <button
-                  key={project.title}
-                  className={`project-card animate-on-scroll delay-${Math.min(i + 1, 4)} ${
-                    focusedProject.title === project.title ? "project-card--active" : ""
-                  }`}
-                  onClick={() => setFocusedProject(project)}
-                >
-                  <div>
-                    <div className="project-card__top">
-                      <span className="project-card__year">{project.year}</span>
-                      {project.featured && (
-                        <span className="project-card__badge">Featured</span>
-                      )}
-                    </div>
-                    <h3 style={{ marginTop: 10 }}>{project.title}</h3>
-                    <p className="project-card__tagline">{project.tagline}</p>
-                  </div>
-                  <div className="project-card__tags">
-                    {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
-                  </div>
-                </button>
-              ))}
+              <nav className="dot-nav" aria-label="Sections">
+                {[
+                  { id: "about", label: "About" },
+                  { id: "experience", label: "Experience" },
+                  { id: "work", label: "Work" },
+                  { id: "contact", label: "Contact" }
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    className={`dot-nav__link ${
+                      active === item.id ? "dot-nav__link--active" : ""
+                    }`}
+                    onClick={() => scrollTo(item.id)}
+                  >
+                    <span className="dot-nav__line" />
+                    {item.label}
+                  </button>
+                ))}
+              </nav>
             </div>
 
-            <aside className="spotlight animate-on-scroll">
-              <div className="spotlight__head">
-                <div>
-                  <p className="kicker">Spotlight</p>
-                  <h3 className="spotlight__title">{focusedProject.title}</h3>
-                  <p className="spotlight__description">{focusedProject.description}</p>
-                </div>
-                <div className="spotlight__nav">
-                  <button className="spotlight__btn" onClick={goPrev} aria-label="Previous">
-                    <ArrowIcon dir="left" />
-                  </button>
-                  <button className="spotlight__btn" onClick={goNext} aria-label="Next">
-                    <ArrowIcon />
-                  </button>
-                </div>
+            <div className="socials" aria-label="Social links">
+              <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+                <IconGithub />
+              </a>
+              <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <IconLinkedin />
+              </a>
+              <a href={`mailto:${profile.email}`} aria-label="Email">
+                <IconMail />
+              </a>
+            </div>
+          </aside>
+
+          {/* ═══ RIGHT PANE (scrolling) ═══ */}
+          <main className="pane-right" ref={rightRef}>
+            {/* ── About ── */}
+            <section id="about" className="section">
+              <div className="section__head reveal">
+                <span className="section__num">01.</span>
+                <h2 className="section__title">About Me</h2>
+                <span className="section__rule" />
               </div>
 
-              <div>
-                <p className="spotlight__section-label">Impact</p>
-                <div className="spotlight__impact">
-                  {focusedProject.impact.map((item, i) => (
-                    <div key={item} className="spotlight__impact-item">
-                      <span className="spotlight__impact-bullet">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <p className="spotlight__impact-text">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <p className="spotlight__section-label">Stack</p>
-                <div className="spotlight__stack">
-                  {focusedProject.stack.map((s) => <span key={s}>{s}</span>)}
-                </div>
-              </div>
-
-              <div className="spotlight__progress">
-                <div className="spotlight__bar">
-                  {visibleProjects.map((p, i) => (
-                    <span key={p.title}
-                      className={`spotlight__segment ${
-                        spotlightIdx === i ? "spotlight__segment--active" : ""
-                      }`} />
-                  ))}
-                </div>
-                <p className="spotlight__count">
-                  {String(spotlightIdx + 1).padStart(2, "0")} / {String(visibleProjects.length).padStart(2, "0")} ·{" "}
-                  {activeTag === "All" ? "all work" : activeTag.toLowerCase()}
+              <div className="about">
+                <p className="reveal d1">
+                  Hi, I&apos;m Lorre. I build{" "}
+                  <strong style={{ color: "var(--text-heading)" }}>
+                    production-ready AI systems
+                  </strong>
+                  {" "}— agents that reason, retrieval pipelines that surface the right
+                  context, and real-time infrastructure that holds up under load. I care
+                  about systems that actually ship, not demos.
                 </p>
-              </div>
-            </aside>
-          </div>
-        </section>
+                <p className="reveal d2">
+                  I&apos;m a CS + Applied Math double major at the{" "}
+                  <a href="https://www.nd.edu" target="_blank" rel="noreferrer">
+                    University of Notre Dame
+                  </a>
+                  , graduating May 2026. Last summer at{" "}
+                  <a href="https://about.meta.com" target="_blank" rel="noreferrer">Meta</a>,
+                  I rebuilt Instagram&apos;s AR camera init pipeline and lifted
+                  cold-start reliability to 99.9% — the same discipline I bring to
+                  AI-serving systems. At{" "}
+                  <a href="https://www.radicalai.com" target="_blank" rel="noreferrer">
+                    Radical AI
+                  </a>
+                  , I shipped agentic LLM tutoring with evaluation loops and tool-use
+                  orchestration.
+                </p>
+                <p className="reveal d3">
+                  Right now I&apos;m most excited about{" "}
+                  <em style={{ color: "var(--accent)", fontStyle: "normal" }}>
+                    agentic systems that operate on real codebases and data
+                  </em>
+                  {" "}— sandboxed execution, evaluation rubrics, retrieval-augmented
+                  reasoning, and the glue that makes LLMs reliable in production.
+                </p>
 
-        {/* ── Experience ── */}
-        <section id="experience">
-          <div className="section__head animate-on-scroll">
-            <div>
-              <p className="kicker">Experience</p>
-              <h2 className="section__title">
-                Building AI systems that <em>ship and scale</em>.
-              </h2>
-            </div>
-            <p className="section__lead">
-              From real-time AR pipelines at Meta to agentic research systems —
-              infrastructure-grade engineering, applied to AI.
-            </p>
-          </div>
-
-          <div className="timeline">
-            {experience.map((item, index) => (
-              <div key={`${item.company}-${item.role}`}
-                className={`timeline__item animate-on-scroll delay-${Math.min(index + 1, 4)} ${
-                  openExperience === index ? "timeline__item--open" : ""
-                }`}>
-                <button className="timeline__header"
-                  onClick={() =>
-                    setOpenExperience(openExperience === index ? -1 : index)
-                  }>
-                  <span className="timeline__year">
-                    {item.timeframe.split(" — ")[0].slice(-4)}
-                  </span>
-                  <div>
-                    <h3 className="timeline__role">{item.role}</h3>
-                    <p className="timeline__company">{item.company}</p>
-                  </div>
-                  <span className="timeline__location">{item.location}</span>
-                  <ChevronDown />
-                </button>
-                <div className="timeline__content">
-                  <div className="timeline__body">
-                    <ul>
-                      {item.highlights.map((h) => <li key={h}>{h}</li>)}
-                    </ul>
-                    <div className="timeline__skills">
-                      {item.skills.map((s) => <span key={s}>{s}</span>)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Skills ── */}
-        <section id="skills">
-          <div className="section__head animate-on-scroll">
-            <div>
-              <p className="kicker">Toolkit</p>
-              <h2 className="section__title">
-                The stack behind the <em>systems</em>.
-              </h2>
-            </div>
-            <p className="section__lead">
-              Languages, frameworks, and infrastructure I use to build reliable,
-              agentic AI products.
-            </p>
-          </div>
-
-          <div className="skills__grid">
-            {skills.map((group, i) => (
-              <div key={group.label}
-                className={`skill-card animate-on-scroll delay-${Math.min(i + 1, 3)}`}>
-                <h3>{group.label}</h3>
-                <div className="skill-card__items">
-                  {group.items.map((item) => <span key={item}>{item}</span>)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Education ── */}
-        <section id="education">
-          <div className="section__head animate-on-scroll">
-            <div>
-              <p className="kicker">Education</p>
-              <h2 className="section__title">
-                Foundations in <em>theory and systems</em>.
-              </h2>
-            </div>
-          </div>
-
-          <div className="education__grid">
-            {education.map((item) => (
-              <article className="edu-card animate-on-scroll" key={item.school}>
-                <h3>{item.school}</h3>
-                <p className="edu-card__degree">{item.degree}</p>
-                <p className="edu-card__time">{item.timeframe}</p>
-                <ul>
-                  {item.details.map((d) => <li key={d}>{d}</li>)}
+                <p className="reveal d3"
+                  style={{ color: "var(--text-2)", marginTop: 24 }}>
+                  Technologies I&apos;ve been working with recently:
+                </p>
+                <ul className="about__skills reveal d4">
+                  <li>Python / TypeScript</li>
+                  <li>C++ / Swift</li>
+                  <li>LLM APIs &amp; Agents</li>
+                  <li>RAG &amp; Vector Search</li>
+                  <li>FastAPI / Node</li>
+                  <li>Docker / Kubernetes</li>
+                  <li>PyTorch / TensorFlow</li>
+                  <li>PostgreSQL / pgvector</li>
                 </ul>
-              </article>
-            ))}
-
-            <article className="edu-card edu-card--highlight animate-on-scroll delay-1">
-              <h3>Recognition &amp; Activities</h3>
-              <p className="edu-card__subhead">Recognition</p>
-              <ul>
-                {recognition.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-              <p className="edu-card__subhead">Activities</p>
-              <ul>
-                {activities.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        {/* ── Contact ── */}
-        <section id="contact" className="contact animate-on-scroll">
-          <div>
-            <p className="kicker">Let's build together</p>
-            <h2>
-              Looking for an <em>AI builder</em>?
-            </h2>
-            <p className="contact__lead">
-              Open to full-time and internship roles working on agentic systems,
-              retrieval infrastructure, and production AI. Let's talk about what
-              you're building.
-            </p>
-          </div>
-
-          <div className="contact__card">
-            <div className="contact__row">
-              <div>
-                <p className="contact__label">Email</p>
-                <p className="contact__value">{profile.email}</p>
               </div>
-            </div>
-            <div className="contact__row">
-              <div>
-                <p className="contact__label">Phone</p>
-                <p className="contact__value">{profile.phone}</p>
-              </div>
-            </div>
-            <div className="contact__row">
-              <div>
-                <p className="contact__label">Location</p>
-                <p className="contact__value">{profile.location}</p>
-              </div>
-            </div>
-            <div className="contact__actions">
-              <a className="contact__btn contact__btn--primary"
-                href={`mailto:${profile.email}`}>
-                Email me <ArrowIcon />
-              </a>
-              <a className="contact__btn" href={profile.github}
-                target="_blank" rel="noreferrer">GitHub</a>
-              <a className="contact__btn" href={profile.linkedin}
-                target="_blank" rel="noreferrer">LinkedIn</a>
-            </div>
-          </div>
-        </section>
-      </main>
+            </section>
 
-      <footer className="footer">
-        <p>© 2026 {profile.name} · Designed with Claude · Built with Next.js</p>
-        <div className="footer__marks">
-          <a href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
-          <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href={`mailto:${profile.email}`}>Email</a>
+            {/* ── Experience (tabbed) ── */}
+            <section id="experience" className="section">
+              <div className="section__head reveal">
+                <span className="section__num">02.</span>
+                <h2 className="section__title">Where I&apos;ve Worked</h2>
+                <span className="section__rule" />
+              </div>
+
+              <div className="exp reveal d1">
+                <div className="exp__tablist" role="tablist">
+                  {experience.map((item, i) => (
+                    <button
+                      key={`${item.company}-${i}`}
+                      role="tab"
+                      aria-selected={activeTab === i}
+                      className={`exp__tab ${activeTab === i ? "exp__tab--active" : ""}`}
+                      onClick={() => setActiveTab(i)}
+                    >
+                      {item.company}
+                    </button>
+                  ))}
+                  <span
+                    className="exp__tab-highlight"
+                    style={{ transform: `translateY(${activeTab * 44}px)` }}
+                    aria-hidden
+                  />
+                </div>
+
+                <div className="exp__panel" role="tabpanel">
+                  <h3 className="exp__role">
+                    {current.role}{" "}
+                    <span className="exp__role-company">@ {current.company}</span>
+                  </h3>
+                  <p className="exp__meta">
+                    {current.timeframe} · {current.location}
+                  </p>
+                  <ul className="exp__list">
+                    {current.highlights.map((h) => <li key={h}>{h}</li>)}
+                  </ul>
+                  {current.skills?.length > 0 && (
+                    <div className="exp__skills">
+                      {current.skills.map((s) => <span key={s}>{s}</span>)}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* ── Work ── */}
+            <section id="work" className="section">
+              <div className="section__head reveal">
+                <span className="section__num">03.</span>
+                <h2 className="section__title">Some Things I&apos;ve Built</h2>
+                <span className="section__rule" />
+              </div>
+
+              <div className="featured">
+                {featuredProjects.map((p) => (
+                  <article className="feat reveal" key={p.title}>
+                    <div className="feat__meta">
+                      <p className="feat__kicker">Featured Project</p>
+                      <h3 className="feat__title">{p.title}</h3>
+                      <div className="feat__desc">{p.description}</div>
+                      <div className="feat__stack">
+                        {p.stack.map((s) => <span key={s}>{s}</span>)}
+                      </div>
+                      <div className="feat__links">
+                        {p.github && (
+                          <a href={p.github} target="_blank" rel="noreferrer"
+                            aria-label="GitHub repository">
+                            <IconGithub />
+                          </a>
+                        )}
+                        {p.link && (
+                          <a href={p.link} target="_blank" rel="noreferrer"
+                            aria-label="Live site">
+                            <IconExternal />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                    <FeaturedVisual emoji={emojis[p.title] || "✨"} />
+                  </article>
+                ))}
+              </div>
+
+              {/* Other noteworthy projects */}
+              {otherProjects.length > 0 && (
+                <div className="other">
+                  <h3 className="other__heading">Other Noteworthy Projects</h3>
+                  <p className="other__sub">
+                    <a href={profile.github} target="_blank" rel="noreferrer">
+                      view the archive on GitHub →
+                    </a>
+                  </p>
+
+                  <div className="other__grid">
+                    {otherProjects.map((p, i) => (
+                      <article className={`other-card reveal d${(i % 4) + 1}`}
+                        key={p.title}>
+                        <div className="other-card__top">
+                          <IconFolder />
+                          <div className="other-card__links">
+                            {p.github && (
+                              <a href={p.github} target="_blank" rel="noreferrer"
+                                aria-label="GitHub">
+                                <IconGithub />
+                              </a>
+                            )}
+                            {p.link && (
+                              <a href={p.link} target="_blank" rel="noreferrer"
+                                aria-label="Live site">
+                                <IconExternal />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+
+                        <h4 className="other-card__title">{p.title}</h4>
+                        <p className="other-card__desc">{p.tagline}</p>
+
+                        <div className="other-card__stack">
+                          {p.stack.slice(0, 4).map((s) => <span key={s}>{s}</span>)}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+
+            {/* ── Contact ── */}
+            <section id="contact" className="section contact">
+              <p className="contact__kicker reveal">04. What&apos;s Next?</p>
+              <h2 className="reveal d1">Get In Touch</h2>
+              <p className="reveal d2">
+                I&apos;m graduating May 2026 and looking for full-time roles on teams
+                building serious AI systems — agentic infrastructure, retrieval,
+                evaluation, or real-time AI products. If you&apos;re working on
+                something ambitious, I&apos;d love to hear about it.
+              </p>
+              <div className="reveal d3" style={{
+                display: "flex", gap: 16, justifyContent: "center",
+                flexWrap: "wrap"
+              }}>
+                <a className="btn--outline" href={`mailto:${profile.email}`}>
+                  Say Hello
+                </a>
+                <button className="btn--outline" onClick={onCopy}>
+                  Copy Email
+                </button>
+              </div>
+            </section>
+
+            <footer className="footer">
+              <p>
+                Designed &amp; built by{" "}
+                <a href={profile.github} target="_blank" rel="noreferrer">
+                  {profile.name}
+                </a>
+                {" · "}
+                Inspired by{" "}
+                <a href="https://brittanychiang.com" target="_blank" rel="noreferrer">
+                  brittanychiang.com
+                </a>
+                {" · "}
+                Built with Next.js
+              </p>
+            </footer>
+          </main>
         </div>
-      </footer>
+      </div>
 
       {toast && <div className="toast">{toast}</div>}
-    </div>
+    </>
   );
 }
