@@ -210,12 +210,6 @@ export default function Page() {
             <div>
               <div className="portrait">
                 <img src="/profile.jpg" alt={`${profile.name} portrait`} />
-                <div className="portrait__badge">
-                  <div className="portrait__status">
-                    <span className="portrait__dot" />
-                    available may 2026
-                  </div>
-                </div>
               </div>
 
               <div className="identity">
@@ -263,7 +257,6 @@ export default function Page() {
             {/* ── About ── */}
             <section id="about" className="section">
               <div className="section__head reveal">
-                <span className="section__num">01.</span>
                 <h2 className="section__title">About Me</h2>
                 <span className="section__rule" />
               </div>
@@ -323,7 +316,6 @@ export default function Page() {
             {/* ── Experience (tabbed) ── */}
             <section id="experience" className="section">
               <div className="section__head reveal">
-                <span className="section__num">02.</span>
                 <h2 className="section__title">Where I&apos;ve Worked</h2>
                 <span className="section__rule" />
               </div>
@@ -371,7 +363,6 @@ export default function Page() {
             {/* ── Work ── */}
             <section id="work" className="section">
               <div className="section__head reveal">
-                <span className="section__num">03.</span>
                 <h2 className="section__title">Some Things I&apos;ve Built</h2>
                 <span className="section__rule" />
               </div>
@@ -453,7 +444,7 @@ export default function Page() {
 
             {/* ── Contact ── */}
             <section id="contact" className="section contact">
-              <p className="contact__kicker reveal">04. What&apos;s Next?</p>
+              <p className="contact__kicker reveal">What&apos;s Next?</p>
               <h2 className="reveal d1">Get In Touch</h2>
               <p className="reveal d2">
                 I&apos;m graduating May 2026 and looking for full-time roles on teams
