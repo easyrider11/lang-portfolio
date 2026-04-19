@@ -208,6 +208,16 @@ export default function Page() {
           {/* ═══ LEFT PANE (sticky) ═══ */}
           <aside className="pane-left">
             <div>
+              <div className="portrait">
+                <img src="/profile.jpg" alt={`${profile.name} portrait`} />
+                <div className="portrait__badge">
+                  <div className="portrait__status">
+                    <span className="portrait__dot" />
+                    available may 2026
+                  </div>
+                </div>
+              </div>
+
               <div className="identity">
                 <h1>{profile.name}</h1>
                 <h2>{profile.role}</h2>
@@ -469,11 +479,6 @@ export default function Page() {
                 Designed &amp; built by{" "}
                 <a href={profile.github} target="_blank" rel="noreferrer">
                   {profile.name}
-                </a>
-                {" · "}
-                Inspired by{" "}
-                <a href="https://brittanychiang.com" target="_blank" rel="noreferrer">
-                  brittanychiang.com
                 </a>
                 {" · "}
                 Built with Next.js
