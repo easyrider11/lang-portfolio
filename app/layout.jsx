@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Lorre Li | Software Engineer",
-  description: "Software Engineer portfolio of Lorre Li.",
+  title: "Lorre Li | AI Builder & Software Engineer",
+  description: "AI builder and software engineer shipping intelligent products — from on-device ML to LLM-powered systems.",
 };
 
 export default function RootLayout({ children }) {

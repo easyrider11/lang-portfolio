@@ -15,6 +15,7 @@ export const profile = {
 export const stats = [
   { label: "Agent Reliability", value: "99.9%" },
   { label: "Concurrent Pipelines", value: "10k+" },
+  { label: "AI Systems Shipped", value: "8+" },
   { label: "Latency Reduction", value: "50%" }
 ];
 
@@ -39,7 +40,8 @@ export const projects = [
     ],
     stack: ["TypeScript", "Node.js", "Docker", "LLM APIs"],
     tags: ["Agent Systems", "Evaluation", "Platform"],
-    year: "2025"
+    year: "2025",
+    featured: true
   },
   {
     title: "Dead Code Detector",
@@ -52,7 +54,7 @@ export const projects = [
       "Designed validation loop that cross-checks agent findings against runtime traces to reduce false positives",
       "Automated full codebase audits that previously required manual engineering review"
     ],
-    stack: ["Python", "Clang", "SQLite"],
+    stack: ["Python", "Clang", "SQLite", "AST Analysis"],
     tags: ["Agent Systems", "Retrieval", "Platform"],
     year: "2025"
   },
@@ -72,6 +74,35 @@ export const projects = [
     year: "2025"
   },
   {
+    title: "LLM Quiz Interface",
+    tagline: "Agentic content generation for accessible learning.",
+    description:
+      "Agentic LLM system that autonomously generates quizzes from TED-Ed video transcripts for deaf and hard-of-hearing learners — using chain-of-thought reasoning, self-checking validation loops, and embedding-based retrieval to ensure answer quality.",
+    impact: [
+      "Built end-to-end agentic pipeline: transcript retrieval → LLM reasoning → quiz generation → self-validation",
+      "Implemented chain-of-thought + self-checking evaluation loops reducing hallucination in generated content",
+      "Designed async generation pipeline with REST APIs, cutting latency 25% via parallel retrieval and batched LLM calls"
+    ],
+    stack: ["Python", "TensorFlow", "LLMs", "REST APIs"],
+    tags: ["Agent Systems", "Evaluation", "Retrieval"],
+    year: "2024",
+    featured: true
+  },
+  {
+    title: "Legal Consultant RAG",
+    tagline: "Retrieval-augmented agent with schema-constrained reasoning.",
+    description:
+      "RAG-powered legal assistant that retrieves relevant law code, applies schema-constrained LLM reasoning to generate answers, and provides cited sources — ensuring traceability and reducing hallucination through structured output validation.",
+    impact: [
+      "Built retrieval pipeline over legal corpus with embedding search and structured context injection",
+      "Designed schema-constrained LLM reasoning ensuring outputs conform to expected legal citation format",
+      "Implemented source citation validation loop that verifies every claim against retrieved documents"
+    ],
+    stack: ["Python", "PostgreSQL", "LLM"],
+    tags: ["Retrieval", "Agent Systems", "Evaluation"],
+    year: "2024"
+  },
+  {
     title: "NDFootball Channel",
     tagline: "High-concurrency async infrastructure.",
     description:
@@ -81,7 +112,7 @@ export const projects = [
       "Built infrastructure pattern reusable for real-time AI agent communication and tool coordination",
       "Achieved low-latency delivery under peak load through connection pooling and non-blocking I/O"
     ],
-    stack: ["Python", "asyncio"],
+    stack: ["Python", "asyncio", "WebSockets"],
     tags: ["Real-Time Systems", "Platform"],
     year: "2024"
   },
@@ -95,7 +126,7 @@ export const projects = [
       "Designed end-to-end agent workflow: user query → context retrieval → ranked results → structured output",
       "Integrated API-backed search enabling the agent to pull and correlate data across multiple sources"
     ],
-    stack: ["Java", "FastAPI", "SQL"],
+    stack: ["Java", "FastAPI", "SQL", "Chrome Extension API"],
     tags: ["Retrieval", "Agent Systems", "Data"],
     year: "2024"
   },
@@ -124,7 +155,8 @@ export const experience = [
     highlights: [
       "Rebuilt Instagram's AR camera initialization pipeline in Swift/Obj-C++, achieving 99.9% cold-start reliability — the same infrastructure pattern used for on-device AI model loading.",
       "Modularized the real-time AR effects pipeline, cutting effect-apply latency 27% while sustaining 60 FPS — directly applicable to on-device agent inference loops.",
-      "Co-designed a state coordinator for the Optic stack, orchestrating multi-stage pipelines similar to agentic tool-chaining workflows."
+      "Co-designed a state coordinator for the Optic stack, orchestrating multi-stage pipelines similar to agentic tool-chaining workflows.",
+      "Shipped Metal/GLSL compute shaders for separable Gaussian and color transforms in the real-time rendering pipeline."
     ],
     skills: ["Swift", "Objective-C++", "Real-Time Systems", "Pipeline Orchestration"]
   },
@@ -235,7 +267,7 @@ export const skills = [
 ];
 
 export const recognition = [
-  "Dean’s List",
+  "Dean's List",
   "The Grand Challenge Scholarship",
   "n8n AI Workflow Hackathon 1st Place"
 ];
