@@ -1,18 +1,23 @@
 const { test, expect } = require("@playwright/test");
 
-test("home renders the intro, beliefs, and timeline", async ({ page }) => {
+test("home renders the portrait, intro, and beliefs", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.locator(".intro")).toContainText("Lorre Li");
   await expect(page.locator(".beliefs")).toBeVisible();
+  await expect(page.locator(".portrait")).toBeVisible();
+});
+
+test("experience page renders the timeline", async ({ page }) => {
+  await page.goto("/experience");
 
   const timeline = page.locator(".timeline li");
   await expect(timeline.first()).toContainText("2026 – now");
   await expect(page.locator(".timeline")).toContainText("Meta");
 });
 
-test("education and honors are rendered on the home page", async ({ page }) => {
-  await page.goto("/");
+test("education and honors are rendered on the experience page", async ({ page }) => {
+  await page.goto("/experience");
 
   const timeline = page.locator(".timeline");
   await expect(timeline).toContainText("University of Notre Dame");

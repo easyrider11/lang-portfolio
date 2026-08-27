@@ -27,7 +27,10 @@ function IconMail() {
   );
 }
 
-const pages = [{ href: "/projects", label: "Projects" }];
+const pages = [
+  { href: "/experience", label: "Experience" },
+  { href: "/projects", label: "Projects" }
+];
 
 export default function Header() {
   const pathname = usePathname();
