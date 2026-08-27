@@ -42,6 +42,32 @@ export default async function ProjectReport({ params }) {
         ))}
       </div>
 
+      {p.report.ledger?.length > 0 && (
+        <div className="ledger">
+          {p.report.ledger.map((group) => (
+            <section key={group.repo} className="ledger-group">
+              <h2 className="ledger-repo">
+                {group.repo}
+                {group.context && <span className="ledger-context"> — {group.context}</span>}
+              </h2>
+              <ul className="ledger-items">
+                {group.items.map((item) => (
+                  <li key={item.ref}>
+                    <span className={`chip chip--${item.status}`}>{item.status}</span>
+                    <span className="ledger-text">
+                      <a href={item.href} target="_blank" rel="noreferrer">
+                        {item.ref}
+                      </a>{" "}
+                      {item.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )}
+
       {p.report.media?.length > 0 && (
         <div className="report-media">
           {p.report.media.map((m) => (

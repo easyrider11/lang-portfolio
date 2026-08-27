@@ -411,3 +411,68 @@ main {
   display: flex;
   gap: 1.25rem;
 }
+
+/* ── Contribution ledger ── */
+.ledger {
+  margin-top: 2rem;
+}
+
+.ledger-group + .ledger-group {
+  margin-top: 1.75rem;
+}
+
+.ledger-repo {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.ledger-context {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.ledger-items {
+  list-style: none;
+  margin-top: 0.6rem;
+}
+
+.ledger-items li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.ledger-items li + li {
+  margin-top: 0.55rem;
+}
+
+.ledger-text {
+  line-height: 1.55;
+}
+
+.chip {
+  flex-shrink: 0;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  color: var(--muted);
+  position: relative;
+  top: -0.1em;
+}
+
+.chip--merged {
+  color: #15803d;
+  border-color: #bbe5c8;
+  background: #f0faf3;
+}
+
+.chip--disproved {
+  color: #9333ea;
+  border-color: #e3d0f5;
+  background: #faf5ff;
+}

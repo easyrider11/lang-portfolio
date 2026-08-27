@@ -22,7 +22,9 @@ test("project report page renders stats, body, and media", async ({ page }) => {
   await page.goto("/projects/upstream");
 
   await expect(page.locator(".page-title")).toHaveText("Upstream OSS Work");
-  await expect(page.locator(".report-body")).toContainText("gz_ros2_control #944");
+  await expect(page.locator(".ledger")).toContainText("#944");
+  await expect(page.locator(".chip--merged").first()).toHaveText("merged");
+  await expect(page.locator(".ledger-items li")).toHaveCount(12);
   await expect(page.locator(".crumb a")).toHaveAttribute("href", "/projects");
 });
 

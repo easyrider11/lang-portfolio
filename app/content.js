@@ -150,14 +150,117 @@ export const projects = [
     report: {
       stats: [
         { value: "2", label: "merged PRs (gz_ros2_control, Harbor)" },
-        { value: "7", label: "open PRs across MoveIt 2, LeRobot, Harbor" },
-        { value: "1", label: "suspected upstream bug disproved before filing" }
+        { value: "7", label: "open PRs across Harbor, MoveIt 2, LeRobot" },
+        { value: "2", label: "root-cause issue reports on LeRobot" },
+        { value: "1", label: "suspected bug disproved before filing" }
       ],
       body: [
-        "Findings from my own projects, driven upstream instead of worked around. [gz_ros2_control #944](https://github.com/ros-controls/gz_ros2_control/pull/944) (merged, backported to three ROS releases) fixes the position_proportional_gain formula in the parameter docs. [MoveIt 2 #3834](https://github.com/moveit/moveit2/pull/3834) documents the servo config loading contract after proving the config cannot be made self-contained; [#3835](https://github.com/moveit/moveit2/pull/3835) gives a cause-naming error when an SRDF group state references a fixed joint.",
-        "[LeRobot #4518](https://github.com/huggingface/lerobot/pull/4518) adds rename_feature to the dataset editing tools, continuing a stalled community PR with the original author's blessing — beyond the parquet column rename it also migrates dataset-level stats, per-episode stats and video columns, and the on-disk video directory, which the original draft silently dropped. Root-cause reports #4517 (finetunes inherit a stale input feature spec) and #4519 (v3 task-association inconsistency) came out of Dataset Lint.",
-        "In [Harbor](https://github.com/harbor-framework/harbor), an agent-evaluation framework: #1844 (merged) emits ATIF context_management on summarization handoff steps, plus four open Daytona sandbox reliability fixes — reaping orphaned sandboxes, failing fast on validation errors, avoiding post-conflict polling, and preserving bind-mount types.",
-        "One negative result, kept deliberately: a suspected moveit_servo drift bug was containerized and disproved on stock binaries — four null probes, one positive control — before anything was filed. The full repro harness is archived in the Robot Vision Copilot repo instead of an upstream issue tracker. Checking repo liveness first killed two more candidate directions; not every finding deserves a PR."
+        "None of this started as \u201clet\u2019s contribute to open source.\u201d Every entry below is a bug, gap, or missing tool found while building [Robot Vision Copilot](/projects/robot-vision-copilot) and [Dataset Lint](/projects/lerobot-dataset-lint) \u2014 driven upstream instead of worked around.",
+        "Two habits shape the list: check repo liveness before writing a patch (that killed two more candidate directions \u2014 an unmaintained benchmark and an already-documented behavior), and try to disprove a finding before filing it."
+      ],
+      ledger: [
+        {
+          repo: "ros-controls/gz_ros2_control",
+          context: "Gazebo \u2194 ros2_control bridge in the official ROS stack",
+          items: [
+            {
+              status: "merged",
+              ref: "#944",
+              href: "https://github.com/ros-controls/gz_ros2_control/pull/944",
+              text: "Fix the position_proportional_gain formula in the parameter docs \u2014 backported by maintainers to three ROS releases."
+            }
+          ]
+        },
+        {
+          repo: "harbor-framework/harbor",
+          context: "agent-evaluation and RL-environment framework (also the base for my AgenticVBench eval work)",
+          items: [
+            {
+              status: "merged",
+              ref: "#1844",
+              href: "https://github.com/harbor-framework/harbor/pull/1844",
+              text: "Emit ATIF context_management on summarization handoff steps, so trajectory consumers can see when an agent\u2019s context was compacted."
+            },
+            {
+              status: "open",
+              ref: "#2631",
+              href: "https://github.com/harbor-framework/harbor/pull/2631",
+              text: "Reap Daytona sandboxes orphaned by ungraceful trial death \u2014 stops quota leaks in long eval runs."
+            },
+            {
+              status: "open",
+              ref: "#2590",
+              href: "https://github.com/harbor-framework/harbor/pull/2590",
+              text: "Fail fast on Daytona validation errors instead of polling a doomed sandbox to timeout."
+            },
+            {
+              status: "open",
+              ref: "#2589",
+              href: "https://github.com/harbor-framework/harbor/pull/2589",
+              text: "Stop polling after a snapshot conflict is already known."
+            },
+            {
+              status: "open",
+              ref: "#2588",
+              href: "https://github.com/harbor-framework/harbor/pull/2588",
+              text: "Preserve file bind-mount types when building sandbox specs."
+            }
+          ]
+        },
+        {
+          repo: "huggingface/lerobot",
+          context: "Hugging Face robotics library",
+          items: [
+            {
+              status: "open",
+              ref: "#4518",
+              href: "https://github.com/huggingface/lerobot/pull/4518",
+              text: "Add rename_feature to the dataset editing tools \u2014 continues a stalled community PR with the original author\u2019s blessing, and migrates the stats, per-episode columns, and on-disk video directories the original draft silently dropped."
+            },
+            {
+              status: "issue",
+              ref: "#4517",
+              href: "https://github.com/huggingface/lerobot/issues/4517",
+              text: "Root cause: finetunes inherit a stale input feature spec \u2014 traced to a published checkpoint whose config declared 6 state dims while its normalizer carried 8."
+            },
+            {
+              status: "issue",
+              ref: "#4519",
+              href: "https://github.com/huggingface/lerobot/issues/4519",
+              text: "v3 task-association inconsistency between the dataset writer and published datasets \u2014 found by Dataset Lint."
+            }
+          ]
+        },
+        {
+          repo: "moveit/moveit2",
+          context: "motion planning framework for ROS 2",
+          items: [
+            {
+              status: "open",
+              ref: "#3834",
+              href: "https://github.com/moveit/moveit2/pull/3834",
+              text: "Document the servo config\u2019s loading contract \u2014 after first proving the config cannot be made self-contained without breaking every ParameterBuilder consumer."
+            },
+            {
+              status: "open",
+              ref: "#3835",
+              href: "https://github.com/moveit/moveit2/pull/3835",
+              text: "Cause-naming error message when an SRDF group state references a joint that is fixed in the URDF."
+            }
+          ]
+        },
+        {
+          repo: "moveit_servo drift investigation",
+          context: "the one that was never filed",
+          items: [
+            {
+              status: "disproved",
+              ref: "repro harness",
+              href: "https://github.com/easyrider11/robot-vision-copilot/tree/main/docs/assets/servo-repro",
+              text: "A suspected end-effector drift bug was containerized and tested on stock binaries: four null probes, one positive control \u2014 the drift came from my environment, not servo. Archived in my repo instead of filed upstream."
+            }
+          ]
+        }
       ],
       media: [],
       links: [
@@ -176,7 +279,7 @@ export const projects = [
     thumb: "/projects/harbor-thumb.svg",
     thumbAlt: "Diagram of sandboxed agent evaluation with verifiers",
     description:
-      "Contributing evaluations for 100 multimodal video-agent tasks, with deterministic and VLM-based verifiers, built on the Harbor framework."
+      "Contributing evaluations for 100 multimodal video-agent tasks with deterministic and VLM-based verifiers \u2014 built on Harbor, where my sandbox-reliability fixes landed upstream."
   },
   {
     slug: "interview-platform",
