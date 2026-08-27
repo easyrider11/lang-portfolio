@@ -8,6 +8,24 @@ test("home renders the portrait, intro, and beliefs", async ({ page }) => {
   await expect(page.locator(".portrait")).toBeVisible();
 });
 
+test("home shows featured work cards linking to reports", async ({ page }) => {
+  await page.goto("/");
+
+  const cards = page.locator(".featured-card");
+  await expect(cards).toHaveCount(4);
+  await cards.first().click();
+  await expect(page).toHaveURL(/\/projects\/robot-vision-copilot$/);
+  await expect(page.locator(".report-stats")).toContainText("17,478");
+});
+
+test("project report page renders stats, body, and media", async ({ page }) => {
+  await page.goto("/projects/upstream");
+
+  await expect(page.locator(".page-title")).toHaveText("Upstream OSS Work");
+  await expect(page.locator(".report-body")).toContainText("gz_ros2_control #944");
+  await expect(page.locator(".crumb a")).toHaveAttribute("href", "/projects");
+});
+
 test("experience page renders the timeline", async ({ page }) => {
   await page.goto("/experience");
 
@@ -21,7 +39,7 @@ test("education and honors are rendered on the experience page", async ({ page }
 
   const timeline = page.locator(".timeline");
   await expect(timeline).toContainText("University of Notre Dame");
-  await expect(timeline).toContainText("3.91");
+  await expect(timeline).toContainText("3.97");
   await expect(timeline).toContainText("Grand Challenge Scholarship");
 });
 

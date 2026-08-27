@@ -5,61 +5,62 @@ export const profile = {
   name: "Lorre Li",
   title: "Lorre Li",
   description:
-    "Lorre (Lang) Li is an engineer working on robotics and AI systems — robot agent runtimes, dataset tooling, and real-time infrastructure.",
-  email: "lli28@nd.edu",
+    "Lorre (Lang) Li is an engineer working on robotics and AI systems — robot agent runtimes, GPU inference serving, dataset tooling, and agent evaluation.",
+  email: "lorrelipro@gmail.com",
   github: "https://github.com/easyrider11",
   linkedin: "https://www.linkedin.com/in/lang-li11/",
   resume: "/resume.pdf"
 };
 
 export const intro =
-  "Hi, I'm Lorre Li. I'm an engineer, and I build AI systems that have to work outside the demo — robot control loops, dataset tooling, and real-time pipelines. I believe:";
+  "Hi, I'm Lorre Li. I'm an engineer, and I build AI systems that have to work outside the demo — robot control loops, GPU inference serving, and the evaluation and dataset tooling that keeps them honest. I believe:";
 
 export const beliefs = [
   "A model that can't be evaluated can't be trusted.",
   "A system that can't fail safely isn't finished."
 ];
 
-// Home-page timeline, newest first.
+// Experience page timeline, newest first.
 export const timeline = [
   {
     period: "2026 – now",
     org: "Independent",
     role: "Robotics & AI systems",
     description:
-      "I build open robotics tooling: [Robot Vision Copilot](/projects#robot-vision-copilot), a model-agnostic robot agent runtime verified in simulation, and [LeRobot Dataset Lint](/projects#lerobot-dataset-lint), a contract linter for training datasets. Upstream contributor to [gz_ros2_control](https://github.com/ros-controls/gz_ros2_control/pull/944) (merged), with open PRs to [MoveIt 2](https://github.com/moveit/moveit2/pulls?q=is%3Apr+author%3Aeasyrider11) and [LeRobot](https://github.com/huggingface/lerobot/pull/4518)."
+      "I build open robotics tooling: [Robot Vision Copilot](/projects/robot-vision-copilot), a model-agnostic robot agent runtime verified in three simulators, and [LeRobot Dataset Lint](/projects/lerobot-dataset-lint), a contract linter for training datasets. [Upstream contributor](/projects/upstream) to gz_ros2_control (merged), Harbor (merged), MoveIt 2, and LeRobot."
+  },
+  {
+    period: "2026",
+    org: "Superpose",
+    role: "Software Engineer",
+    description:
+      "I owned a multi-GPU inference scheduler — one worker per GPU, first-free-wins acquisition, configurable backpressure — replacing a serial queue through a zero-downtime cutover, and brought up an SGLang serving stack for agent workloads across an on-prem six-GPU node, RunPod, and AWS EC2."
   },
   {
     period: "2025",
     org: "Meta",
     role: "Software Engineer Intern",
     description:
-      "I rebuilt Instagram's AR camera initialization pipeline in Swift/Obj-C++ and shipped Metal/GLSL compute shaders in the real-time effects stack."
+      "I rebuilt Instagram's AR camera effect initialization in Swift/Obj-C++ — 99.9% cold-start pass rate, 50% fewer warm-up hitches — refactored the camera pipeline to cut effect-apply latency 27% at a sustained 60 FPS, and shipped Metal/GLSL compute shaders with the Images team."
   },
   {
     period: "2024",
     org: "Radical AI",
-    role: "AI Systems Engineer Intern",
+    role: "Full-stack Software Engineer & AI Lab Assistant",
     description:
-      "I built the backend service layer for an LLM tutoring product and deployed it on GKE with Cloud SQL."
-  },
-  {
-    period: "2024",
-    org: "ZTE",
-    role: "Automation Engineer Intern",
-    description:
-      "I built automated validation pipelines with Jenkins and Robot Framework, and sped up C/C++ data ingestion with multi-threading."
+      "I shipped an AI tutor for technical onboarding in a team of 10, cut backend latency 25%, deployed models on GKE with Cloud SQL, and protocoled a checksum method to detect silent data corruption in inference runs."
   },
   {
     period: "2022 – 2026",
     org: "University of Notre Dame",
     role: "B.S. Computer Science & Applied Mathematics",
     description:
-      "GPA 3.91. Dean's List, Grand Challenge Scholarship, first place at the n8n AI Workflow Hackathon. Research assistant building an [LLM quiz generator](/projects#llm-quiz-interface) for deaf and hard-of-hearing learners; teaching assistant for 100+ students in algorithms and theory."
+      "GPA 3.97, Summa Cum Laude. Dean's List, Grand Challenge Scholarship, first place at the n8n AI Workflow Hackathon. Research assistant on LLM systems — an [LLM quiz agent](/projects#llm-quiz-interface) over TED-Ed transcripts with a repeatable evaluation loop; teaching assistant for 100+ students in data structures, theory of computing, and linear algebra."
   }
 ];
 
 // Projects page, newest first. meta = "Role · Context · Year".
+// thumb: image in /public. report: detail page at /projects/<slug>.
 export const projectsIntro =
   "Systems and tools I have built or contributed to.";
 
@@ -68,41 +69,114 @@ export const projects = [
     slug: "robot-vision-copilot",
     title: "Robot Vision Copilot",
     meta: "Creator · 2026",
+    featured: true,
+    thumb: "/projects/panda-pickplace.gif",
+    thumbAlt: "Franka Panda 7-DOF pick-and-place in Gazebo",
     href: "https://github.com/easyrider11/robot-vision-copilot",
     description:
-      "OpenVLA-compatible action-model layer and model-agnostic robot agent runtime — state machine, safety validation, failure recovery — verified in tabletop sim, LIBERO, and Gazebo/ROS 2."
+      "A robot manipulation stack: an OpenVLA-compatible action-model layer under a model-agnostic agent runtime — verified in a zero-dependency tabletop sim, LIBERO, and Gazebo + ROS 2.",
+    report: {
+      stats: [
+        { value: "66%", label: "SmolVLA-450M on LIBERO (BC baseline 50%)" },
+        { value: "500/500", label: "episodes recovered, 375 with injected faults" },
+        { value: "0", label: "unsafe actions in 17,478 policy calls" },
+        { value: "7 px", label: "placement error, 7-DOF Panda in Gazebo" }
+      ],
+      body: [
+        "A vision-language-action model answers exactly one question: given this camera image and this instruction, what is the next 7-DoF end-effector delta? Everything else a real robot needs — decomposing the task, refusing unsafe outputs, noticing that a grasp failed, deciding what to do about it — is not the model's job. This project is a worked example of that separation.",
+        "The action model sits behind a swappable Policy protocol (OpenVLA-compatible local and remote backends, a visual-servo baseline, and a mock). Above it, a model-agnostic runtime runs PERCEIVE → PLAN → EXECUTE → VERIFY → RECOVER, with an action validator (six checks plus a final invariant) between the network and the robot. EXECUTE is the only state that consults a neural network.",
+        "The same runtime is verified end to end in three simulators: a zero-dependency tabletop teaching sim, the official LIBERO benchmark (MuJoCo), and Gazebo + ROS 2 driving a 7-DOF Franka Panda through ros_gz_bridge with resolved-rate control on a moveit_py jacobian.",
+        "Every number above comes from a committed run artifact and is reproducible with one make target. The project was built on a 16 GB M3 laptop that cannot run OpenVLA-7B — so where a component is a stand-in rather than the real thing, the run is stamped degraded=true with a reason. The honesty ledger is part of the repo, not an afterthought."
+      ],
+      media: [
+        {
+          src: "/projects/tabletop-grasp-slip-recovery.gif",
+          caption:
+            "A mid-transport grasp slip is injected; the agent detects it, replans, and finishes the task."
+        },
+        {
+          src: "/projects/smolvla-libero.gif",
+          caption:
+            "SmolVLA-450M — a real vision-language-action model — running locally on Apple silicon against the official LIBERO benchmark."
+        },
+        {
+          src: "/projects/gazebo-pickplace-sheet.png",
+          caption:
+            "Contact sheet from the Gazebo pick-and-place run: 32.9 s, 7 px placement error, zero recoveries."
+        }
+      ],
+      links: [
+        { label: "GitHub", href: "https://github.com/easyrider11/robot-vision-copilot" }
+      ]
+    }
   },
   {
     slug: "lerobot-dataset-lint",
     title: "LeRobot Dataset Lint",
     meta: "Creator · 2026",
+    featured: true,
+    thumb: "/projects/lint-thumb.svg",
+    thumbAlt: "Terminal output of lerobot-lint with two findings",
     href: "https://github.com/easyrider11/lerobot-dataset-lint",
     description:
-      "Contract linter for LeRobot datasets: convention drift, dropped frames, stale stats, and dead recordings — caught before they poison a training run."
+      "Contract linter for LeRobot datasets: convention drift, dropped frames, stale stats, and dead recordings — caught before they poison a training run.",
+    report: {
+      stats: [
+        { value: "58k+", label: "community datasets on the LeRobot Hub" },
+        { value: "MBs", label: "downloaded to lint a multi-GB dataset" },
+        { value: "2", label: "on-disk layouts supported (v2.x and v3.0)" }
+      ],
+      body: [
+        "Dataset bugs are the quietest failure mode in robot learning: nothing crashes — the policy just doesn't grasp. This linter exists because of a real one: a gripper sign convention documented backwards, self-consistent in each half of a codebase, every test green, discovered only when a third component forced the two halves together.",
+        "It has company. We found a published policy checkpoint whose config.json declared a 6-dim state while its own normalization weights carried 8 dims — stale metadata, silently trusted by everything downstream. Both findings became upstream issue reports; the linter turns the class of bug into a CI check.",
+        "The tool imports no torch and no lerobot, and decodes no video. Meta files are always fetched; frame-level checks run on a sample of episodes and download only the parquet files that contain them — linting a multi-gigabyte Hub dataset costs megabytes. Exit codes are CI-friendly: non-zero on errors, and on warnings under --strict.",
+        "Runs against any Hub repo id or local dataset directory: uvx lerobot-dataset-lint lerobot/pusht."
+      ],
+      media: [],
+      links: [
+        { label: "GitHub", href: "https://github.com/easyrider11/lerobot-dataset-lint" }
+      ]
+    }
   },
   {
-    slug: "gz-ros2-control",
-    title: "gz_ros2_control",
-    meta: "Contributor · Open source · 2026",
-    href: "https://github.com/ros-controls/gz_ros2_control/pull/944",
+    slug: "upstream",
+    title: "Upstream OSS Work",
+    meta: "Contributor · ROS 2 & Hugging Face ecosystems · 2026",
+    featured: true,
+    thumb: "/projects/upstream-thumb.svg",
+    thumbAlt: "Commit graph of upstream contributions",
     description:
-      "ros2_control integration for Gazebo. Contributed a merged fix to the parameter documentation, backported to three ROS releases."
+      "Contributions to gz_ros2_control (merged), Harbor (merged), MoveIt 2, and LeRobot — sourced from bugs found while building Robot Vision Copilot and Dataset Lint.",
+    report: {
+      stats: [
+        { value: "2", label: "merged PRs (gz_ros2_control, Harbor)" },
+        { value: "7", label: "open PRs across MoveIt 2, LeRobot, Harbor" },
+        { value: "1", label: "suspected upstream bug disproved before filing" }
+      ],
+      body: [
+        "Findings from my own projects, driven upstream instead of worked around. [gz_ros2_control #944](https://github.com/ros-controls/gz_ros2_control/pull/944) (merged, backported to three ROS releases) fixes the position_proportional_gain formula in the parameter docs. [MoveIt 2 #3834](https://github.com/moveit/moveit2/pull/3834) documents the servo config loading contract after proving the config cannot be made self-contained; [#3835](https://github.com/moveit/moveit2/pull/3835) gives a cause-naming error when an SRDF group state references a fixed joint.",
+        "[LeRobot #4518](https://github.com/huggingface/lerobot/pull/4518) adds rename_feature to the dataset editing tools, continuing a stalled community PR with the original author's blessing — beyond the parquet column rename it also migrates dataset-level stats, per-episode stats and video columns, and the on-disk video directory, which the original draft silently dropped. Root-cause reports #4517 (finetunes inherit a stale input feature spec) and #4519 (v3 task-association inconsistency) came out of Dataset Lint.",
+        "In [Harbor](https://github.com/harbor-framework/harbor), an agent-evaluation framework: #1844 (merged) emits ATIF context_management on summarization handoff steps, plus four open Daytona sandbox reliability fixes — reaping orphaned sandboxes, failing fast on validation errors, avoiding post-conflict polling, and preserving bind-mount types.",
+        "One negative result, kept deliberately: a suspected moveit_servo drift bug was containerized and disproved on stock binaries — four null probes, one positive control — before anything was filed. The full repro harness is archived in the Robot Vision Copilot repo instead of an upstream issue tracker. Checking repo liveness first killed two more candidate directions; not every finding deserves a PR."
+      ],
+      media: [],
+      links: [
+        {
+          label: "All PRs by easyrider11",
+          href: "https://github.com/search?q=is%3Apr+author%3Aeasyrider11+-user%3Aeasyrider11&type=pullrequests"
+        }
+      ]
+    }
   },
   {
-    slug: "moveit2",
-    title: "MoveIt 2",
-    meta: "Contributor · Open source · 2026",
-    href: "https://github.com/moveit/moveit2/pulls?q=is%3Apr+author%3Aeasyrider11",
+    slug: "agenticvbench",
+    title: "AgenticVBench",
+    meta: "Contributor · 2026",
+    featured: true,
+    thumb: "/projects/harbor-thumb.svg",
+    thumbAlt: "Diagram of sandboxed agent evaluation with verifiers",
     description:
-      "Motion planning framework for ROS 2. Two open PRs: documenting the servo config loading contract, and a clearer error path for group states referencing fixed joints."
-  },
-  {
-    slug: "lerobot",
-    title: "LeRobot",
-    meta: "Contributor · Open source · 2026",
-    href: "https://github.com/huggingface/lerobot/pull/4518",
-    description:
-      "Hugging Face robotics library. Open PR adding rename_feature to the dataset editing tools; filed root-cause reports on stale finetune feature specs."
+      "Contributing evaluations for 100 multimodal video-agent tasks, with deterministic and VLM-based verifiers, built on the Harbor framework."
   },
   {
     slug: "interview-platform",
@@ -127,11 +201,19 @@ export const projects = [
       "Reconstructs depth-of-book state from tick-level WebSocket streams in C++ and paper-trades order-book-imbalance signals on Kalshi markets."
   },
   {
+    slug: "filmpost",
+    title: "FilmPost",
+    meta: "Creator · 2025",
+    href: "https://github.com/easyrider11/FilmPost",
+    description:
+      "iOS camera coach and movie reference — capture, analysis with EXIF-scrubbed uploads, and film-look guidance backed by a rate-limited API."
+  },
+  {
     slug: "llm-quiz-interface",
     title: "LLM Quiz Interface",
-    meta: "Research assistant · Notre Dame · 2024",
+    meta: "Research assistant · Notre Dame · 2024 – 2026",
     description:
-      "Generates quizzes from TED-Ed transcripts for deaf and hard-of-hearing learners, with self-checking validation loops on the output."
+      "LLM quiz agent over TED-Ed transcripts — prompt chaining, self-verification, embedding retrieval — with a repeatable evaluation loop of held-out prompts and failure analysis."
   },
   {
     slug: "legal-consultant-rag",
@@ -146,6 +228,14 @@ export const projects = [
     meta: "Creator · 2024",
     description:
       "Event-driven asyncio server designed for bursty game-day traffic — non-blocking I/O and graceful backpressure at 10k+ concurrent connections."
+  },
+  {
+    slug: "poker-bankroll-tracker",
+    title: "Poker Session Bankroll Tracker",
+    meta: "Creator · 2024",
+    href: "https://github.com/easyrider11/poker-session-bankroll-tracker",
+    description:
+      "Session and bankroll tracking for live poker — Next.js, Prisma, and an iOS-style design system."
   },
   {
     slug: "graph-analysis-bot",
