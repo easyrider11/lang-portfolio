@@ -1,4 +1,4 @@
-const { defineConfig } = require("@playwright/test");
+const { defineConfig, devices } = require("@playwright/test");
 
 module.exports = defineConfig({
   testDir: "./tests",
@@ -6,6 +6,12 @@ module.exports = defineConfig({
   use: {
     baseURL: "http://localhost:3000"
   },
+  projects: [
+    {
+      name: "chrome",
+      use: { ...devices["Desktop Chrome"], channel: "chrome" }
+    }
+  ],
   webServer: {
     command: "npm run dev",
     url: "http://localhost:3000",

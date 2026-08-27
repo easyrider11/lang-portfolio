@@ -1,38 +1,59 @@
 const { test, expect } = require("@playwright/test");
 
-test("spotlight follows the filtered project list", async ({ page }) => {
+test("home renders the intro, beliefs, and timeline", async ({ page }) => {
   await page.goto("/");
 
-  await page.locator(".filter").getByRole("button", { name: "Mobile" }).click();
+  await expect(page.locator(".intro")).toContainText("Lorre Li");
+  await expect(page.locator(".beliefs")).toBeVisible();
 
-  await expect(page.locator(".work__cards .project-card")).toHaveCount(1);
-  await expect(page.locator(".work__cards .project-card").first()).toContainText(
-    "FTS Scanner App"
-  );
-  await expect(page.locator(".work__spotlight h3")).toHaveText("FTS Scanner App");
+  const timeline = page.locator(".timeline li");
+  await expect(timeline.first()).toContainText("2026 – now");
+  await expect(page.locator(".timeline")).toContainText("Meta");
 });
 
-test("copy email feedback is announced politely", async ({ page, context }) => {
-  await context.grantPermissions(["clipboard-read", "clipboard-write"], {
-    origin: "http://localhost:3000"
-  });
-
+test("education and honors are rendered on the home page", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Copy Email" }).click();
 
-  const toast = page.locator(".toast");
-  await expect(toast).toBeVisible();
-  await expect(toast).toHaveAttribute("aria-live", "polite");
+  const timeline = page.locator(".timeline");
+  await expect(timeline).toContainText("University of Notre Dame");
+  await expect(timeline).toContainText("3.91");
+  await expect(timeline).toContainText("Grand Challenge Scholarship");
 });
 
-test("projects section reserves anchor offset for the sticky header", async ({
-  page
-}) => {
-  await page.goto("/#projects");
+test("nav goes to the projects page and lists current work", async ({ page }) => {
+  await page.goto("/");
 
-  const scrollMarginTop = await page.locator("#projects").evaluate((node) => {
-    return window.getComputedStyle(node).scrollMarginTop;
-  });
+  await page.getByRole("navigation").getByRole("link", { name: "Projects" }).click();
+  await expect(page).toHaveURL(/\/projects$/);
+
+  const items = page.locator(".project-list li");
+  await expect(items.first()).toContainText("Robot Vision Copilot");
+  await expect(page.locator("#lerobot-dataset-lint")).toContainText("LeRobot Dataset Lint");
+});
+
+test("project anchors reserve scroll offset", async ({ page }) => {
+  await page.goto("/projects#lerobot-dataset-lint");
+
+  const scrollMarginTop = await page
+    .locator("#lerobot-dataset-lint")
+    .evaluate((node) => window.getComputedStyle(node).scrollMarginTop);
 
   expect(Number.parseFloat(scrollMarginTop)).toBeGreaterThan(0);
+});
+
+test("header exposes email, GitHub, and résumé links", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.getByRole("link", { name: "Email" })).toHaveAttribute(
+    "href",
+    /^mailto:/
+  );
+  await expect(page.getByRole("link", { name: "GitHub" })).toHaveAttribute(
+    "href",
+    "https://github.com/easyrider11"
+  );
+  await expect(page.getByRole("link", { name: "Résumé" })).toHaveAttribute(
+    "href",
+    "/resume.pdf"
+  );
 });

@@ -1,6 +1,6 @@
-# Lorre Li Portfolio
+# Lorre Li — Portfolio
 
-A Next.js portfolio site designed for software engineering roles.
+Minimal serif portfolio site built with Next.js.
 
 ## Getting Started
 
@@ -11,9 +11,15 @@ npm run dev
 
 ## Customize Content
 
-Edit `app/content.js` to update the resume data, contact info, projects, and experience.
+All rendered content lives in `app/content.js` — profile, intro, beliefs,
+timeline, and projects. Inline links inside text use `[label](url)`.
 
 ## Assets
 
-- `public/profile.jpg`
 - `public/resume.pdf`
+
+## Tests
+
+```bash
+npm test
+```
