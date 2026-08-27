@@ -55,7 +55,7 @@ export const timeline = [
     org: "University of Notre Dame",
     role: "B.S. Computer Science & Applied Mathematics",
     description:
-      "GPA 3.91. Dean's List, Grand Challenge Scholarship. Research assistant building an [LLM quiz generator](/projects#llm-quiz-interface) for deaf and hard-of-hearing learners; teaching assistant for 100+ students in algorithms and theory."
+      "GPA 3.91. Dean's List, Grand Challenge Scholarship, first place at the n8n AI Workflow Hackathon. Research assistant building an [LLM quiz generator](/projects#llm-quiz-interface) for deaf and hard-of-hearing learners; teaching assistant for 100+ students in algorithms and theory."
   }
 ];
 
