@@ -119,7 +119,7 @@ export const projects = [
     thumbAlt: "Terminal output of lerobot-lint with two findings",
     href: "https://github.com/easyrider11/lerobot-dataset-lint",
     description:
-      "Contract linter for LeRobot datasets: convention drift, dropped frames, stale stats, and dead recordings — caught before they poison a training run.",
+      "Contract linter for LeRobot datasets and policy checkpoints — convention drift, dropped frames, stale stats, and stale configs, caught before they poison a training run.",
     report: {
       stats: [
         { value: "58k+", label: "community datasets on the LeRobot Hub" },
@@ -128,11 +128,11 @@ export const projects = [
         { value: "MBs", label: "downloaded to lint a multi-GB dataset" }
       ],
       body: [
-        "Dataset bugs are the quietest failure mode in robot learning: nothing crashes — the policy just doesn't grasp. This linter exists because of a real one: a gripper sign convention documented backwards, self-consistent in each half of a codebase, every test green, discovered only when a third component forced the two halves together.",
+        "Dataset bugs are the quietest failure mode in robot learning: nothing crashes — the policy just doesn't grasp. This linter exists because of a real one: a gripper sign convention documented backwards, self-consistent in each half of a codebase, every test green, discovered only when a third component forced the two halves together. Generalized into a community linter answering [LeRobot\u2019s open call](https://github.com/huggingface/lerobot/issues/2326) for exactly this tool.",
         "It has company. We found a published policy checkpoint whose config.json declared a 6-dim state while its own normalization weights carried 8 dims — stale metadata, silently trusted by everything downstream. Both findings became upstream issue reports; the linter turns the class of bug into a CI check.",
         "v0.2.0 turned the checkpoint finding into a mode and pointed it at the ecosystem: a sweep of the top 300 lerobot-tagged Hub repos found 24 of 251 verifiable checkpoints provably shipping the stale-config bug \u2014 seven of them official checkpoints with ~38.5k downloads, and 39% of one base model\u2019s finetunes affected, including a second-generation propagation. The methodology, exclusions, and reproduce scripts are committed with the results, and the numbers were [posted upstream](https://github.com/huggingface/lerobot/issues/4517).",
-        "The tool imports no torch and no lerobot, and decodes no video. Meta files are always fetched; frame-level checks run on a sample of episodes and download only the parquet files that contain them — linting a multi-gigabyte Hub dataset costs megabytes. Exit codes are CI-friendly: non-zero on errors, and on warnings under --strict.",
-        "Runs against any Hub repo id or local dataset directory: uvx lerobot-dataset-lint lerobot/pusht."
+        "Apache-2.0, 19 dataset rules and 5 checkpoint rules across both v2.x and v3.0 layouts. The tool imports no torch and no lerobot, decodes no video, and never downloads model weights \u2014 checkpoint checks read safetensors headers via HTTP Range requests. Meta files are always fetched; frame-level checks run on a sample of episodes and download only the parquet files that contain them — linting a multi-gigabyte Hub dataset costs megabytes. Exit codes are CI-friendly: non-zero on errors, and on warnings under --strict.",
+        "Runs against any Hub repo id or local dataset directory: uvx --from git+https://github.com/easyrider11/lerobot-dataset-lint lerobot-lint <repo>."
       ],
       media: [],
       links: [
