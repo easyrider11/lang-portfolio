@@ -123,12 +123,14 @@ export const projects = [
     report: {
       stats: [
         { value: "58k+", label: "community datasets on the LeRobot Hub" },
-        { value: "MBs", label: "downloaded to lint a multi-GB dataset" },
-        { value: "2", label: "on-disk layouts supported (v2.x and v3.0)" }
+        { value: "24/251", label: "swept checkpoints provably shipping a stale-config bug" },
+        { value: "38.5k", label: "downloads of affected official checkpoints" },
+        { value: "MBs", label: "downloaded to lint a multi-GB dataset" }
       ],
       body: [
         "Dataset bugs are the quietest failure mode in robot learning: nothing crashes — the policy just doesn't grasp. This linter exists because of a real one: a gripper sign convention documented backwards, self-consistent in each half of a codebase, every test green, discovered only when a third component forced the two halves together.",
         "It has company. We found a published policy checkpoint whose config.json declared a 6-dim state while its own normalization weights carried 8 dims — stale metadata, silently trusted by everything downstream. Both findings became upstream issue reports; the linter turns the class of bug into a CI check.",
+        "v0.2.0 turned the checkpoint finding into a mode and pointed it at the ecosystem: a sweep of the top 300 lerobot-tagged Hub repos found 24 of 251 verifiable checkpoints provably shipping the stale-config bug \u2014 seven of them official checkpoints with ~38.5k downloads, and 39% of one base model\u2019s finetunes affected, including a second-generation propagation. The methodology, exclusions, and reproduce scripts are committed with the results, and the numbers were [posted upstream](https://github.com/huggingface/lerobot/issues/4517).",
         "The tool imports no torch and no lerobot, and decodes no video. Meta files are always fetched; frame-level checks run on a sample of episodes and download only the parquet files that contain them — linting a multi-gigabyte Hub dataset costs megabytes. Exit codes are CI-friendly: non-zero on errors, and on warnings under --strict.",
         "Runs against any Hub repo id or local dataset directory: uvx lerobot-dataset-lint lerobot/pusht."
       ],

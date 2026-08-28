@@ -23,3 +23,12 @@ timeline, and projects. Inline links inside text use `[label](url)`.
 ```bash
 npm test
 ```
+
+## OSS status check
+
+```bash
+npm run check-oss
+```
+
+Compares the status chips in `app/content.js` ledgers against live GitHub
+state via `gh`. Non-zero exit on drift.
