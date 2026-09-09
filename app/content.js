@@ -111,6 +111,50 @@ export const projects = [
     }
   },
   {
+    slug: "voice-inbox",
+    title: "Voice Inbox",
+    meta: "Creator · 2026",
+    featured: true,
+    thumb: "/projects/voice-inbox-light.png",
+    thumbAlt: "Voice Inbox home screen: Smart Lists tiles, content cards, and the central amber record button",
+    href: "https://github.com/easyrider11/voice-inbox",
+    description:
+      "An AI voice inbox for iOS: say one sentence, it becomes a to-do, reminder, or idea card. SwiftUI + SwiftData app with a thin Fastify backend and pluggable speech/structuring providers — and a fully on-device mode when no server is reachable.",
+    report: {
+      stats: [
+        { value: "1", label: "input: a single record button, no pre-classification" },
+        { value: "3", label: "card types auto-detected: to-do, reminder, idea" },
+        { value: "0", label: "servers required — Apple speech + local rules offline" },
+        { value: "2", label: "ASR paths: on-device Apple, or Tencent Cloud (WeChat's engine family)" }
+      ],
+      body: [
+        "The premise is that capture friction kills capture. Every notes app makes you pick a category before you can type; this one has exactly one input — an amber button in the middle of the screen — and the classification happens after you speak. Tap to record, hold to keep recording, drag to the lock to go hands-free. What you said comes back as a card you confirm, edit, or reclassify; the raw transcript is always one tap away.",
+        "Architecture: a native SwiftUI + SwiftData app (Swift 6, strict concurrency) and a deliberately thin TypeScript/Fastify backend that does five things — issue upload URLs, orchestrate transcription and structuring, enforce quotas, and delete audio the moment it has been transcribed. Speech recognition and structuring sit behind two provider interfaces: Tencent Cloud ASR (TC3-signed) and Claude with structured outputs on the server; Apple's Speech framework and a rule-based structurer on the phone. The phone picks the path from the server's /health and finishes on-device if the server is unreachable, so a capture never dies on a network problem.",
+        "Design system: black-and-white by day with an orange accent, black-and-yellow by night, one chromatic color at a time, with the icon shipping both appearances. Motion follows Apple's fluid-interface rules — touch-down feedback, rubber-banding at the drag boundary, momentum-projected swipe-to-flip on the idea stack, critically-damped springs for state changes, and a Reduce Motion path everywhere.",
+        "Verification ledger: the full loop (record → upload → transcribe → structure → confirm → card + local notification) is exercised end to end in the simulator with screenshots per state; the app is signed with a free developer team and installed directly on an iPhone 14 Pro (iOS 26). Tencent ASR was verified against a synthesized Mandarin clip (correct transcript, correct reminder card). What is not yet verified: a real-speech run on the physical device, and Claude-based structuring, which activates only when an API key is configured — until then structuring is rule-based, and the app says so in Settings."
+      ],
+      media: [
+        {
+          src: "/projects/voice-inbox-light.png",
+          caption: "Day palette — Smart Lists tiles, checkable to-do card, reminder with fire time, the idea stack, and the single record button."
+        },
+        {
+          src: "/projects/voice-inbox-dark.png",
+          caption: "Night palette — true black ground, yellow accent, glyphs flip to black on yellow for legibility."
+        },
+        {
+          src: "/projects/voice-inbox-icon.png",
+          caption: "App icon (day variant). An iOS 18 dark-appearance variant ships alongside it."
+        }
+      ],
+      links: [
+        { label: "GitHub", href: "https://github.com/easyrider11/voice-inbox" },
+        { label: "Project document", href: "https://github.com/easyrider11/voice-inbox/blob/main/PROJECT.md" },
+        { label: "Batch plan", href: "https://github.com/easyrider11/voice-inbox/blob/main/project_plan.md" }
+      ]
+    }
+  },
+  {
     slug: "lerobot-dataset-lint",
     title: "LeRobot Dataset Lint",
     meta: "Creator · 2026",

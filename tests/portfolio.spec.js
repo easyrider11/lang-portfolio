@@ -12,7 +12,7 @@ test("home shows featured work cards linking to reports", async ({ page }) => {
   await page.goto("/");
 
   const cards = page.locator(".featured-card");
-  await expect(cards).toHaveCount(4);
+  await expect(cards).toHaveCount(5);
   await cards.first().click();
   await expect(page).toHaveURL(/\/projects\/robot-vision-copilot$/);
   await expect(page.locator(".report-stats")).toContainText("17,478");
