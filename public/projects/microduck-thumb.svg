@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" font-family="ui-monospace,Menlo,monospace" font-size="11">
+  <rect width="320" height="200" rx="6" fill="#fafafa"/>
+  <rect x="0" y="0" width="320" height="26" rx="6" fill="#e4e4e7"/>
+  <circle cx="16" cy="13" r="4" fill="#a1a1aa"/><circle cx="30" cy="13" r="4" fill="#a1a1aa"/><circle cx="44" cy="13" r="4" fill="#a1a1aa"/>
+  <text x="14" y="48" fill="#52525b">$ eval --policy roulade_elan_v2.onnx --protocol walk-handoff</text>
+  <text x="14" y="70" fill="#16a34a">✓ run → roll → stand   200/200   (official 172/200)</text>
+  <text x="14" y="92" fill="#52525b">$ eval --policy roller_slalom_v2.onnx --cones 8 --spacing 0.7</text>
+  <text x="14" y="114" fill="#16a34a">✓ gates 8/8 · hits 0 · falls 0/50</text>
+  <text x="14" y="136" fill="#52525b">$ eval --policy roller_glide_v15.onnx --single-blade</text>
+  <text x="14" y="158" fill="#d97706">⚠ lift 0.4–0.6 s · ceiling ≈ 1 s (measured)</text>
+  <text x="14" y="182" fill="#52525b">sim only · selected by held-out eval, not reward</text>
+  <rect x="290" y="173" width="7" height="12" fill="#3f3f46">
+    <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/>
+  </rect>
+</svg>
