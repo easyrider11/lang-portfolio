@@ -150,7 +150,8 @@ export const projects = [
       links: [
         { label: "GitHub", href: "https://github.com/easyrider11/voice-inbox" },
         { label: "Project document", href: "https://github.com/easyrider11/voice-inbox/blob/main/PROJECT.md" },
-        { label: "Batch plan", href: "https://github.com/easyrider11/voice-inbox/blob/main/project_plan.md" }
+        { label: "Batch plan", href: "https://github.com/easyrider11/voice-inbox/blob/main/project_plan.md" },
+        { label: "Privacy policy", href: "/voice-inbox/privacy" }
       ]
     }
   },
