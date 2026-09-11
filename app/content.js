@@ -116,7 +116,7 @@ export const projects = [
     meta: "Creator \u00b7 sim-to-real RL on a $399 biped \u00b7 2026",
     featured: true,
     thumb: "/projects/microduck-thumb.jpg",
-    thumbAlt: "The Microduck biped weaving between orange cones on roller skates in simulation",
+    thumbAlt: "The Microduck biped: a 25 cm white duck-shaped robot with an orange beak and yellow feet",
     href: "https://github.com/easyrider11/microduck_rl/tree/overnight-elan-slalom",
     description:
       "Three new skills for the Hugging Face \u00d7 Pollen Microduck, trained with PPO on MuJoCo Warp and Hugging Face Jobs: run \u2192 forward roll \u2192 stand, a roller-skate cone slalom, and a single-blade lift that hit the robot\u2019s measured physical ceiling.",
