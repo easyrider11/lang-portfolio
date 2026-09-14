@@ -9,6 +9,7 @@ export const profile = {
   email: "lorrelipro@gmail.com",
   github: "https://github.com/easyrider11",
   linkedin: "https://www.linkedin.com/in/lang-li11/",
+  x: "https://x.com/LaneLi89a",
   resume: "/resume.pdf"
 };
 

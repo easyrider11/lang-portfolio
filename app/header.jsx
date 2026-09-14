@@ -19,6 +19,14 @@ function IconLinkedin() {
   );
 }
 
+function IconX() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="icon">
+      <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932 6.064-6.933zm-1.29 19.49h2.039L6.487 3.24H4.3l13.311 17.403z" />
+    </svg>
+  );
+}
+
 function IconMail() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="icon">
@@ -60,6 +68,9 @@ export default function Header() {
         </a>
         <a className="nav-icon" href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
           <IconLinkedin />
+        </a>
+        <a className="nav-icon" href={profile.x} target="_blank" rel="noreferrer" aria-label="X">
+          <IconX />
         </a>
         <a className="nav-icon" href={`mailto:${profile.email}`} aria-label="Email">
           <IconMail />
