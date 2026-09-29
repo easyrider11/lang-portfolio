@@ -32,8 +32,13 @@ test("experience page renders the timeline", async ({ page }) => {
   await page.goto("/experience");
 
   const timeline = page.locator(".timeline li");
-  await expect(timeline.first()).toContainText("2026 – now");
+  await expect(timeline.first()).toContainText("Stanford University");
+  await expect(timeline.first()).toContainText("Jan 2027");
+  await expect(timeline.nth(1)).toContainText("2026 – now");
   await expect(page.locator(".timeline")).toContainText("Meta");
+  await expect(
+    page.getByRole("link", { name: "Superpose on the App Store" })
+  ).toHaveAttribute("href", "https://apps.apple.com/app/id6759357866");
 });
 
 test("education and honors are rendered on the experience page", async ({ page }) => {

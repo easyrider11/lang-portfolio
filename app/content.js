@@ -5,7 +5,7 @@ export const profile = {
   name: "Lorre Li",
   title: "Lorre Li",
   description:
-    "Lorre (Lang) Li is an engineer working on robotics and AI systems — robot agent runtimes, GPU inference serving, dataset tooling, and agent evaluation.",
+    "Lorre (Lang) Li is an engineer working on robotics and AI systems — robot agent runtimes, GPU inference serving, dataset tooling, and agent evaluation. Incoming Stanford MS in Computer Science, January 2027.",
   email: "lorrelipro@gmail.com",
   github: "https://github.com/easyrider11",
   linkedin: "https://www.linkedin.com/in/lang-li11/",
@@ -14,7 +14,7 @@ export const profile = {
 };
 
 export const intro =
-  "Hi, I'm Lorre Li. I'm an engineer, and I build AI systems that have to work outside the demo — robot control loops, GPU inference serving, and the evaluation and dataset tooling that keeps them honest. I believe:";
+  "Hi, I'm Lorre Li. I'm an engineer, and I build AI systems that have to work outside the demo — robot control loops, GPU inference serving, and the evaluation and dataset tooling that keeps them honest. Starting January 2027, I'm an MS Computer Science student at Stanford. I believe:";
 
 export const beliefs = [
   "A model that can't be evaluated can't be trusted.",
@@ -23,6 +23,12 @@ export const beliefs = [
 
 // Experience page timeline, newest first.
 export const timeline = [
+  {
+    period: "Jan 2027 –",
+    org: "Stanford University",
+    role: "M.S. Computer Science (incoming)",
+    description: "Starting the MS in Computer Science in January 2027."
+  },
   {
     period: "2026 – now",
     org: "Independent",
@@ -35,7 +41,7 @@ export const timeline = [
     org: "Superpose",
     role: "Software Engineer",
     description:
-      "I owned a multi-GPU inference scheduler — one worker per GPU, first-free-wins acquisition, configurable backpressure — replacing a serial queue through a zero-downtime cutover, and brought up an SGLang serving stack for agent workloads across an on-prem six-GPU node, RunPod, and AWS EC2."
+      "I owned a multi-GPU inference scheduler — one worker per GPU, first-free-wins acquisition, configurable backpressure — replacing a serial queue through a zero-downtime cutover, and brought up an SGLang serving stack for agent workloads across an on-prem six-GPU node, RunPod, and AWS EC2. [Superpose on the App Store](https://apps.apple.com/app/id6759357866)."
   },
   {
     period: "2025",
