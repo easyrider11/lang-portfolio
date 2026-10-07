@@ -245,7 +245,7 @@ export const projects = [
       stats: [
         { value: "2", label: "merged PRs (gz_ros2_control, Harbor)" },
         { value: "7", label: "open PRs across Harbor, MoveIt 2, LeRobot" },
-        { value: "2", label: "root-cause issue reports on LeRobot" },
+        { value: "3", label: "root-cause issue reports on LeRobot" },
         { value: "1", label: "suspected bug disproved before filing" }
       ],
       body: [
@@ -322,6 +322,12 @@ export const projects = [
               ref: "#4519",
               href: "https://github.com/huggingface/lerobot/issues/4519",
               text: "v3 task-association inconsistency between the dataset writer and published datasets \u2014 found by Dataset Lint."
+            },
+            {
+              status: "issue",
+              ref: "#4870",
+              href: "https://github.com/huggingface/lerobot/issues/4870",
+              text: "TD-MPC can\u2019t be served by the async PolicyServer: the first call reads empty observation queues, and its action chunk comes back time-major, so actions_per_chunk is ignored \u2014 reproduced on 0.6.1 and main, with ACT as the control."
             }
           ]
         },

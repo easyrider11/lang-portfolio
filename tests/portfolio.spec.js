@@ -24,7 +24,7 @@ test("project report page renders stats, body, and media", async ({ page }) => {
   await expect(page.locator(".page-title")).toHaveText("Upstream OSS Work");
   await expect(page.locator(".ledger")).toContainText("#944");
   await expect(page.locator(".chip--merged").first()).toHaveText("merged");
-  await expect(page.locator(".ledger-items li")).toHaveCount(12);
+  await expect(page.locator(".ledger-items li")).toHaveCount(13);
   await expect(page.locator(".crumb a")).toHaveAttribute("href", "/projects");
 });
 
