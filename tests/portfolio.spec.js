@@ -130,3 +130,18 @@ test("home carries the default OG card", async ({ page }) => {
     /\/og\/home\.png$/
   );
 });
+
+test("lab page runs the agent loop and recovers from an injected fault", async ({ page }) => {
+  await page.goto("/lab");
+
+  await expect(page.locator(".lab-canvas")).toBeVisible();
+  await expect(page.locator(".lab-state")).toHaveCount(5);
+  await expect(page.locator(".lab-log")).toContainText("PERCEIVE", { timeout: 10_000 });
+
+  await page.getByRole("button", { name: "Inject unsafe action" }).click();
+  await expect(page.locator(".lab-log")).toContainText("VALIDATE  rejected", { timeout: 15_000 });
+
+  await page.getByRole("button", { name: "Inject target lost" }).click();
+  await expect(page.locator(".lab-log")).toContainText("RECOVER", { timeout: 30_000 });
+  await expect(page.locator(".lab-honesty")).toContainText("not the Python simulator");
+});

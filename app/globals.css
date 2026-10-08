@@ -655,3 +655,125 @@ main {
 .report-next a {
   font-weight: 700;
 }
+
+/* ── Lab ── */
+.lab-piece {
+  margin-top: 2.5rem;
+}
+
+.lab-piece-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.lab-piece-desc {
+  margin-top: 0.5rem;
+  line-height: 1.65;
+}
+
+.lab-demo {
+  margin-top: 1.25rem;
+}
+
+.lab-states {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.72rem;
+}
+
+.lab-state {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--muted);
+}
+
+.lab-state--active {
+  color: #fff;
+  background: var(--text-strong);
+  border-color: var(--text-strong);
+}
+
+.lab-canvas {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  border-radius: 6px;
+  outline: 1px solid var(--rule);
+}
+
+.lab-controls {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.lab-controls button {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text-strong);
+  cursor: pointer;
+}
+
+.lab-controls button:hover {
+  background: #fafafa;
+  border-color: #a1a1aa;
+}
+
+.lab-counts {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.75rem 0;
+}
+
+.lab-counts dt {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+
+.lab-counts dd {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.lab-log {
+  margin-top: 0.75rem;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: #fafafa;
+  border-radius: 6px;
+  outline: 1px solid var(--rule);
+  padding: 0.75rem 0.9rem;
+  min-height: 9.5rem;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.lab-honesty {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+@media (max-width: 640px) {
+  .lab-counts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

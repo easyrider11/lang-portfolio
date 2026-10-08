@@ -37,7 +37,8 @@ function IconMail() {
 
 const pages = [
   { href: "/experience", label: "Experience" },
-  { href: "/projects", label: "Projects" }
+  { href: "/projects", label: "Projects" },
+  { href: "/lab", label: "Lab" }
 ];
 
 export default function Header() {

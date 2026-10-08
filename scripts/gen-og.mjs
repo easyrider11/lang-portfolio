@@ -53,6 +53,7 @@ const pages = [
   },
   { name: "experience", kicker: "Experience", title: "Stanford · Superpose · Meta · Radical AI · Notre Dame", stats: [], footer: "Experience" },
   { name: "projects", kicker: "Projects", title: "Robots, linters, smoke tests, and upstream fixes.", stats: proof, footer: "Projects" },
+  { name: "lab", kicker: "Lab", title: "Agent runtime loop — inject a fault, watch it recover.", stats: [], footer: "Interactive" },
   ...projects
     .filter((p) => p.report)
     .map((p) => ({
