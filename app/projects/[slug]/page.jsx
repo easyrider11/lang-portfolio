@@ -9,7 +9,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const p = projects.find((x) => x.slug === slug && x.report);
-  return { title: p ? p.title : "Project" };
+  if (!p) return { title: "Project" };
+  const image = `/og/${p.slug}.png`;
+  return {
+    title: p.title,
+    description: p.description,
+    openGraph: { title: p.title, description: p.description, images: [image] },
+    twitter: { card: "summary_large_image", title: p.title, description: p.description, images: [image] }
+  };
 }
 
 export default async function ProjectReport({ params }) {
@@ -87,6 +94,13 @@ export default async function ProjectReport({ params }) {
             </a>
           ))}
         </p>
+      )}
+
+      {p.report.next && (
+        <aside className="report-next">
+          <span className="report-next-label">{p.report.next.label}</span>
+          <a href={p.report.next.href}>{p.report.next.title} →</a>
+        </aside>
       )}
     </article>
   );

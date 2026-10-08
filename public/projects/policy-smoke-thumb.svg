@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" font-family="ui-monospace,Menlo,monospace" font-size="10.5">
+  <rect width="320" height="200" rx="6" fill="#fafafa"/>
+  <rect x="0" y="0" width="320" height="26" rx="6" fill="#e4e4e7"/>
+  <circle cx="16" cy="13" r="4" fill="#a1a1aa"/><circle cx="30" cy="13" r="4" fill="#a1a1aa"/><circle cx="44" cy="13" r="4" fill="#a1a1aa"/>
+  <text x="14" y="46" fill="#52525b">$ policy-smoke check ./no_stats</text>
+  <text x="14" y="66" fill="#16a34a">PASS files present and non-empty</text>
+  <text x="14" y="82" fill="#16a34a">PASS weights match model (no missing keys)</text>
+  <text x="14" y="98" fill="#16a34a">PASS save/reload keeps weights and config</text>
+  <text x="14" y="114" fill="#16a34a">PASS select_action shape</text>
+  <text x="14" y="130" fill="#dc2626">FAIL normalization stats: preprocessor</text>
+  <text x="14" y="144" fill="#dc2626">     has no stats for observation.state</text>
+  <text x="14" y="170" fill="#52525b">62 passed · 12 xfailed · 16.97s · CPU only</text>
+  <rect x="268" y="161" width="7" height="12" fill="#3f3f46">
+    <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/>
+  </rect>
+</svg>

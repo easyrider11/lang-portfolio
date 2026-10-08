@@ -1,6 +1,10 @@
 import { projects, projectsIntro } from "../content";
 
-export const metadata = { title: "Projects" };
+export const metadata = {
+  title: "Projects",
+  openGraph: { title: "Projects", images: ["/og/projects.png"] },
+  twitter: { card: "summary_large_image", title: "Projects", images: ["/og/projects.png"] }
+};
 
 function TitleLink({ p }) {
   if (p.report) return <a href={`/projects/${p.slug}`}>{p.title}</a>;

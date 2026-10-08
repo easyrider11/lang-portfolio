@@ -1,7 +1,11 @@
 import { timeline } from "../content";
 import { renderText } from "../lib/text";
 
-export const metadata = { title: "Experience" };
+export const metadata = {
+  title: "Experience",
+  openGraph: { title: "Experience", images: ["/og/experience.png"] },
+  twitter: { card: "summary_large_image", title: "Experience", images: ["/og/experience.png"] }
+};
 
 export default function Experience() {
   return (

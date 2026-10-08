@@ -103,3 +103,30 @@ test("header exposes email, GitHub, and résumé links", async ({ page }) => {
     "/resume.pdf"
   );
 });
+
+test("report pages carry the narrative thread and an OG card", async ({ page }) => {
+  await page.goto("/projects/lerobot-dataset-lint");
+
+  await expect(page.locator(".report-next a")).toHaveAttribute("href", "/projects/policy-smoke");
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    /\/og\/lerobot-dataset-lint\.png$/
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+    "content",
+    "summary_large_image"
+  );
+
+  await page.locator(".report-next a").click();
+  await expect(page).toHaveURL(/\/projects\/policy-smoke$/);
+  await expect(page.locator(".report-stats")).toContainText("17 s");
+  await expect(page.locator(".ledger")).toHaveCount(0);
+});
+
+test("home carries the default OG card", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    /\/og\/home\.png$/
+  );
+});

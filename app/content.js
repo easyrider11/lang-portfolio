@@ -178,7 +178,12 @@ export const projects = [
       ],
       links: [
         { label: "GitHub", href: "https://github.com/easyrider11/robot-vision-copilot" }
-      ]
+      ],
+      next: {
+        label: "Next layer: the same thesis, applied to the data the robot learns from",
+        href: "/projects/lerobot-dataset-lint",
+        title: "LeRobot Dataset Lint"
+      }
     }
   },
   {
@@ -252,24 +257,73 @@ export const projects = [
       media: [],
       links: [
         { label: "GitHub", href: "https://github.com/easyrider11/lerobot-dataset-lint" }
-      ]
+      ],
+      next: {
+        label: "Next layer: the same checks, applied to the policy after it loads",
+        href: "/projects/policy-smoke",
+        title: "policy-smoke"
+      }
     }
   },
   {
     slug: "policy-smoke",
     title: "policy-smoke",
     meta: "Creator · 2026",
+    thumb: "/projects/policy-smoke-thumb.svg",
+    thumbAlt: "policy-smoke check output: four PASS lines and one FAIL on normalization stats",
     href: "https://github.com/easyrider11/policy-smoke",
     description:
-      "CPU-only smoke tests for LeRobot policies that catch loads-fine-but-silently-degraded bugs — save/load round trips, determinism, strict-load reporting, and normalization-stats survival, each check anchored to a real upstream issue. 17 s on a 4-core CI runner."
+      "CPU-only smoke tests for LeRobot policies that catch loads-fine-but-silently-degraded bugs — save/load round trips, determinism, strict-load reporting, and normalization-stats survival, each check anchored to a real upstream issue. 17 s on a 4-core CI runner.",
+    report: {
+      stats: [
+        { value: "17 s", label: "warm run on a 4-core CI runner, no GPU, no downloads" },
+        { value: "8", label: "invariant checks across 5 policy families" },
+        { value: "4", label: "upstream LeRobot bugs each check is anchored to" },
+        { value: "12", label: "strict xfails that turn red the day upstream fixes them" }
+      ],
+      body: [
+        "The failure mode this guards against is the quiet one: a policy that loads without error and runs without crashing, but whose normalization has silently become identity, whose config knob is accepted and never read, or whose weights lost a key on the way through load_state_dict(strict=False). Reward drops from ~150 to ~5 and nothing in the logs says why.",
+        "Every test builds a tiny, randomly initialised policy from a config object \u2014 6-dim state, 6-dim action, one small image or none \u2014 saves it with save_pretrained, reloads it with from_pretrained, and checks invariants: state_dict round trip, determinism across the round trip, strict-load key reporting, pretrained_path propagation, normalization-stats survival, select_action shape and chunking, config knobs having an effect, and the CLI writing non-empty files. HF_HUB_OFFLINE=1 for the whole run. Weights are random, so this proves plumbing, not task performance \u2014 and says so.",
+        "Known upstream bugs are pinned with xfail(strict=True): [#4647](https://github.com/huggingface/lerobot/issues/4647) (processors built with empty stats), [#4711](https://github.com/huggingface/lerobot/issues/4711) (strict=False drops keys silently), [#4727](https://github.com/huggingface/lerobot/issues/4727) (use_tanh_squash accepted but never read), [#4649](https://github.com/huggingface/lerobot/issues/4649) (migration writes an empty config). When upstream fixes one, that test passes, the suite turns red, and the marker comes out \u2014 the test suite doubles as a tracker.",
+        "policy-smoke check <path> runs the same checks against any real checkpoint, offline on CPU, and exits 1 on the first silent degradation. Covered: act, diffusion, vqbet, tdmpc, gaussian_actor. The limitations section lists the eleven policy families that cannot be built offline on CPU and why, one by one."
+      ],
+      media: [],
+      links: [
+        { label: "GitHub", href: "https://github.com/easyrider11/policy-smoke" }
+      ],
+      next: {
+        label: "Previous layer: the checkpoints this was written to catch",
+        href: "/projects/lerobot-dataset-lint",
+        title: "LeRobot Dataset Lint"
+      }
+    }
   },
   {
     slug: "issue-claim-check",
     title: "issue-claim-check",
     meta: "Creator · 2026",
+    thumb: "/projects/claimcheck-thumb.svg",
+    thumbAlt: "claimcheck table output with CLAIMED, LIKELY-CLAIMED, ASSIGNED and FREE verdicts",
     href: "https://github.com/easyrider11/issue-claim-check",
     description:
-      "CLI that tells you which good-first issues are actually free before you start: in a scan of ~30 unassigned issues across five robotics/ML repos, almost every one already had a competing open PR."
+      "CLI that tells you which good-first issues are actually free before you start: in a scan of ~30 unassigned issues across five robotics/ML repos, almost every one already had a competing open PR.",
+    report: {
+      stats: [
+        { value: "~30", label: "good-first issues scanned across 5 repos on day one" },
+        { value: "4", label: "verdicts: ASSIGNED, CLAIMED, LIKELY-CLAIMED, FREE" },
+        { value: "3", label: "API requests per issue; one PR listing per repo scan" },
+        { value: "1", label: "runtime dependency (httpx)" }
+      ],
+      body: [
+        "An issue can look open and unassigned while a pull request for it was opened hours ago. I hit this repeatedly while doing upstream work: pick a good-first issue, read the code, start a fix, discover a competing PR. In a scan of about 30 good-first / help-wanted issues across lerobot, inspect_ai, navigation2, mujoco_playground and ManiSkill, almost every unassigned one was already taken.",
+        "claimcheck gives each issue the strongest verdict any signal supports. CLAIMED: an open PR in the same repo references the issue in its timeline, the Development sidebar, or with a closing keyword. LIKELY-CLAIMED: in the last 30 days a non-bot user said something like \u201cI\u2019d like to work on this\u201d or \u201cI fixed this in <fork commit>\u201d and no maintainer declined. ASSIGNED is what GitHub says; FREE is none of the above \u2014 with closed and merged PRs still listed as evidence, so you can judge whether a claim was abandoned.",
+        "The limitations are written down the same way the verdicts are: comment matching is a fixed phrase list that will miss claims phrased differently, GitHub\u2019s search index lags new PRs by minutes, cross-repo references are ignored, and ASSIGNED can be stale. The first live run found two misses; they became regression tests."
+      ],
+      media: [],
+      links: [
+        { label: "GitHub", href: "https://github.com/easyrider11/issue-claim-check" }
+      ]
+    }
   },
   {
     slug: "upstream",

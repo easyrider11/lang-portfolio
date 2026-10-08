@@ -635,3 +635,23 @@ main {
   color: var(--muted);
   line-height: 1.5;
 }
+
+/* ── Narrative thread box (report pages) ── */
+.report-next {
+  margin-top: 2.5rem;
+  padding: 1rem 1.25rem;
+  border-left: 2px solid var(--rule);
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.report-next-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.report-next a {
+  font-weight: 700;
+}

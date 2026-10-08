@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" font-family="ui-monospace,Menlo,monospace" font-size="10">
+  <rect width="320" height="200" rx="6" fill="#fafafa"/>
+  <rect x="0" y="0" width="320" height="26" rx="6" fill="#e4e4e7"/>
+  <circle cx="16" cy="13" r="4" fill="#a1a1aa"/><circle cx="30" cy="13" r="4" fill="#a1a1aa"/><circle cx="44" cy="13" r="4" fill="#a1a1aa"/>
+  <text x="14" y="46" fill="#52525b">$ claimcheck huggingface/lerobot</text>
+  <text x="14" y="68" fill="#71717a">#      Age  Verdict          Evidence</text>
+  <line x1="14" y1="73" x2="306" y2="73" stroke="#e4e4e7"/>
+  <text x="14" y="88" fill="#3f3f46">4851   2d</text><text x="92" y="88" fill="#dc2626">CLAIMED</text><text x="190" y="88" fill="#3f3f46">PR #4852 'Fixes: #4851'</text>
+  <text x="14" y="104" fill="#3f3f46">4844   3d</text><text x="92" y="104" fill="#d97706">LIKELY-CLAIMED</text><text x="190" y="104" fill="#3f3f46">"can I take this?" 2d</text>
+  <text x="14" y="120" fill="#3f3f46">4833   5d</text><text x="92" y="120" fill="#71717a">ASSIGNED</text><text x="190" y="120" fill="#3f3f46">@maintainer</text>
+  <text x="14" y="136" fill="#3f3f46">4791   9d</text><text x="92" y="136" fill="#16a34a">FREE</text><text x="190" y="136" fill="#3f3f46">no PR, no claim</text>
+  <text x="14" y="168" fill="#52525b">1 of 4 issue(s) look free.</text>
+  <rect x="180" y="159" width="7" height="12" fill="#3f3f46">
+    <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/>
+  </rect>
+</svg>
