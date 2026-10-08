@@ -14,11 +14,27 @@ export const profile = {
 };
 
 export const intro =
-  "Hi, I'm Lorre Li. I'm an engineer, and I build AI systems that have to work outside the demo — robot control loops, GPU inference serving, and the evaluation and dataset tooling that keeps them honest. Starting January 2027, I'm an MS Computer Science student at Stanford. I believe:";
+  "Hi, I'm Lorre Li. I build robots and AI systems that have to work outside the demo \u2014 and the tooling that catches the ones that look fine but are silently broken: robot control loops, dataset and checkpoint linting, policy smoke tests. Starting January 2027, I'm an MS Computer Science student at Stanford. I believe:";
 
 export const beliefs = [
   "A model that can't be evaluated can't be trusted.",
   "A system that can't fail safely isn't finished."
+];
+
+// Home-page credential strip (left to right).
+export const credentials = [
+  { label: "Stanford", sub: "MS CS \u00b7 Jan 2027", href: "/experience" },
+  { label: "Meta", sub: "Instagram AR \u00b7 2025", href: "/experience" },
+  { label: "Superpose", sub: "shipped to App Store", href: "https://apps.apple.com/app/id6759357866" },
+  { label: "Notre Dame", sub: "CS + Math \u00b7 3.97, Summa", href: "/experience" }
+];
+
+// Home-page proof strip: verified numbers, each linking to the report it comes from.
+export const proof = [
+  { value: "500/500", label: "fault-injected robot episodes recovered", href: "/projects/robot-vision-copilot" },
+  { value: "200/200", label: "walk \u2192 roll hand-offs on a biped, in sim", href: "/projects/microduck-tricks" },
+  { value: "24/251", label: "public robot checkpoints found silently broken", href: "/projects/lerobot-dataset-lint" },
+  { value: "2 + 7", label: "upstream PRs merged + open (ROS 2, HF, Harbor)", href: "/projects/upstream" }
 ];
 
 // Experience page timeline, newest first.
@@ -73,6 +89,54 @@ export const projectsIntro =
 
 export const projects = [
   {
+    slug: "microduck-tricks",
+    title: "Microduck RL Tricks",
+    meta: "Creator \u00b7 sim-to-real RL on a $399 biped \u00b7 2026",
+    featured: true,
+    hero: "/projects/microduck-roll.gif",
+    heroAlt: "Microduck biped in simulation: run, forward roll, stand",
+    thumb: "/projects/microduck-thumb.jpg",
+    thumbAlt: "The Microduck biped: a 25 cm white duck-shaped robot with an orange beak and yellow feet",
+    href: "https://github.com/easyrider11/microduck_rl/tree/overnight-elan-slalom",
+    description:
+      "Three new skills for the Hugging Face \u00d7 Pollen Microduck, trained with PPO on MuJoCo Warp and Hugging Face Jobs: run \u2192 forward roll \u2192 stand, a roller-skate cone slalom, and a single-blade lift that hit the robot\u2019s measured physical ceiling.",
+    report: {
+      stats: [
+        { value: "200/200", label: "walk \u2192 roll hand-offs in sim (official policy: 86%)" },
+        { value: "8/8", label: "slalom gates, 0 cone hits, 0/50 falls at 0.5 m/s" },
+        { value: "0.4\u20130.6 s", label: "single-blade lift while skating \u2014 ceiling \u2248 1 s, measured" },
+        { value: "\u2248 $40", label: "of rented GPU time, 20 training runs" }
+      ],
+      body: [
+        "Microduck is a 25 cm, 14-servo biped that Hugging Face and Pollen Robotics ship with an open RL stack: MuJoCo Warp simulation through mjlab, PPO, ONNX export, and a runtime that hot-swaps policies on a shared 61-dimensional observation contract. I used that stack to add three skills the robot did not have, training on rented GPUs through Hugging Face Jobs and evaluating every checkpoint on my laptop.",
+        "Run \u2192 forward roll \u2192 stand. The official roulade policy rolls from a standstill; a rolling entry from a walk failed the hand-off 14% of the time. The fix was not a reward: it was spawning training episodes inside a bank of measured walking states, so the transition is in-distribution from iteration 0. The resulting policy takes the hand-off from the walking policy 200/200 times and survives mass, friction and mid-roll pushes it never saw.",
+        "Roller-skate cone slalom. The observation has no slot for obstacles, so the slalom is a commander plus a policy: a pure-pursuit commander writes a heading error into the existing command slot, the policy tracks it at speed. On an 8-cone course at 0.7 m spacing it clears 8/8 gates with zero cone contacts and 0/50 falls; the official skating policy manages 21% of gates and falls 75% of the time. The tighter 0.5 m course is not solved and says so in the write-up.",
+        "Single-blade lift \u2014 the one that did not fully work. Nine training runs on a sustained one-leg glide all stalled at the same ~1 s, whatever the reward prices. Before spending more GPU I wrote a model-based controller with the full simulator state, then a sampling MPC with the perfect model: both top out at the same second. The robot has no ankle-roll joint and a 5 cm inline wheelbase; balancing on one blade is a bicycle problem its hip can\u2019t steer fast enough. So the target was redefined to what the hardware can do \u2014 lift, ride one blade for ~0.6 s, put the foot down before the fall \u2014 and that trained: 24/24 seeded takes, no falls.",
+        "Two lessons travel beyond this robot. Checkpoints were chosen only by a held-out deployment battery (hand-off from the walking policy, physical cones, standing and rolling starts); in every run those numbers moved independently of the training curves, and the best training reward was never the checkpoint that shipped. And the cheapest experiment of the week was the physics probe that cost nothing and ended a $27 line of reward tuning.",
+        "Everything is in the open: policies, write-ups with the failed runs, the evaluation scripts, and the retrospective. Simulation results only \u2014 nothing has been run on the physical robot yet."
+      ],
+      media: [
+        {
+          src: "/projects/microduck-roll.gif",
+          caption: "Run \u2192 forward roll \u2192 stand, entered from the walking policy. Checkpoint chosen by the hand-off battery, not by training reward."
+        },
+        {
+          src: "/projects/microduck-slalom.gif",
+          caption: "Cone slalom on the 0.7 m course: a pure-pursuit commander drives the heading-error command slot; the policy tracks it at 0.5 m/s."
+        },
+        {
+          src: "/projects/microduck-lift.gif",
+          caption: "Single-blade lift while skating: 0.64 s of true single support (by contact load), foot back down, skating on. The measured ceiling for this robot is about one second."
+        }
+      ],
+      links: [
+        { label: "GitHub", href: "https://github.com/easyrider11/microduck_rl/tree/overnight-elan-slalom" },
+        { label: "Policies on Hugging Face", href: "https://huggingface.co/langli11/microduck-tricks" },
+        { label: "Upstream project", href: "https://github.com/pollen-robotics/microduck_rl" }
+      ]
+    }
+  },
+  {
     slug: "robot-vision-copilot",
     title: "Robot Vision Copilot",
     meta: "Creator · 2026",
@@ -118,56 +182,9 @@ export const projects = [
     }
   },
   {
-    slug: "microduck-tricks",
-    title: "Microduck RL Tricks",
-    meta: "Creator \u00b7 sim-to-real RL on a $399 biped \u00b7 2026",
-    featured: true,
-    thumb: "/projects/microduck-thumb.jpg",
-    thumbAlt: "The Microduck biped: a 25 cm white duck-shaped robot with an orange beak and yellow feet",
-    href: "https://github.com/easyrider11/microduck_rl/tree/overnight-elan-slalom",
-    description:
-      "Three new skills for the Hugging Face \u00d7 Pollen Microduck, trained with PPO on MuJoCo Warp and Hugging Face Jobs: run \u2192 forward roll \u2192 stand, a roller-skate cone slalom, and a single-blade lift that hit the robot\u2019s measured physical ceiling.",
-    report: {
-      stats: [
-        { value: "200/200", label: "walk \u2192 roll hand-offs in sim (official policy: 86%)" },
-        { value: "8/8", label: "slalom gates, 0 cone hits, 0/50 falls at 0.5 m/s" },
-        { value: "0.4\u20130.6 s", label: "single-blade lift while skating \u2014 ceiling \u2248 1 s, measured" },
-        { value: "\u2248 $40", label: "of rented GPU time, 20 training runs" }
-      ],
-      body: [
-        "Microduck is a 25 cm, 14-servo biped that Hugging Face and Pollen Robotics ship with an open RL stack: MuJoCo Warp simulation through mjlab, PPO, ONNX export, and a runtime that hot-swaps policies on a shared 61-dimensional observation contract. I used that stack to add three skills the robot did not have, training on rented GPUs through Hugging Face Jobs and evaluating every checkpoint on my laptop.",
-        "Run \u2192 forward roll \u2192 stand. The official roulade policy rolls from a standstill; a rolling entry from a walk failed the hand-off 14% of the time. The fix was not a reward: it was spawning training episodes inside a bank of measured walking states, so the transition is in-distribution from iteration 0. The resulting policy takes the hand-off from the walking policy 200/200 times and survives mass, friction and mid-roll pushes it never saw.",
-        "Roller-skate cone slalom. The observation has no slot for obstacles, so the slalom is a commander plus a policy: a pure-pursuit commander writes a heading error into the existing command slot, the policy tracks it at speed. On an 8-cone course at 0.7 m spacing it clears 8/8 gates with zero cone contacts and 0/50 falls; the official skating policy manages 21% of gates and falls 75% of the time. The tighter 0.5 m course is not solved and says so in the write-up.",
-        "Single-blade lift \u2014 the one that did not fully work. Nine training runs on a sustained one-leg glide all stalled at the same ~1 s, whatever the reward prices. Before spending more GPU I wrote a model-based controller with the full simulator state, then a sampling MPC with the perfect model: both top out at the same second. The robot has no ankle-roll joint and a 5 cm inline wheelbase; balancing on one blade is a bicycle problem its hip can\u2019t steer fast enough. So the target was redefined to what the hardware can do \u2014 lift, ride one blade for ~0.6 s, put the foot down before the fall \u2014 and that trained: 24/24 seeded takes, no falls.",
-        "Two lessons travel beyond this robot. Checkpoints were chosen only by a held-out deployment battery (hand-off from the walking policy, physical cones, standing and rolling starts); in every run those numbers moved independently of the training curves, and the best training reward was never the checkpoint that shipped. And the cheapest experiment of the week was the physics probe that cost nothing and ended a $27 line of reward tuning.",
-        "Everything is in the open: policies, write-ups with the failed runs, the evaluation scripts, and the retrospective. Simulation results only \u2014 nothing has been run on the physical robot yet."
-      ],
-      media: [
-        {
-          src: "/projects/microduck-roll.gif",
-          caption: "Run \u2192 forward roll \u2192 stand, entered from the walking policy. Checkpoint chosen by the hand-off battery, not by training reward."
-        },
-        {
-          src: "/projects/microduck-slalom.gif",
-          caption: "Cone slalom on the 0.7 m course: a pure-pursuit commander drives the heading-error command slot; the policy tracks it at 0.5 m/s."
-        },
-        {
-          src: "/projects/microduck-lift.gif",
-          caption: "Single-blade lift while skating: 0.64 s of true single support (by contact load), foot back down, skating on. The measured ceiling for this robot is about one second."
-        }
-      ],
-      links: [
-        { label: "GitHub", href: "https://github.com/easyrider11/microduck_rl/tree/overnight-elan-slalom" },
-        { label: "Policies on Hugging Face", href: "https://huggingface.co/langli11/microduck-tricks" },
-        { label: "Upstream project", href: "https://github.com/pollen-robotics/microduck_rl" }
-      ]
-    }
-  },
-  {
     slug: "voice-inbox",
     title: "Voice Inbox",
     meta: "Creator · 2026",
-    featured: true,
     thumb: "/projects/voice-inbox-light.png",
     thumbAlt: "Voice Inbox home screen: Smart Lists tiles, content cards, and the central amber record button",
     href: "https://github.com/easyrider11/voice-inbox",
@@ -396,15 +413,13 @@ export const projects = [
   {
     slug: "agenticvbench",
     title: "AgenticVBench",
-    meta: "Contributor · 2026",
-    featured: true,
-    thumb: "/projects/harbor-thumb.svg",
-    thumbAlt: "Diagram of sandboxed agent evaluation with verifiers",
+    meta: "Contributor · in progress · 2026",
     description:
-      "Contributing evaluations for 100 multimodal video-agent tasks with deterministic and VLM-based verifiers \u2014 built on Harbor, where my sandbox-reliability fixes landed upstream."
+      "In progress. Contributing evaluations for 100 multimodal video-agent tasks with deterministic and VLM-based verifiers \u2014 built on Harbor, where my sandbox-reliability fixes landed upstream."
   },
   {
     slug: "interview-platform",
+    earlier: true,
     title: "AI-Assisted Interview Platform",
     meta: "Creator · 2025",
     href: "https://github.com/easyrider11/vibescore",
@@ -413,6 +428,7 @@ export const projects = [
   },
   {
     slug: "dead-code-detector",
+    earlier: true,
     title: "Dead Code Detector",
     meta: "Creator · 2025",
     description:
@@ -420,6 +436,7 @@ export const projects = [
   },
   {
     slug: "hft-obi-engine",
+    earlier: true,
     title: "HFT Order Book Imbalance Engine",
     meta: "Creator · 2025",
     description:
@@ -435,6 +452,7 @@ export const projects = [
   },
   {
     slug: "llm-quiz-interface",
+    earlier: true,
     title: "LLM Quiz Interface",
     meta: "Research assistant · Notre Dame · 2024 – 2026",
     description:
@@ -442,6 +460,7 @@ export const projects = [
   },
   {
     slug: "legal-consultant-rag",
+    earlier: true,
     title: "Legal Consultant RAG",
     meta: "Creator · 2024",
     description:
@@ -449,6 +468,7 @@ export const projects = [
   },
   {
     slug: "ndfootball-channel",
+    earlier: true,
     title: "NDFootball Channel",
     meta: "Creator · 2024",
     description:
@@ -456,6 +476,7 @@ export const projects = [
   },
   {
     slug: "poker-bankroll-tracker",
+    earlier: true,
     title: "Poker Session Bankroll Tracker",
     meta: "Creator · 2024",
     href: "https://github.com/easyrider11/poker-session-bankroll-tracker",
@@ -464,6 +485,7 @@ export const projects = [
   },
   {
     slug: "graph-analysis-bot",
+    earlier: true,
     title: "Graph Analysis Bot",
     meta: "Creator · 2024",
     description:
@@ -471,6 +493,7 @@ export const projects = [
   },
   {
     slug: "fts-scanner",
+    earlier: true,
     title: "FTS Scanner App",
     meta: "Creator · 2023",
     description:

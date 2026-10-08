@@ -8,12 +8,25 @@ test("home renders the portrait, intro, and beliefs", async ({ page }) => {
   await expect(page.locator(".portrait")).toBeVisible();
 });
 
-test("home shows featured work cards linking to reports", async ({ page }) => {
+test("home shows credentials, proof numbers, and a hero card", async ({ page }) => {
   await page.goto("/");
 
+  await expect(page.locator(".cred-strip li")).toHaveCount(4);
+  await expect(page.locator(".cred-strip")).toContainText("Stanford");
+  await expect(page.locator(".proof-strip > div")).toHaveCount(4);
+  await expect(page.locator(".proof-strip")).toContainText("24/251");
+
   const cards = page.locator(".featured-card");
-  await expect(cards).toHaveCount(6);
+  await expect(cards).toHaveCount(4);
+  await expect(cards.first()).toHaveClass(/featured-card--hero/);
   await cards.first().click();
+  await expect(page).toHaveURL(/\/projects\/microduck-tricks$/);
+  await expect(page.locator(".report-stats")).toContainText("200/200");
+});
+
+test("proof numbers link to the reports they come from", async ({ page }) => {
+  await page.goto("/");
+  await page.locator(".proof-strip a", { hasText: "500/500" }).click();
   await expect(page).toHaveURL(/\/projects\/robot-vision-copilot$/);
   await expect(page.locator(".report-stats")).toContainText("17,478");
 });
@@ -57,8 +70,11 @@ test("nav goes to the projects page and lists current work", async ({ page }) =>
   await expect(page).toHaveURL(/\/projects$/);
 
   const items = page.locator(".project-list li");
-  await expect(items.first()).toContainText("Robot Vision Copilot");
+  await expect(items.first()).toContainText("Microduck RL Tricks");
   await expect(page.locator("#lerobot-dataset-lint")).toContainText("LeRobot Dataset Lint");
+  await expect(page.locator(".earlier-title")).toHaveText("Earlier work");
+  await expect(page.locator(".project-list--earlier li")).toHaveCount(9);
+  await expect(page.locator(".project-list--earlier")).toContainText("FTS Scanner App");
 });
 
 test("project anchors reserve scroll offset", async ({ page }) => {

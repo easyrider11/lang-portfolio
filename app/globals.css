@@ -476,3 +476,162 @@ main {
   border-color: #e3d0f5;
   background: #faf5ff;
 }
+
+/* ── Credential strip (home) ── */
+.cred-strip {
+  list-style: none;
+  margin-top: 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.cred-strip a {
+  display: flex;
+  flex-direction: column;
+  font-weight: 400;
+}
+
+.cred-strip a:hover {
+  text-decoration: none;
+}
+
+.cred-strip a:hover .cred-label {
+  text-decoration: underline;
+}
+
+.cred-label {
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.cred-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ── Proof strip (home) ── */
+.proof-strip {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.proof-strip dt {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+
+.proof-strip dt a {
+  font-weight: 700;
+}
+
+.proof-strip dd {
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .proof-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Hero card + 3-up grid ── */
+.featured-card--hero {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.featured-card--hero .featured-thumb {
+  aspect-ratio: 4 / 3;
+}
+
+.featured-hero-text .featured-title {
+  font-size: 1.15rem;
+  margin-top: 0;
+}
+
+.featured-hero-text .featured-tagline {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-top: 0.5rem;
+}
+
+.featured-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1.75rem;
+}
+
+.featured-grid--3 .featured-tagline {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.home-more {
+  margin-top: 1.75rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .featured-card--hero {
+    grid-template-columns: 1fr;
+  }
+  .featured-grid--3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Earlier work tier ── */
+.earlier-title {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.earlier-intro {
+  font-size: 0.875rem;
+}
+
+.project-list--earlier {
+  margin-top: 1.25rem;
+}
+
+.project-list--earlier li + li {
+  margin-top: 1rem;
+}
+
+.project-list--earlier .project-title {
+  font-size: 0.95rem;
+}
+
+.earlier-meta {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.project-list--earlier .project-desc {
+  margin-top: 0.15rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
