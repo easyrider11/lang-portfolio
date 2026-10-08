@@ -41,7 +41,7 @@ export const timeline = [
     org: "Superpose",
     role: "Software Engineer",
     description:
-      "I owned a multi-GPU inference scheduler — one worker per GPU, first-free-wins acquisition, configurable backpressure — replacing a serial queue through a zero-downtime cutover, and brought up an SGLang serving stack for agent workloads across an on-prem six-GPU node, RunPod, and AWS EC2. [Superpose on the App Store](https://apps.apple.com/app/id6759357866)."
+      "I shipped iOS and backend reliability work for a consumer AI camera app: an on-device CoreML lighting meter and OKS pose-match scoring in the capture flow, DynamoDB-backed daily rate limits, zero-downtime rolling restarts for the serving stack, and production incident fixes end to end. [Superpose on the App Store](https://apps.apple.com/app/id6759357866)."
   },
   {
     period: "2025",
@@ -237,6 +237,22 @@ export const projects = [
         { label: "GitHub", href: "https://github.com/easyrider11/lerobot-dataset-lint" }
       ]
     }
+  },
+  {
+    slug: "policy-smoke",
+    title: "policy-smoke",
+    meta: "Creator · 2026",
+    href: "https://github.com/easyrider11/policy-smoke",
+    description:
+      "CPU-only smoke tests for LeRobot policies that catch loads-fine-but-silently-degraded bugs — save/load round trips, determinism, strict-load reporting, and normalization-stats survival, each check anchored to a real upstream issue. 17 s on a 4-core CI runner."
+  },
+  {
+    slug: "issue-claim-check",
+    title: "issue-claim-check",
+    meta: "Creator · 2026",
+    href: "https://github.com/easyrider11/issue-claim-check",
+    description:
+      "CLI that tells you which good-first issues are actually free before you start: in a scan of ~30 unassigned issues across five robotics/ML repos, almost every one already had a competing open PR."
   },
   {
     slug: "upstream",
