@@ -512,41 +512,6 @@ main {
   color: var(--muted);
 }
 
-/* ── Proof strip (home) ── */
-.proof-strip {
-  margin-top: 1.25rem;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  padding: 1rem 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-
-.proof-strip dt {
-  font-size: 1.35rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  color: var(--text-strong);
-}
-
-.proof-strip dt a {
-  font-weight: 700;
-}
-
-.proof-strip dd {
-  margin-top: 0.15rem;
-  font-size: 0.8rem;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-@media (max-width: 640px) {
-  .proof-strip {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 /* ── Hero card + 3-up grid ── */
 .featured-card--hero {
   margin-top: 1.25rem;

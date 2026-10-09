@@ -1,4 +1,4 @@
-import { profile, intro, beliefs, credentials, proof, projects } from "./content";
+import { profile, intro, beliefs, credentials, projects } from "./content";
 
 function cardTarget(p) {
   return p.report ? `/projects/${p.slug}` : p.href || "/projects";
@@ -45,17 +45,6 @@ export default function Home() {
           );
         })}
       </ul>
-
-      <dl className="proof-strip" aria-label="Verified numbers">
-        {proof.map((s) => (
-          <div key={s.label}>
-            <dt>
-              <a href={s.href}>{s.value}</a>
-            </dt>
-            <dd>{s.label}</dd>
-          </div>
-        ))}
-      </dl>
 
       <h2 className="home-section-title">Selected work</h2>
 

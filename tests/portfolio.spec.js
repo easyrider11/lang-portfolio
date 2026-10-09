@@ -8,13 +8,11 @@ test("home renders the portrait, intro, and beliefs", async ({ page }) => {
   await expect(page.locator(".portrait")).toBeVisible();
 });
 
-test("home shows credentials, proof numbers, and a hero card", async ({ page }) => {
+test("home shows credentials and a hero card", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.locator(".cred-strip li")).toHaveCount(4);
   await expect(page.locator(".cred-strip")).toContainText("Stanford");
-  await expect(page.locator(".proof-strip > div")).toHaveCount(4);
-  await expect(page.locator(".proof-strip")).toContainText("24/251");
 
   const cards = page.locator(".featured-card");
   await expect(cards).toHaveCount(4);
@@ -22,13 +20,6 @@ test("home shows credentials, proof numbers, and a hero card", async ({ page }) 
   await cards.first().click();
   await expect(page).toHaveURL(/\/projects\/microduck-tricks$/);
   await expect(page.locator(".report-stats")).toContainText("200/200");
-});
-
-test("proof numbers link to the reports they come from", async ({ page }) => {
-  await page.goto("/");
-  await page.locator(".proof-strip a", { hasText: "500/500" }).click();
-  await expect(page).toHaveURL(/\/projects\/robot-vision-copilot$/);
-  await expect(page.locator(".report-stats")).toContainText("17,478");
 });
 
 test("project report page renders stats, body, and media", async ({ page }) => {
